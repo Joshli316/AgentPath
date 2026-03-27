@@ -13,7 +13,6 @@ export function escapeHtml(str: string): string {
   return str.replace(/[&<>"']/g, (ch) => escapeMap[ch]);
 }
 
-// Bilingual field resolver — eliminates `lang === "zh" ? x.titleZh : x.title` pattern
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function localize(obj: any, field: string): string {
   const lang = getLang();
@@ -24,7 +23,6 @@ export function localize(obj: any, field: string): string {
   return String(obj[field] ?? "");
 }
 
-// Reusable terminal card header (3 colored dots + label)
 export function terminalCardHeader(label: string): string {
   return `
     <div class="terminal-card-header">

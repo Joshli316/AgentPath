@@ -88,7 +88,6 @@ function renderStep(step: LessonStep): string {
 export async function renderLesson(sprintId: number, lessonNum: string): Promise<string> {
   const state = loadState();
   const lesson = await loadContent<Lesson>(`sprint-${sprintId}/lesson-${lessonNum.padStart(2, "0")}.json`);
-  const lang = getLang();
   const title = localize(lesson, "title");
   const lessonKey = `s${sprintId}-lesson-${lessonNum.padStart(2, "0")}`;
   const isCompleted = !!state.lessons[lessonKey];

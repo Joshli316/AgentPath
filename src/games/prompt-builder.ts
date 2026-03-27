@@ -1,7 +1,7 @@
 import { loadState, recordGame } from "../state";
-import { t, getLang } from "../i18n";
+import { t } from "../i18n";
 import { loadContent } from "../content";
-import { escapeHtml } from "../utils";
+import { escapeHtml, terminalCardHeader, localize } from "../utils";
 
 interface PromptBuilderData {
   "prompt-builder": {
@@ -16,7 +16,6 @@ interface PromptBuilderData {
 
 export async function renderPromptBuilder(sprintId: number): Promise<string> {
   const data = await loadContent<PromptBuilderData>(`sprint-${sprintId}/games.json`);
-  const lang = getLang();
   const challenges = data["prompt-builder"].challenges;
   const challenge = challenges[0];
 
@@ -28,16 +27,15 @@ export async function renderPromptBuilder(sprintId: number): Promise<string> {
     available: [...challenge.parts].sort(() => Math.random() - 0.5),
   };
 
-  return renderChallenge(challenge, lang, sprintId);
+  return renderChallenge(challenge, sprintId);
 }
 
 function renderChallenge(
   challenge: { instruction: string; instructionZh: string; parts: string[]; correct: string[] },
-  lang: string,
   sprintId: number
 ): string {
   const pbs = (window as any).__pbState;
-  const instruction = lang === "zh" ? challenge.instructionZh : challenge.instruction;
+  const instruction = localize(challenge, "instruction");
 
   return `
     <a href="#/sprint/${sprintId}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← ${t("games.back")}</a>
@@ -46,12 +44,7 @@ function renderChallenge(
     <p class="text-ap-text text-sm mb-6">${escapeHtml(instruction)}</p>
 
     <div class="terminal-card mb-4">
-      <div class="terminal-card-header">
-        <div class="terminal-dot terminal-dot-red" aria-hidden="true"></div>
-        <div class="terminal-dot terminal-dot-yellow" aria-hidden="true"></div>
-        <div class="terminal-dot terminal-dot-green" aria-hidden="true"></div>
-        <span class="text-ap-text-muted text-xs ml-2">your code</span>
-      </div>
+      ${terminalCardHeader("your code")}
       <div id="pb-placed" class="p-3 min-h-[80px]">${renderPlaced(pbs)}</div>
     </div>
 
