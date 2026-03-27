@@ -1,6 +1,7 @@
 import { loadState, getLevelInfo } from "../state";
 import { t, getLang } from "../i18n";
 import { loadShared } from "../content";
+import { escapeHtml } from "../utils";
 import { renderRadarChart } from "../components/radar-chart";
 import { renderBadge } from "../components/badge";
 
@@ -56,13 +57,13 @@ export async function renderProfile(): Promise<string> {
         <div class="terminal-card p-3">
           <div class="flex items-center gap-2 mb-1">
             <span class="text-ap-green text-xs font-bold">${String(i + 1).padStart(2, "0")}.</span>
-            <span class="text-ap-text font-bold text-sm">${title}</span>
+            <span class="text-ap-text font-bold text-sm">${escapeHtml(title)}</span>
           </div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="${colorClass} text-xs px-1.5 py-0.5 rounded">${cat}</span>
-            ${ns.url ? `<a href="${ns.url}" target="_blank" rel="noopener" class="text-ap-indigo text-xs hover:underline">Link →</a>` : ""}
+            <span class="${colorClass} text-xs px-1.5 py-0.5 rounded">${escapeHtml(cat)}</span>
+            ${ns.url ? `<a href="${escapeHtml(ns.url)}" target="_blank" rel="noopener" class="text-ap-indigo text-xs hover:underline">Link →</a>` : ""}
           </div>
-          <div class="text-ap-text-muted text-xs">${desc}</div>
+          <div class="text-ap-text-muted text-xs">${escapeHtml(desc)}</div>
         </div>
       `;
     }).join("");
@@ -123,7 +124,7 @@ export async function renderProfile(): Promise<string> {
     ${nextStepsHtml ? `
     <!-- Next Steps -->
     <div class="mb-6">
-      <div class="text-ap-green text-xs font-bold uppercase mb-3">Next Steps — Keep Growing</div>
+      <div class="text-ap-green text-xs font-bold uppercase mb-3">${t("profile.next-steps")}</div>
       <div class="flex flex-col gap-2">${nextStepsHtml}</div>
     </div>
     ` : ""}

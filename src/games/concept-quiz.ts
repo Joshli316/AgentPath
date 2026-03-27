@@ -1,6 +1,7 @@
 import { loadState, recordGame } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
+import { escapeHtml } from "../utils";
 
 interface QuizData {
   "concept-quiz": {
@@ -38,7 +39,7 @@ function renderQuestion(
       (opt, i) => `
     <button id="opt-${i}" onclick="window.__answerQuiz(${i})"
             class="terminal-card p-3 text-left text-sm text-ap-text hover:bg-ap-surface-hover transition-colors w-full">
-      <span class="text-ap-green mr-2">${String.fromCharCode(65 + i)}.</span> ${opt}
+      <span class="text-ap-green mr-2">${String.fromCharCode(65 + i)}.</span> ${escapeHtml(opt)}
     </button>
   `
     )
@@ -51,7 +52,7 @@ function renderQuestion(
     <div class="text-ap-text-muted text-xs mb-6">${index + 1} / ${questions.length}</div>
 
     <div id="quiz-area">
-      <div class="text-ap-text text-sm font-bold mb-4">${questionText}</div>
+      <div class="text-ap-text text-sm font-bold mb-4">${escapeHtml(questionText)}</div>
       <div class="flex flex-col gap-2">${optionsHtml}</div>
     </div>
     <div id="quiz-feedback" class="mt-4"></div>
@@ -86,8 +87,8 @@ function renderQuestion(
   const feedbackEl = document.getElementById("quiz-feedback");
   if (feedbackEl) {
     feedbackEl.innerHTML = isCorrect
-      ? `<div class="text-ap-green text-sm">✓ Correct!</div>`
-      : `<div class="text-ap-red text-sm">✗ Wrong — the answer is ${String.fromCharCode(65 + q.answer)}</div>`;
+      ? `<div class="text-ap-green text-sm">✓ ${t("games.correct")}</div>`
+      : `<div class="text-ap-red text-sm">✗ ${t("games.wrong-answer")} ${String.fromCharCode(65 + q.answer)}</div>`;
   }
 
   const nextEl = document.getElementById("quiz-next");
@@ -97,7 +98,7 @@ function renderQuestion(
       nextEl.innerHTML = `
         <button onclick="window.__nextQuestion()"
                 class="text-ap-green text-sm border border-ap-green rounded px-4 py-2 hover:bg-ap-green-dim">
-          Next →
+          ${t("games.next")} →
         </button>
       `;
     } else {
@@ -108,7 +109,7 @@ function renderQuestion(
       nextEl.innerHTML = `
         <div class="terminal-card p-4 text-center">
           <div class="text-ap-green text-2xl font-bold glow-green mb-2">${score}%</div>
-          <div class="text-ap-text text-sm">${qs.correct}/${qs.questions.length} correct</div>
+          <div class="text-ap-text text-sm">${qs.correct}/${qs.questions.length} ${t("games.correct-count")}</div>
           <div class="flex gap-3 justify-center mt-4">
             <button onclick="window.dispatchEvent(new HashChangeEvent('hashchange'))"
                     class="text-ap-green text-sm border border-ap-green rounded px-4 py-2 hover:bg-ap-green-dim">

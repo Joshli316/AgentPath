@@ -1,6 +1,7 @@
 import { loadState, recordGame } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
+import { escapeHtml } from "../utils";
 
 interface FlashMatchData {
   "flash-match": {
@@ -41,7 +42,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
       (t) => `
     <button id="term-${t.id}" onclick="window.__selectTerm(${t.id})"
             class="terminal-card p-2 text-left text-sm text-ap-green hover:bg-ap-green-dim transition-colors">
-      ${t.text}
+      ${escapeHtml(t.text)}
     </button>
   `
     )
@@ -52,7 +53,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
       (d) => `
     <button id="def-${d.id}" onclick="window.__selectDef(${d.id})"
             class="terminal-card p-2 text-left text-sm text-ap-text hover:bg-ap-surface-hover transition-colors">
-      ${d.text}
+      ${escapeHtml(d.text)}
     </button>
   `
     )
@@ -62,7 +63,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
     <a href="#/sprint/${sprintId}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← ${t("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath flash-match</div>
     <h1 class="text-ap-text text-xl font-bold mb-2">${t("games.flash-match")}</h1>
-    <p class="text-ap-text-muted text-xs mb-6">Tap a term, then tap its matching definition.</p>
+    <p class="text-ap-text-muted text-xs mb-6">${t("games.match-instruction")}</p>
 
     <div id="flash-match-area" class="grid grid-cols-2 gap-4">
       <div class="flex flex-col gap-2">${termsHtml}</div>
@@ -108,8 +109,8 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
         resultEl.classList.remove("hidden");
         resultEl.innerHTML = `
           <div class="terminal-card p-4 text-center">
-            <div class="text-ap-green text-2xl font-bold glow-green mb-2">✓ Complete!</div>
-            <div class="text-ap-text text-sm">${t("games.score")}: ${score}% | Time: ${elapsed}s | Attempts: ${gs.attempts}</div>
+            <div class="text-ap-green text-2xl font-bold glow-green mb-2">✓ ${t("games.complete")}</div>
+            <div class="text-ap-text text-sm">${t("games.score")}: ${score}% | ${t("games.time")}: ${elapsed}s | ${t("games.attempts")}: ${gs.attempts}</div>
             <div class="flex gap-3 justify-center mt-4">
               <button onclick="window.dispatchEvent(new HashChangeEvent('hashchange'))"
                       class="text-ap-green text-sm border border-ap-green rounded px-4 py-2 hover:bg-ap-green-dim">

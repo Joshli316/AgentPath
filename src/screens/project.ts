@@ -1,6 +1,7 @@
 import { loadState, completeMilestone, completeProject } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
+import { escapeHtml } from "../utils";
 
 interface ProjectData {
   id: string;
@@ -41,14 +42,14 @@ export async function renderProject(sprintId: number): Promise<string> {
                     class="w-5 h-5 border ${done ? "bg-ap-green border-ap-green text-ap-bg" : "border-ap-text-muted"} rounded text-xs flex items-center justify-center flex-shrink-0">
               ${done ? "✓" : ""}
             </button>
-            <span class="text-sm ${done ? "text-ap-text-dim line-through" : "text-ap-text"}">${label}</span>
+            <span class="text-sm ${done ? "text-ap-text-dim line-through" : "text-ap-text"}">${escapeHtml(label)}</span>
           </div>
           ${
             !done && hints.length > 0
               ? `<details class="mt-2 ml-8">
                   <summary class="text-ap-amber text-xs cursor-pointer hover:underline">${t("project.stuck")}</summary>
                   <div class="mt-2 flex flex-col gap-1">
-                    ${hints.map((h, i) => `<div class="text-ap-text-dim text-xs">💡 ${t("project.hint")} ${i + 1}: ${h}</div>`).join("")}
+                    ${hints.map((h, i) => `<div class="text-ap-text-dim text-xs">💡 ${t("project.hint")} ${i + 1}: ${escapeHtml(h)}</div>`).join("")}
                   </div>
                 </details>`
               : ""
@@ -60,14 +61,14 @@ export async function renderProject(sprintId: number): Promise<string> {
 
   const stretchList = lang === "zh" ? project.stretchZh : project.stretch;
   const stretchHtml = stretchList
-    .map((s) => `<li class="text-ap-text-dim text-sm">${s}</li>`)
+    .map((s) => `<li class="text-ap-text-dim text-sm">${escapeHtml(s)}</li>`)
     .join("");
 
   return `
     <a href="#/sprint/${sprintId}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← Sprint ${sprintId}</a>
     <div class="text-ap-green text-xs mt-3 mb-1">$ agentpath project --sprint ${sprintId}</div>
-    <h1 class="text-ap-text text-xl font-bold mb-2">${title}</h1>
-    <p class="text-ap-text-dim text-sm mb-6">${desc}</p>
+    <h1 class="text-ap-text text-xl font-bold mb-2">${escapeHtml(title)}</h1>
+    <p class="text-ap-text-dim text-sm mb-6">${escapeHtml(desc)}</p>
 
     <div class="text-ap-green text-xs font-bold uppercase mb-3">${t("project.milestones")}</div>
     ${milestonesHtml}

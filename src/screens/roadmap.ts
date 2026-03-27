@@ -1,6 +1,7 @@
 import { loadState, updateBonusProject } from "../state";
 import { t, getLang } from "../i18n";
 import { loadShared } from "../content";
+import { escapeHtml } from "../utils";
 
 interface SprintMeta {
   id: number;
@@ -50,11 +51,11 @@ export async function renderRoadmap(): Promise<string> {
           </div>
           <div class="pb-8 flex-1">
             <div class="flex items-center gap-2 mb-1">
-              <span class="text-ap-text font-bold text-sm">Sprint ${sprint.id}: ${title}</span>
+              <span class="text-ap-text font-bold text-sm">Sprint ${sprint.id}: ${escapeHtml(title)}</span>
               <span class="${statusColor} text-xs">${status}</span>
             </div>
-            <div class="text-ap-text-muted text-xs">Weeks ${sprint.weeks} — ${project}</div>
-            ${isActive ? `<a href="#/sprint/${sprint.id}" class="text-ap-green text-xs hover:underline mt-1 inline-block">View Sprint →</a>` : ""}
+            <div class="text-ap-text-muted text-xs">${t("roadmap.weeks")} ${sprint.weeks} — ${escapeHtml(project)}</div>
+            ${isActive ? `<a href="#/sprint/${sprint.id}" class="text-ap-green text-xs hover:underline mt-1 inline-block">${t("roadmap.view-sprint")} →</a>` : ""}
           </div>
         </div>
       `;
@@ -79,17 +80,17 @@ export async function renderRoadmap(): Promise<string> {
       return `
         <div class="terminal-card p-3">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-ap-text font-bold text-sm">${title}</span>
-            <span class="${difficultyColors[bp.difficulty]} text-xs px-2 py-0.5 rounded">${bp.difficulty}</span>
+            <span class="text-ap-text font-bold text-sm">${escapeHtml(title)}</span>
+            <span class="${difficultyColors[bp.difficulty]} text-xs px-2 py-0.5 rounded">${escapeHtml(bp.difficulty)}</span>
           </div>
-          <div class="text-ap-text-muted text-xs mb-2">${desc}</div>
+          <div class="text-ap-text-muted text-xs mb-2">${escapeHtml(desc)}</div>
           <div class="flex items-center justify-between">
-            <div class="flex gap-1 flex-wrap">${bp.skills.map((s: string) => `<span class="text-ap-indigo text-xs bg-ap-indigo-dim px-1.5 py-0.5 rounded">${s}</span>`).join("")}</div>
+            <div class="flex gap-1 flex-wrap">${bp.skills.map((s: string) => `<span class="text-ap-indigo text-xs bg-ap-indigo-dim px-1.5 py-0.5 rounded">${escapeHtml(s)}</span>`).join("")}</div>
             ${!bpStatus
-              ? `<button onclick="window.__startBonus('${bp.id}')" class="text-ap-green text-xs border border-ap-green rounded px-2 py-1 hover:bg-ap-green-dim">Start</button>`
+              ? `<button onclick="window.__startBonus('${escapeHtml(bp.id)}')" class="text-ap-green text-xs border border-ap-green rounded px-2 py-1 hover:bg-ap-green-dim">${t("roadmap.start")}</button>`
               : bpStatus === "in-progress"
-              ? `<button onclick="window.__completeBonus('${bp.id}')" class="text-ap-amber text-xs border border-ap-amber rounded px-2 py-1 hover:bg-ap-amber-dim">Complete</button>`
-              : `<span class="text-ap-green text-xs">✓ Done (+200 XP)</span>`}
+              ? `<button onclick="window.__completeBonus('${escapeHtml(bp.id)}')" class="text-ap-amber text-xs border border-ap-amber rounded px-2 py-1 hover:bg-ap-amber-dim">${t("roadmap.mark-complete")}</button>`
+              : `<span class="text-ap-green text-xs">✓ ${t("roadmap.done")} (+200 XP)</span>`}
           </div>
         </div>
       `;
@@ -104,7 +105,7 @@ export async function renderRoadmap(): Promise<string> {
     ${bonusHtml ? `
     <div class="mt-10">
       <div class="text-ap-green text-sm mb-1">$ agentpath bonus --list</div>
-      <h2 class="text-ap-text text-lg font-bold mb-4">Bonus Projects (12)</h2>
+      <h2 class="text-ap-text text-lg font-bold mb-4">${t("roadmap.bonus-title")} (12)</h2>
       <div class="flex flex-col gap-3">${bonusHtml}</div>
     </div>
     ` : ""}
