@@ -13,6 +13,7 @@ Terminal hacker aesthetic (monospace, green-on-dark, CLI vibes).
 - `npm run dev` — watch mode (esbuild + tailwind)
 - `npm run build` — production build to dist/
 - `npm run deploy` — build + deploy to Cloudflare Pages
+- `npm test` — 47-assertion smoke test (build output, JSON validation, bundle size)
 
 ## Build
 `dist/` folder contains: app.js, styles.css, index.html, content/, public assets.
@@ -32,4 +33,11 @@ Content JSON files are copied to dist/content/ and fetched at runtime.
 
 ## State
 - All state in localStorage under key `agentpath`
-- Single object: xp, level, streak, lessons, milestones, projects, games, badges, skills, lang
+- Single object: xp, level, streak, lessons, milestones, projects, games, badges, skills, lang, bonusProjects
+- loadState validates and clamps all fields (protects against corruption)
+- completeProject advances currentSprint and applies sprint skills to radar chart
+
+## Shared Code
+- `src/types.ts` — shared interfaces (SprintMeta, BadgeDef, BonusProject, NextStep)
+- `src/utils.ts` — escapeHtml(), localize(), terminalCardHeader()
+- All JSON content escaped via escapeHtml before innerHTML insertion
