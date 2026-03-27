@@ -12,7 +12,10 @@ interface QuizData {
 export async function renderConceptQuiz(sprintId: number): Promise<string> {
   const data = await loadContent<QuizData>(`sprint-${sprintId}/games.json`);
   const lang = getLang();
-  const questions = data["concept-quiz"].questions;
+  const questions = data["concept-quiz"]?.questions || [];
+  if (questions.length === 0) {
+    return `<div class="text-ap-text-muted text-sm">$ error: no quiz questions found for sprint ${sprintId}</div>`;
+  }
 
   (window as any).__quizState = {
     sprintId,
@@ -55,8 +58,8 @@ function renderQuestion(
       <div class="text-ap-text text-sm font-bold mb-4">${escapeHtml(questionText)}</div>
       <div class="flex flex-col gap-2">${optionsHtml}</div>
     </div>
-    <div id="quiz-feedback" class="mt-4"></div>
-    <div id="quiz-next" class="mt-4 hidden"></div>
+    <div id="quiz-feedback" class="mt-4" role="status" aria-live="polite"></div>
+    <div id="quiz-next" class="mt-4 hidden" role="status" aria-live="polite"></div>
   `;
 }
 
@@ -127,6 +130,7 @@ function renderQuestion(
 
 (window as any).__nextQuestion = () => {
   const qs = (window as any).__quizState;
+  if (qs.current >= qs.questions.length - 1) return;
   qs.current++;
   qs.answered = false;
   const lang = getLang();

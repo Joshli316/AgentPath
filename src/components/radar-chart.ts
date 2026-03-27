@@ -64,14 +64,23 @@ export function renderRadarChart(skills: Record<string, number>, maxValue: numbe
     })
     .join("");
 
+  const a11yTable = labels
+    .map((l) => `<tr><td>${l.label}</td><td>${skills[l.key] || 0} / ${maxValue}</td></tr>`)
+    .join("");
+
   return `
-    <svg viewBox="0 0 300 300" width="300" height="300" class="mx-auto" role="img" aria-label="Skills radar chart">
+    <svg viewBox="0 0 300 300" class="mx-auto w-full max-w-[300px]" role="img" aria-label="Skills radar chart showing levels for ${labels.map(l => l.label).join(', ')}">
       <title>Skills Radar</title>
+      <desc>${labels.map(l => `${l.label}: ${skills[l.key] || 0}/${maxValue}`).join(', ')}</desc>
       ${gridLines}
       ${axes}
       <polygon points="${dataPoints}" fill="rgba(0,255,136,0.15)" stroke="#00ff88" stroke-width="1.5"/>
       ${dots}
       ${labelEls}
     </svg>
+    <table class="sr-only" aria-label="Skills data">
+      <thead><tr><th>Skill</th><th>Level</th></tr></thead>
+      <tbody>${a11yTable}</tbody>
+    </table>
   `;
 }

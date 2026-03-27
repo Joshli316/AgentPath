@@ -8,7 +8,7 @@ export async function renderSprint(sprintId: number): Promise<string> {
   const state = loadState();
   const sprints = await loadShared<SprintMeta[]>("sprints.json");
   const sprint = sprints[sprintId - 1];
-  if (!sprint) return `<div class="text-ap-red">Sprint not found</div>`;
+  if (!sprint) return `<div class="text-ap-red text-sm">$ error: sprint ${sprintId} not found</div>`;
 
   const title = localize(sprint, "title");
   const project = localize(sprint, "project");
@@ -38,10 +38,12 @@ export async function renderSprint(sprintId: number): Promise<string> {
 
       return `
         <a href="${isLocked ? "#" : route}"
-           class="terminal-card p-3 flex items-center gap-3 ${isCurrent ? "ring-1 ring-ap-green" : ""} ${isLocked ? "opacity-40 cursor-not-allowed" : "hover:bg-ap-surface-hover cursor-pointer"} transition-colors">
+           ${isLocked ? 'aria-disabled="true" tabindex="-1"' : ""}
+           aria-label="Day ${day.day}: ${label}${completed ? " (completed)" : ""}${isCurrent ? " (current)" : ""}"
+           class="terminal-card p-3 flex items-center gap-3 ${isCurrent ? "ring-1 ring-ap-green" : ""} ${isLocked ? "opacity-40 cursor-not-allowed pointer-events-none" : "hover:bg-ap-surface-hover cursor-pointer"} transition-colors">
           <div class="text-lg w-8 text-center">${completed ? '<span class="text-ap-green">✓</span>' : icon}</div>
           <div class="flex-1">
-            <div class="text-ap-text text-sm font-bold">${t("dash.day-of", { n: day.day }).split("/")[0].trim()}</div>
+            <div class="text-ap-text text-sm font-bold">${t("sprint.day-n", { n: day.day })}</div>
             <div class="text-ap-text-muted text-xs">${label}</div>
           </div>
           ${isCurrent ? `<span class="text-ap-green text-xs">← ${t("sprint.current")}</span>` : ""}
@@ -54,7 +56,7 @@ export async function renderSprint(sprintId: number): Promise<string> {
     <div class="text-ap-green text-sm mb-1">$ agentpath sprint ${sprintId}</div>
     <div class="flex items-center gap-2 mb-1">
       <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${sprintId}</span>
-      <span class="text-ap-text-muted text-xs">Weeks ${sprint.weeks}</span>
+      <span class="text-ap-text-muted text-xs">${t("roadmap.weeks")} ${sprint.weeks}</span>
     </div>
     <h1 class="text-ap-text text-2xl font-bold mb-1">${title}</h1>
     <p class="text-ap-text-dim text-sm mb-6">${t("sprint.project")}: ${project}</p>

@@ -55,6 +55,7 @@ export async function renderRoadmap(): Promise<string> {
 
   // Bonus projects
   let bonusHtml = "";
+  let bonusCount = 0;
   try {
     const bonusProjects = await loadShared<BonusProject[]>("bonus-projects.json");
     const difficultyColors: Record<string, string> = {
@@ -86,7 +87,8 @@ export async function renderRoadmap(): Promise<string> {
         </div>
       `;
     }).join("");
-  } catch {}
+    bonusCount = bonusProjects.length;
+  } catch (e) { console.warn("Failed to load bonus-projects.json", e); }
 
   return `
     <div class="text-ap-green text-sm mb-1">$ agentpath roadmap</div>
@@ -96,7 +98,7 @@ export async function renderRoadmap(): Promise<string> {
     ${bonusHtml ? `
     <div class="mt-10">
       <div class="text-ap-green text-sm mb-1">$ agentpath bonus --list</div>
-      <h2 class="text-ap-text text-lg font-bold mb-4">${t("roadmap.bonus-title")} (12)</h2>
+      <h2 class="text-ap-text text-lg font-bold mb-4">${t("roadmap.bonus-title")} (${bonusCount})</h2>
       <div class="flex flex-col gap-3">${bonusHtml}</div>
     </div>
     ` : ""}

@@ -58,7 +58,7 @@ export async function renderProfile(): Promise<string> {
         </div>
       `;
     }).join("");
-  } catch {}
+  } catch (e) { console.warn("Failed to load next-steps.json", e); }
 
   return `
     <div class="text-ap-green text-sm mb-1">$ agentpath profile</div>
@@ -79,7 +79,7 @@ export async function renderProfile(): Promise<string> {
     <!-- Badges -->
     <div class="mb-6">
       <div class="text-ap-green text-xs font-bold uppercase mb-3">${t("profile.badges")}</div>
-      <div class="grid grid-cols-3 gap-2">${badgesHtml}</div>
+      <div class="grid grid-cols-3 gap-2" role="list" aria-label="${t("profile.badges")}">${badgesHtml}</div>
     </div>
 
     <!-- Stats -->
@@ -93,7 +93,7 @@ export async function renderProfile(): Promise<string> {
           </div>
           <div class="text-center">
             <div class="text-ap-amber text-xl font-bold">${state.streak}</div>
-            <div class="text-ap-text-muted text-xs">${t("profile.longest-streak")}</div>
+            <div class="text-ap-text-muted text-xs">${t("profile.current-streak")}</div>
           </div>
           <div class="text-center">
             <div class="text-ap-text text-xl font-bold">${projectsDone}</div>
@@ -129,6 +129,8 @@ export async function renderProfile(): Promise<string> {
   const text = `AgentPath 智路 — Skills Summary\nLevel: ${state.level} (${levelInfo.current.titleEn})\nXP: ${state.xp}\nSkills: Python ${state.skills.python}/5, LLM APIs ${state.skills["llm-apis"]}/5, Agent Frameworks ${state.skills["agent-frameworks"]}/5, RAG ${state.skills.rag}/5, MCP ${state.skills.mcp}/5, Multi-Agent ${state.skills["multi-agent"]}/5`;
 
   navigator.clipboard.writeText(text).then(() => {
-    alert("Copied to clipboard!");
+    alert(t("alert.copied"));
+  }).catch(() => {
+    alert("Clipboard access denied / 剪贴板访问被拒绝");
   });
 };

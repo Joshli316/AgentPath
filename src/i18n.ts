@@ -13,7 +13,7 @@ const strings: Record<string, Record<string, string>> = {
   "dash.current-sprint": { en: "Current Sprint", zh: "当前冲刺" },
   "dash.day-of": { en: "Day {n} of 10", zh: "第{n}天 / 共10天" },
   "dash.xp": { en: "XP", zh: "经验值" },
-  "dash.streak": { en: "day streak", zh: "天连续" },
+  "dash.streak": { en: "day streak", zh: "天连续学习" },
   "dash.level": { en: "Level", zh: "等级" },
 
   // Sprint
@@ -60,8 +60,9 @@ const strings: Record<string, Record<string, string>> = {
   "profile.export": { en: "Export for Resume", zh: "导出简历" },
   "profile.total-xp": { en: "Total XP", zh: "总经验值" },
   "profile.projects-done": { en: "Projects Done", zh: "完成项目" },
-  "profile.days-active": { en: "Days Active", zh: "活跃天数" },
+  "profile.days-active": { en: "Items Done", zh: "完成项数" },
   "profile.longest-streak": { en: "Longest Streak", zh: "最长连续" },
+  "profile.current-streak": { en: "Current Streak", zh: "当前连续" },
   "profile.next-steps": { en: "Next Steps — Keep Growing", zh: "下一步——继续成长" },
 
   // Games (in-game strings)
@@ -95,6 +96,10 @@ const strings: Record<string, Record<string, string>> = {
 
   // Sprint extras
   "sprint.current": { en: "current", zh: "当前" },
+  "sprint.day-n": { en: "Day {n}", zh: "第{n}天" },
+
+  // Clipboard / alerts
+  "alert.copied": { en: "Copied to clipboard!", zh: "已复制到剪贴板！" },
 };
 
 let currentLang: "en" | "zh" = "en";
@@ -111,7 +116,7 @@ export function t(key: string, replacements?: Record<string, string | number>): 
   let text = entry[currentLang] || entry.en || key;
   if (replacements) {
     for (const [k, v] of Object.entries(replacements)) {
-      text = text.replace(`{${k}}`, String(v));
+      text = text.replaceAll(`{${k}}`, String(v));
     }
   }
   return text;

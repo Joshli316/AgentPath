@@ -47,20 +47,53 @@ export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      // Validate critical fields are correct types to protect against corruption
+      if (typeof parsed !== "object" || parsed === null) {
+        throw new Error("Invalid state shape");
+      }
+      const merged = { ...DEFAULT_STATE, ...parsed };
+      // Clamp numeric fields to safe ranges
+      merged.xp = Math.max(0, Number(merged.xp) || 0);
+      merged.level = Math.max(1, Math.min(6, Number(merged.level) || 1));
+      merged.streak = Math.max(0, Number(merged.streak) || 0);
+      merged.currentSprint = Math.max(1, Math.min(6, Number(merged.currentSprint) || 1));
+      merged.currentDay = Math.max(1, Math.min(10, Number(merged.currentDay) || 1));
+      // Ensure object fields are objects
+      if (typeof merged.lessons !== "object" || merged.lessons === null) merged.lessons = {};
+      if (typeof merged.milestones !== "object" || merged.milestones === null) merged.milestones = {};
+      if (typeof merged.projects !== "object" || merged.projects === null) merged.projects = {};
+      if (typeof merged.games !== "object" || merged.games === null) merged.games = {};
+      if (typeof merged.skills !== "object" || merged.skills === null) {
+        merged.skills = { ...DEFAULT_STATE.skills };
+      } else {
+        // Deep merge: ensure new default skill keys are present for existing users
+        merged.skills = { ...DEFAULT_STATE.skills, ...merged.skills };
+      }
+      if (!Array.isArray(merged.badges)) merged.badges = [];
+      if (typeof merged.bonusProjects !== "object" || merged.bonusProjects === null) merged.bonusProjects = {};
+      // Validate lang
+      if (merged.lang !== "en" && merged.lang !== "zh") merged.lang = "en";
+      return merged;
     }
   } catch {
     // Corrupted localStorage — reset to defaults
+    localStorage.removeItem(STORAGE_KEY);
   }
   return { ...DEFAULT_STATE };
 }
 
 export function saveState(state: AppState): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // localStorage full or unavailable — fail silently
+    console.warn("AgentPath: unable to save state to localStorage");
+  }
 }
 
 export function addXP(state: AppState, amount: number): AppState {
-  state.xp += amount;
+  state.xp = Math.max(0, state.xp + Math.max(0, amount));
   for (let i = LEVELS.length - 1; i >= 0; i--) {
     if (state.xp >= LEVELS[i].xp) {
       state.level = LEVELS[i].level;
@@ -72,13 +105,17 @@ export function addXP(state: AppState, amount: number): AppState {
 }
 
 export function updateStreak(state: AppState): AppState {
-  const today = new Date().toISOString().split("T")[0];
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   if (state.lastActiveDate === today) return state;
 
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  // Calculate yesterday in local time
+  const yesterdayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  const yesterday = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, "0")}-${String(yesterdayDate.getDate()).padStart(2, "0")}`;
+
   if (state.lastActiveDate === yesterday) {
     state.streak += 1;
-  } else if (state.lastActiveDate !== today) {
+  } else {
     state.streak = 1;
   }
   state.lastActiveDate = today;
@@ -104,7 +141,7 @@ export function completeMilestone(state: AppState, milestoneId: string): AppStat
   return state;
 }
 
-export function completeProject(state: AppState, sprintId: string): AppState {
+export function completeProject(state: AppState, sprintId: string, sprintSkills?: Record<string, number>): AppState {
   if (!state.projects[sprintId]) {
     state.projects[sprintId] = true;
     addXP(state, 300);
@@ -118,6 +155,12 @@ export function completeProject(state: AppState, sprintId: string): AppState {
     };
     if (badgeMap[sprintId] && !state.badges.includes(badgeMap[sprintId])) {
       state.badges.push(badgeMap[sprintId]);
+    }
+    // Apply sprint skill points to radar chart
+    if (sprintSkills) {
+      for (const [skill, points] of Object.entries(sprintSkills)) {
+        state.skills[skill] = Math.min(5, (state.skills[skill] || 0) + points);
+      }
     }
     updateStreak(state);
   }
@@ -162,7 +205,7 @@ export function updateBonusProject(state: AppState, projectId: string, status: "
 }
 
 export function getLevelInfo(state: AppState) {
-  const current = LEVELS.find((l) => l.level === state.level)!;
+  const current = LEVELS.find((l) => l.level === state.level) || LEVELS[0];
   const next = LEVELS.find((l) => l.level === state.level + 1);
   const progress = next
     ? ((state.xp - current.xp) / (next.xp - current.xp)) * 100

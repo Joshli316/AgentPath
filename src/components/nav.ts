@@ -33,8 +33,9 @@ export function renderNav(): string {
       <button
         onclick="window.location.hash='${tab.path}'"
         aria-label="${t(tab.key)}"
-        ${active === tab.id ? 'aria-current="page"' : ""}
-        class="flex flex-col items-center gap-1 py-2 px-3 text-xs transition-colors
+        role="tab"
+        ${active === tab.id ? 'aria-selected="true" aria-current="page"' : 'aria-selected="false"'}
+        class="flex flex-col items-center gap-1 py-2 px-3 min-h-[44px] min-w-[44px] text-xs transition-colors
           ${active === tab.id ? "text-ap-green" : "text-ap-text-muted hover:text-ap-text-dim"}"
       >
         <span class="text-lg" aria-hidden="true">${tab.icon}</span>
@@ -47,7 +48,7 @@ export function renderNav(): string {
   return `
     <nav aria-label="Main navigation" class="fixed bottom-0 left-0 right-0 bg-ap-surface border-t border-ap-border nav-bottom z-50
                 md:fixed md:top-0 md:left-0 md:bottom-0 md:w-48 md:border-t-0 md:border-r md:flex-col">
-      <div class="flex justify-around md:flex-col md:justify-start md:pt-6 md:gap-1">
+      <div class="flex justify-around md:flex-col md:justify-start md:pt-6 md:gap-1" role="tablist" aria-label="App sections">
         ${tabsHtml}
       </div>
     </nav>

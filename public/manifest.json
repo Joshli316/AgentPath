@@ -1,9 +1,20 @@
 {
-  "name": "AgentPath 智路",
+  "name": "AgentPath 智路 — Your Path to Agentic AI",
   "short_name": "AgentPath",
   "description": "Your 12-week path to becoming an agentic AI professional",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
-  "theme_color": "#00ff88"
+  "theme_color": "#00ff88",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

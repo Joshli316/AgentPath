@@ -8,7 +8,8 @@ import type { SprintMeta } from "../types";
 export async function renderDashboard(): Promise<string> {
   const state = loadState();
   const sprints = await loadShared<SprintMeta[]>("sprints.json");
-  const sprint = sprints[state.currentSprint - 1];
+  const sprintIdx = Math.max(0, Math.min(sprints.length - 1, state.currentSprint - 1));
+  const sprint = sprints[sprintIdx];
   const lang = getLang();
   const levelInfo = getLevelInfo(state);
 
@@ -25,7 +26,8 @@ export async function renderDashboard(): Promise<string> {
     ((completedLessons + (projectDone ? 1 : 0)) / (totalLessons + 1)) * 100
   );
 
-  const currentDay = sprint.days[state.currentDay - 1];
+  const dayIdx = Math.max(0, Math.min(sprint.days.length - 1, state.currentDay - 1));
+  const currentDay = sprint.days[dayIdx];
   let todayTask = "";
   let todayTime = "";
   let todayRoute = "";

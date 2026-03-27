@@ -8,9 +8,10 @@ const app = document.getElementById("app")!;
 
 function renderShell(content: string): string {
   return `
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="${getNavPadding()} min-h-screen">
-      <header class="flex items-center justify-between px-4 py-3 border-b border-ap-border md:ml-0">
-        <div class="flex items-center gap-2">
+      <header class="flex items-center justify-between px-4 py-3 border-b border-ap-border md:ml-0" role="banner">
+        <a href="#/" class="flex items-center gap-2 no-underline">
           <svg viewBox="0 0 70 20" width="56" height="16" class="inline-block" role="img" aria-label="AgentPath logo">
             <title>AgentPath</title>
             <circle cx="8" cy="10" r="6" fill="#00ff88" opacity="0.3" stroke="#00ff88" stroke-width="1"/>
@@ -22,12 +23,12 @@ function renderShell(content: string): string {
           </svg>
           <span class="text-ap-text font-bold text-sm">AgentPath</span>
           <span class="text-ap-green text-xs opacity-70">智路</span>
-        </div>
-        <button onclick="window.__toggleLang()" aria-label="Toggle language" class="text-ap-text-muted text-xs border border-ap-border rounded px-2 py-1 hover:text-ap-green hover:border-ap-green transition-colors">
+        </a>
+        <button onclick="window.__toggleLang()" aria-label="Switch to ${getLang() === "en" ? "Chinese" : "English"}" title="${getLang() === "en" ? "Switch to Chinese" : "切换到英文"}" class="text-ap-text-muted text-xs border border-ap-border rounded px-2 py-1 hover:text-ap-green hover:border-ap-green transition-colors min-h-[44px] min-w-[44px]">
           ${getLang() === "en" ? "中文" : "EN"}
         </button>
       </header>
-      <main class="p-4 max-w-3xl mx-auto">
+      <main id="main-content" class="p-4 max-w-3xl mx-auto" role="main">
         ${content}
       </main>
     </div>
@@ -41,18 +42,18 @@ function render(content: string): void {
 
 function showLoading(): void {
   app.innerHTML = renderShell(`
-    <div class="flex items-center justify-center py-20">
-      <div class="text-ap-green text-sm glow-green">Loading...</div>
+    <div class="flex items-center justify-center py-20" role="status" aria-live="polite">
+      <div class="text-ap-green text-sm glow-green">$ loading...</div>
     </div>
   `);
 }
 
 function showError(msg: string): void {
   app.innerHTML = renderShell(`
-    <div class="terminal-card p-6 text-center">
-      <div class="text-ap-red text-lg font-bold mb-2">Error</div>
+    <div class="terminal-card p-6 text-center" role="alert">
+      <div class="text-ap-red text-lg font-bold mb-2">$ error</div>
       <div class="text-ap-text-dim text-sm">${msg}</div>
-      <a href="#/" class="text-ap-green text-sm hover:underline mt-4 inline-block">← Back to Dashboard</a>
+      <a href="#/" class="text-ap-green text-sm hover:underline mt-4 inline-block">$ cd ~/dashboard</a>
     </div>
   `);
 }
@@ -102,10 +103,12 @@ route("/sprint/:id/project", async (params) => {
   } catch (e) { showError("Failed to load project"); }
 });
 
-route("/sprint/:id/games", (params) => {
-  import("./screens/games").then(({ renderGames }) => {
+route("/sprint/:id/games", async (params) => {
+  showLoading();
+  try {
+    const { renderGames } = await import("./screens/games");
     render(renderGames(Number(params.id)));
-  });
+  } catch (e) { showError("Failed to load games"); }
 });
 
 route("/sprint/:id/games/:game", async (params) => {
@@ -122,6 +125,9 @@ route("/sprint/:id/games/:game", async (params) => {
     } else if (game === "prompt-builder") {
       const { renderPromptBuilder } = await import("./games/prompt-builder");
       render(await renderPromptBuilder(sprintId));
+    } else {
+      showError(`Unknown game: ${game}`);
+      return;
     }
   } catch (e) { showError("Failed to load game"); }
 });

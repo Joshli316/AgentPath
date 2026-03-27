@@ -1,7 +1,8 @@
 import { loadState, completeMilestone, completeProject } from "../state";
 import { t, getLang } from "../i18n";
-import { loadContent } from "../content";
+import { loadContent, loadShared } from "../content";
 import { escapeHtml, localize } from "../utils";
+import type { SprintMeta } from "../types";
 
 interface ProjectData {
   id: string;
@@ -39,7 +40,8 @@ export async function renderProject(sprintId: number): Promise<string> {
         <div class="terminal-card p-3 mb-2">
           <div class="flex items-center gap-3">
             <button onclick="window.__toggleMilestone('${key}', ${sprintId})"
-                    class="w-5 h-5 border ${done ? "bg-ap-green border-ap-green text-ap-bg" : "border-ap-text-muted"} rounded text-xs flex items-center justify-center flex-shrink-0">
+                    role="checkbox" aria-checked="${done ? "true" : "false"}" aria-label="${escapeHtml(label)}"
+                    class="w-6 h-6 border ${done ? "bg-ap-green border-ap-green text-ap-bg" : "border-ap-text-muted"} rounded text-xs flex items-center justify-center flex-shrink-0">
               ${done ? "✓" : ""}
             </button>
             <span class="text-sm ${done ? "text-ap-text-dim line-through" : "text-ap-text"}">${escapeHtml(label)}</span>
@@ -98,8 +100,22 @@ export async function renderProject(sprintId: number): Promise<string> {
   window.dispatchEvent(new HashChangeEvent("hashchange"));
 };
 
-(window as any).__completeProject = (projectKey: string, _sprintId: number) => {
+(window as any).__completeProject = async (projectKey: string, sprintId: number) => {
   const state = loadState();
-  completeProject(state, projectKey);
+  // Load sprint skills data for radar chart
+  try {
+    const sprints = await loadShared<SprintMeta[]>("sprints.json");
+    const sprint = sprints[sprintId - 1];
+    completeProject(state, projectKey, sprint?.skills);
+  } catch {
+    completeProject(state, projectKey);
+  }
+  // Advance to next sprint
+  if (state.currentSprint === sprintId && sprintId < 6) {
+    state.currentSprint = sprintId + 1;
+    state.currentDay = 1;
+    const { saveState } = await import("../state");
+    saveState(state);
+  }
   window.dispatchEvent(new HashChangeEvent("hashchange"));
 };

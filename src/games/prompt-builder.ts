@@ -16,7 +16,10 @@ interface PromptBuilderData {
 
 export async function renderPromptBuilder(sprintId: number): Promise<string> {
   const data = await loadContent<PromptBuilderData>(`sprint-${sprintId}/games.json`);
-  const challenges = data["prompt-builder"].challenges;
+  const challenges = data["prompt-builder"]?.challenges || [];
+  if (challenges.length === 0) {
+    return `<div class="text-ap-text-muted text-sm">$ error: no prompt-builder challenges found for sprint ${sprintId}</div>`;
+  }
   const challenge = challenges[0];
 
   (window as any).__pbState = {
@@ -25,6 +28,7 @@ export async function renderPromptBuilder(sprintId: number): Promise<string> {
     currentChallenge: 0,
     placed: [] as string[],
     available: [...challenge.parts].sort(() => Math.random() - 0.5),
+    recorded: false,
   };
 
   return renderChallenge(challenge, sprintId);
@@ -55,7 +59,7 @@ function renderChallenge(
             class="w-full bg-ap-green text-ap-bg font-bold py-3 rounded text-sm hover:opacity-90 transition-opacity">
       ${t("games.check")}
     </button>
-    <div id="pb-result" class="mt-4"></div>
+    <div id="pb-result" class="mt-4" role="status" aria-live="polite"></div>
   `;
 }
 
@@ -116,11 +120,12 @@ function refreshPbUI(): void {
   const challenge = pbs.challenges[pbs.currentChallenge];
   const isCorrect = JSON.stringify(pbs.placed) === JSON.stringify(challenge.correct);
 
-  const score = isCorrect ? 100 : 0;
-  const state = loadState();
-  recordGame(state, `s${pbs.sprintId}-prompt-builder`, score);
-
   const resultEl = document.getElementById("pb-result");
+  if (isCorrect && !pbs.recorded) {
+    pbs.recorded = true;
+    const state = loadState();
+    recordGame(state, `s${pbs.sprintId}-prompt-builder`, 100);
+  }
   if (resultEl) {
     resultEl.innerHTML = isCorrect
       ? `

@@ -12,10 +12,13 @@ interface FlashMatchData {
 export async function renderFlashMatch(sprintId: number): Promise<string> {
   const data = await loadContent<FlashMatchData>(`sprint-${sprintId}/games.json`);
   const lang = getLang();
-  const allPairs = data["flash-match"].pairs;
+  const allPairs = data["flash-match"]?.pairs || [];
+  if (allPairs.length === 0) {
+    return `<div class="text-ap-text-muted text-sm">$ error: no flash-match pairs found for sprint ${sprintId}</div>`;
+  }
 
   const shuffled = [...allPairs].sort(() => Math.random() - 0.5);
-  const pairs = shuffled.slice(0, 6);
+  const pairs = shuffled.slice(0, Math.min(6, shuffled.length));
 
   const terms = pairs.map((p, i) => ({
     id: i,
@@ -41,7 +44,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
     .map(
       (t) => `
     <button id="term-${t.id}" onclick="window.__selectTerm(${t.id})"
-            class="terminal-card p-2 text-left text-sm text-ap-green hover:bg-ap-green-dim transition-colors">
+            class="terminal-card p-3 text-left text-sm text-ap-green hover:bg-ap-green-dim transition-colors min-h-[44px]">
       ${escapeHtml(t.text)}
     </button>
   `
@@ -52,7 +55,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
     .map(
       (d) => `
     <button id="def-${d.id}" onclick="window.__selectDef(${d.id})"
-            class="terminal-card p-2 text-left text-sm text-ap-text hover:bg-ap-surface-hover transition-colors">
+            class="terminal-card p-3 text-left text-sm text-ap-text hover:bg-ap-surface-hover transition-colors min-h-[44px]">
       ${escapeHtml(d.text)}
     </button>
   `
@@ -65,11 +68,11 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
     <h1 class="text-ap-text text-xl font-bold mb-2">${t("games.flash-match")}</h1>
     <p class="text-ap-text-muted text-xs mb-6">${t("games.match-instruction")}</p>
 
-    <div id="flash-match-area" class="grid grid-cols-2 gap-4">
+    <div id="flash-match-area" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="flex flex-col gap-2">${termsHtml}</div>
       <div class="flex flex-col gap-2">${defsHtml}</div>
     </div>
-    <div id="flash-match-result" class="mt-6 hidden"></div>
+    <div id="flash-match-result" class="mt-6 hidden" role="status" aria-live="polite"></div>
   `;
 }
 
@@ -91,8 +94,8 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
 
   if (gs.selectedTerm === id) {
     gs.matched.add(id);
-    termEl?.classList.add("opacity-30");
-    defEl?.classList.add("opacity-30");
+    termEl?.classList.add("opacity-30", "pointer-events-none");
+    defEl?.classList.add("opacity-30", "pointer-events-none");
     termEl?.classList.remove("ring-1", "ring-ap-green");
     gs.selectedTerm = null;
 
