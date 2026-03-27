@@ -53,7 +53,7 @@ export async function renderSprint(sprintId: number): Promise<string> {
             <div class="text-ap-text text-sm font-bold">${t("dash.day-of", { n: day.day }).split("/")[0].trim()}</div>
             <div class="text-ap-text-muted text-xs">${label}</div>
           </div>
-          ${isCurrent ? '<span class="text-ap-green text-xs">← current</span>' : ""}
+          ${isCurrent ? `<span class="text-ap-green text-xs">← ${t("sprint.current")}</span>` : ""}
         </a>
       `;
     })

@@ -1,6 +1,7 @@
 import { loadState, saveState, completeLesson } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
+import { escapeHtml } from "../utils";
 
 interface LessonStep {
   type: "text" | "code" | "callout" | "try-it" | "key-terms";
@@ -24,13 +25,13 @@ function renderStep(step: LessonStep): string {
 
   switch (step.type) {
     case "text":
-      return `<div class="text-ap-text text-sm leading-relaxed mb-4">${step.content}</div>`;
+      return `<div class="text-ap-text text-sm leading-relaxed mb-4">${escapeHtml(step.content || "")}</div>`;
 
     case "code":
       return `
         <div class="code-block mb-4">
-          <div class="text-ap-text-muted text-xs mb-2">${step.language || "code"}</div>
-          <pre><code>${step.content}</code></pre>
+          <div class="text-ap-text-muted text-xs mb-2">${escapeHtml(step.language || "code")}</div>
+          <pre><code>${escapeHtml(step.content || "")}</code></pre>
         </div>
       `;
 
@@ -44,7 +45,7 @@ function renderStep(step: LessonStep): string {
       const variant = step.variant || "info";
       return `
         <div class="border-l-2 ${colors[variant]} p-3 rounded-r mb-4">
-          <div class="text-sm">${icons[variant]} ${step.content}</div>
+          <div class="text-sm">${icons[variant]} ${escapeHtml(step.content || "")}</div>
         </div>
       `;
     }
@@ -60,7 +61,7 @@ function renderStep(step: LessonStep): string {
           </div>
           <div class="p-3">
             <div class="text-ap-green text-xs mb-2">$ ${t("lesson.try-it")}</div>
-            <div class="text-ap-text text-sm font-mono">${step.prompt}</div>
+            <div class="text-ap-text text-sm font-mono">${escapeHtml(step.prompt || "")}</div>
           </div>
         </div>
       `;
@@ -74,8 +75,8 @@ function renderStep(step: LessonStep): string {
               .map(
                 (term) => `
               <div class="terminal-card p-2">
-                <span class="text-ap-green font-bold text-sm">${lang === "zh" ? term.termZh : term.term}</span>
-                <span class="text-ap-text-muted text-xs ml-2">— ${lang === "zh" ? term.definitionZh : term.definition}</span>
+                <span class="text-ap-green font-bold text-sm">${escapeHtml(lang === "zh" ? term.termZh : term.term)}</span>
+                <span class="text-ap-text-muted text-xs ml-2">— ${escapeHtml(lang === "zh" ? term.definitionZh : term.definition)}</span>
               </div>
             `
               )

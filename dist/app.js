@@ -1,10 +1,10 @@
-"use strict";(()=>{var Lt=Object.defineProperty;var $=(t,e)=>()=>(t&&(e=t(t=0)),e);var j=(t,e)=>{for(var s in e)Lt(t,s,{get:e[s],enumerable:!0})};function d(){try{let t=localStorage.getItem(F);if(t)return{...X,...JSON.parse(t)}}catch{}return{...X}}function M(t){localStorage.setItem(F,JSON.stringify(t))}function Z(t,e){t.xp+=e;for(let s=q.length-1;s>=0;s--)if(t.xp>=q[s].xp){t.level=q[s].level;break}return M(t),t}function T(t){let e=new Date().toISOString().split("T")[0];if(t.lastActiveDate===e)return t;let s=new Date(Date.now()-864e5).toISOString().split("T")[0];return t.lastActiveDate===s?t.streak+=1:t.lastActiveDate!==e&&(t.streak=1),t.lastActiveDate=e,M(t),t}function J(t,e){return t.lessons[e]||(t.lessons[e]=!0,Z(t,50),T(t)),t}function K(t,e){return t.milestones[e]||(t.milestones[e]=!0,Z(t,100),T(t)),t}function W(t,e){if(!t.projects[e]){t.projects[e]=!0,Z(t,300);let s={s1:"first-agent",s2:"orchestrator",s3:"rag-master",s4:"protocol-builder",s5:"commander",s6:"graduate"};s[e]&&!t.badges.includes(s[e])&&t.badges.push(s[e]),T(t)}return t}function A(t,e,s){let n=Math.min(50,Math.max(10,Math.round(s/2))),a=t.games[e]||{bestScore:0,plays:0};if(t.games[e]={bestScore:Math.max(a.bestScore,s),plays:a.plays+1},s===100){let i={"s1-concept-quiz":"api-master","s2-concept-quiz":"framework-king","s3-concept-quiz":"vector-hero","s4-concept-quiz":"mcp-pro","s5-concept-quiz":"monitor-king","s6-concept-quiz":"interview-pro"};i[e]&&!t.badges.includes(i[e])&&t.badges.push(i[e])}return Z(t,n),T(t),t}function H(t,e,s){return t.bonusProjects[e]=s,s==="complete"&&(Z(t,200),T(t)),M(t),t}function R(t){let e=q.find(a=>a.level===t.level),s=q.find(a=>a.level===t.level+1),n=s?(t.xp-e.xp)/(s.xp-e.xp)*100:100;return{current:e,next:s,progress:n}}var F,X,q,w=$(()=>{"use strict";F="agentpath",X={currentSprint:1,currentDay:1,xp:0,level:1,streak:0,lastActiveDate:"",lessons:{},milestones:{},projects:{},games:{},badges:[],skills:{python:0,"llm-apis":0,"agent-frameworks":0,rag:0,mcp:0,"multi-agent":0},lang:"en",bonusProjects:{}},q=[{level:1,title:"\u65B0\u624B Novice",titleEn:"Novice",xp:0},{level:2,title:"\u5B66\u5F92 Apprentice",titleEn:"Apprentice",xp:1e3},{level:3,title:"\u6784\u5EFA\u8005 Builder",titleEn:"Builder",xp:3e3},{level:4,title:"\u5DE5\u5320 Craftsman",titleEn:"Craftsman",xp:6e3},{level:5,title:"\u67B6\u6784\u5E08 Architect",titleEn:"Architect",xp:1e4},{level:6,title:"\u667A\u8005 Agent Master",titleEn:"Agent Master",xp:15e3}]});function U(){B=d().lang}function r(t,e){let s=Et[t];if(!s)return t;let n=s[B]||s.en||t;if(e)for(let[a,i]of Object.entries(e))n=n.replace(`{${a}}`,String(i));return n}function x(){return B}function Ct(t){B=t;let e=d();e.lang=t,M(e)}function V(){Ct(B==="en"?"zh":"en")}var Et,B,y=$(()=>{"use strict";w();Et={"nav.dashboard":{en:"Dashboard",zh:"\u4EEA\u8868\u76D8"},"nav.sprint":{en:"Sprint",zh:"\u51B2\u523A"},"nav.games":{en:"Games",zh:"\u6E38\u620F"},"nav.roadmap":{en:"Roadmap",zh:"\u8DEF\u7EBF\u56FE"},"nav.profile":{en:"Profile",zh:"\u4E2A\u4EBA"},"dash.today":{en:"Today",zh:"\u4ECA\u5929"},"dash.current-sprint":{en:"Current Sprint",zh:"\u5F53\u524D\u51B2\u523A"},"dash.day-of":{en:"Day {n} of 10",zh:"\u7B2C{n}\u5929 / \u517110\u5929"},"dash.xp":{en:"XP",zh:"\u7ECF\u9A8C\u503C"},"dash.streak":{en:"day streak",zh:"\u5929\u8FDE\u7EED"},"dash.level":{en:"Level",zh:"\u7B49\u7EA7"},"sprint.objectives":{en:"Sprint Objectives",zh:"\u51B2\u523A\u76EE\u6807"},"sprint.lesson":{en:"Lesson",zh:"\u8BFE\u7A0B"},"sprint.project":{en:"Project",zh:"\u9879\u76EE"},"sprint.review":{en:"Review & Games",zh:"\u590D\u4E60\u4E0E\u6E38\u620F"},"lesson.complete":{en:"Mark Complete",zh:"\u6807\u8BB0\u5B8C\u6210"},"lesson.completed":{en:"Completed",zh:"\u5DF2\u5B8C\u6210"},"lesson.try-it":{en:"Try it in iTerm",zh:"\u5728iTerm\u4E2D\u8BD5\u8BD5"},"lesson.key-terms":{en:"Key Terms",zh:"\u5173\u952E\u672F\u8BED"},"lesson.min":{en:"min",zh:"\u5206\u949F"},"project.milestones":{en:"Milestones",zh:"\u91CC\u7A0B\u7891"},"project.stuck":{en:"Stuck? Get a hint",zh:"\u5361\u4F4F\u4E86\uFF1F\u83B7\u53D6\u63D0\u793A"},"project.hint":{en:"Hint",zh:"\u63D0\u793A"},"project.stretch":{en:"Stretch Goals",zh:"\u989D\u5916\u76EE\u6807"},"project.complete":{en:"Project Complete!",zh:"\u9879\u76EE\u5B8C\u6210\uFF01"},"project.mark-complete":{en:"Mark Project Complete",zh:"\u6807\u8BB0\u9879\u76EE\u5B8C\u6210"},"games.select":{en:"Choose a Game",zh:"\u9009\u62E9\u6E38\u620F"},"games.flash-match":{en:"Flash Match",zh:"\u95EA\u914D"},"games.concept-quiz":{en:"Concept Quiz",zh:"\u6982\u5FF5\u6D4B\u9A8C"},"games.prompt-builder":{en:"Prompt Builder",zh:"\u63D0\u793A\u6784\u5EFA"},"games.score":{en:"Score",zh:"\u5F97\u5206"},"games.best":{en:"Best",zh:"\u6700\u4F73"},"games.play-again":{en:"Play Again",zh:"\u518D\u73A9\u4E00\u6B21"},"games.back":{en:"Back to Games",zh:"\u8FD4\u56DE\u6E38\u620F"},"roadmap.title":{en:"Your 12-Week Journey",zh:"\u4F60\u768412\u5468\u65C5\u7A0B"},"roadmap.locked":{en:"Locked",zh:"\u672A\u89E3\u9501"},"roadmap.active":{en:"Active",zh:"\u8FDB\u884C\u4E2D"},"roadmap.complete":{en:"Complete",zh:"\u5DF2\u5B8C\u6210"},"profile.skills":{en:"Skills Radar",zh:"\u6280\u80FD\u96F7\u8FBE"},"profile.badges":{en:"Badges",zh:"\u5FBD\u7AE0"},"profile.stats":{en:"Stats",zh:"\u7EDF\u8BA1"},"profile.export":{en:"Export for Resume",zh:"\u5BFC\u51FA\u7B80\u5386"},"profile.total-xp":{en:"Total XP",zh:"\u603B\u7ECF\u9A8C\u503C"},"profile.projects-done":{en:"Projects Done",zh:"\u5B8C\u6210\u9879\u76EE"},"profile.days-active":{en:"Days Active",zh:"\u6D3B\u8DC3\u5929\u6570"},"profile.longest-streak":{en:"Longest Streak",zh:"\u6700\u957F\u8FDE\u7EED"}},B="en"});async function _(t){let s=`content/${x()}/${t}`;if(z.has(s))return z.get(s);let n=await fetch(s);if(!n.ok){let i=`content/en/${t}`;if(z.has(i))return z.get(i);let c=await fetch(i);if(!c.ok)throw new Error(`Content not found: ${t}`);let o=await c.json();return z.set(i,o),o}let a=await n.json();return z.set(s,a),a}async function L(t){let e=`content/shared/${t}`;if(z.has(e))return z.get(e);let s=await fetch(e);if(!s.ok)throw new Error(`Shared content not found: ${t}`);let n=await s.json();return z.set(e,n),n}function Y(){z.clear()}var z,S=$(()=>{"use strict";y();z=new Map});function Tt(t,e=20){let s=Math.round(t/100*e),n=e-s;return'<span class="text-ap-green">'+"\u2593".repeat(s)+'</span><span class="text-ap-text-muted">'+"\u2591".repeat(n)+"</span>"}function G(t,e){return`
-    <div class="flex items-center gap-3">
-      <div class="progress-terminal text-sm whitespace-nowrap">${Tt(t,15)}</div>
+"use strict";(()=>{var At=Object.defineProperty;var $=(t,e)=>()=>(t&&(e=t(t=0)),e);var z=(t,e)=>{for(var s in e)At(t,s,{get:e[s],enumerable:!0})};function d(){try{let t=localStorage.getItem(U);if(t)return{...V,...JSON.parse(t)}}catch{}return{...V}}function T(t){localStorage.setItem(U,JSON.stringify(t))}function H(t,e){t.xp+=e;for(let s=Z.length-1;s>=0;s--)if(t.xp>=Z[s].xp){t.level=Z[s].level;break}return T(t),t}function A(t){let e=new Date().toISOString().split("T")[0];if(t.lastActiveDate===e)return t;let s=new Date(Date.now()-864e5).toISOString().split("T")[0];return t.lastActiveDate===s?t.streak+=1:t.lastActiveDate!==e&&(t.streak=1),t.lastActiveDate=e,T(t),t}function Y(t,e){return t.lessons[e]||(t.lessons[e]=!0,H(t,50),A(t)),t}function I(t,e){return t.milestones[e]||(t.milestones[e]=!0,H(t,100),A(t)),t}function tt(t,e){if(!t.projects[e]){t.projects[e]=!0,H(t,300);let s={s1:"first-agent",s2:"orchestrator",s3:"rag-master",s4:"protocol-builder",s5:"commander",s6:"graduate"};s[e]&&!t.badges.includes(s[e])&&t.badges.push(s[e]),A(t)}return t}function B(t,e,s){let n=Math.min(50,Math.max(10,Math.round(s/2))),a=t.games[e]||{bestScore:0,plays:0};if(t.games[e]={bestScore:Math.max(a.bestScore,s),plays:a.plays+1},s===100){let i={"s1-concept-quiz":"api-master","s2-concept-quiz":"framework-king","s3-concept-quiz":"vector-hero","s4-concept-quiz":"mcp-pro","s5-concept-quiz":"monitor-king","s6-concept-quiz":"interview-pro"};i[e]&&!t.badges.includes(i[e])&&t.badges.push(i[e])}return H(t,n),A(t),t}function F(t,e,s){return t.bonusProjects[e]=s,s==="complete"&&(H(t,200),A(t)),T(t),t}function N(t){let e=Z.find(a=>a.level===t.level),s=Z.find(a=>a.level===t.level+1),n=s?(t.xp-e.xp)/(s.xp-e.xp)*100:100;return{current:e,next:s,progress:n}}var U,V,Z,w=$(()=>{"use strict";U="agentpath",V={currentSprint:1,currentDay:1,xp:0,level:1,streak:0,lastActiveDate:"",lessons:{},milestones:{},projects:{},games:{},badges:[],skills:{python:0,"llm-apis":0,"agent-frameworks":0,rag:0,mcp:0,"multi-agent":0},lang:"en",bonusProjects:{}},Z=[{level:1,title:"\u65B0\u624B Novice",titleEn:"Novice",xp:0},{level:2,title:"\u5B66\u5F92 Apprentice",titleEn:"Apprentice",xp:1e3},{level:3,title:"\u6784\u5EFA\u8005 Builder",titleEn:"Builder",xp:3e3},{level:4,title:"\u5DE5\u5320 Craftsman",titleEn:"Craftsman",xp:6e3},{level:5,title:"\u67B6\u6784\u5E08 Architect",titleEn:"Architect",xp:1e4},{level:6,title:"\u667A\u8005 Agent Master",titleEn:"Agent Master",xp:15e3}]});function et(){D=d().lang,document.documentElement.lang=D}function r(t,e){let s=Rt[t];if(!s)return t;let n=s[D]||s.en||t;if(e)for(let[a,i]of Object.entries(e))n=n.replace(`{${a}}`,String(i));return n}function x(){return D}function Bt(t){D=t,document.documentElement.lang=t;let e=d();e.lang=t,T(e)}function st(){Bt(D==="en"?"zh":"en")}var Rt,D,y=$(()=>{"use strict";w();Rt={"nav.dashboard":{en:"Dashboard",zh:"\u4EEA\u8868\u76D8"},"nav.sprint":{en:"Sprint",zh:"\u51B2\u523A"},"nav.games":{en:"Games",zh:"\u6E38\u620F"},"nav.roadmap":{en:"Roadmap",zh:"\u8DEF\u7EBF\u56FE"},"nav.profile":{en:"Profile",zh:"\u4E2A\u4EBA"},"dash.today":{en:"Today",zh:"\u4ECA\u5929"},"dash.current-sprint":{en:"Current Sprint",zh:"\u5F53\u524D\u51B2\u523A"},"dash.day-of":{en:"Day {n} of 10",zh:"\u7B2C{n}\u5929 / \u517110\u5929"},"dash.xp":{en:"XP",zh:"\u7ECF\u9A8C\u503C"},"dash.streak":{en:"day streak",zh:"\u5929\u8FDE\u7EED"},"dash.level":{en:"Level",zh:"\u7B49\u7EA7"},"sprint.objectives":{en:"Sprint Objectives",zh:"\u51B2\u523A\u76EE\u6807"},"sprint.lesson":{en:"Lesson",zh:"\u8BFE\u7A0B"},"sprint.project":{en:"Project",zh:"\u9879\u76EE"},"sprint.review":{en:"Review & Games",zh:"\u590D\u4E60\u4E0E\u6E38\u620F"},"lesson.complete":{en:"Mark Complete",zh:"\u6807\u8BB0\u5B8C\u6210"},"lesson.completed":{en:"Completed",zh:"\u5DF2\u5B8C\u6210"},"lesson.try-it":{en:"Try it in iTerm",zh:"\u5728iTerm\u4E2D\u8BD5\u8BD5"},"lesson.key-terms":{en:"Key Terms",zh:"\u5173\u952E\u672F\u8BED"},"lesson.min":{en:"min",zh:"\u5206\u949F"},"project.milestones":{en:"Milestones",zh:"\u91CC\u7A0B\u7891"},"project.stuck":{en:"Stuck? Get a hint",zh:"\u5361\u4F4F\u4E86\uFF1F\u83B7\u53D6\u63D0\u793A"},"project.hint":{en:"Hint",zh:"\u63D0\u793A"},"project.stretch":{en:"Stretch Goals",zh:"\u989D\u5916\u76EE\u6807"},"project.complete":{en:"Project Complete!",zh:"\u9879\u76EE\u5B8C\u6210\uFF01"},"project.mark-complete":{en:"Mark Project Complete",zh:"\u6807\u8BB0\u9879\u76EE\u5B8C\u6210"},"games.select":{en:"Choose a Game",zh:"\u9009\u62E9\u6E38\u620F"},"games.flash-match":{en:"Flash Match",zh:"\u95EA\u914D"},"games.concept-quiz":{en:"Concept Quiz",zh:"\u6982\u5FF5\u6D4B\u9A8C"},"games.prompt-builder":{en:"Prompt Builder",zh:"\u63D0\u793A\u6784\u5EFA"},"games.score":{en:"Score",zh:"\u5F97\u5206"},"games.best":{en:"Best",zh:"\u6700\u4F73"},"games.play-again":{en:"Play Again",zh:"\u518D\u73A9\u4E00\u6B21"},"games.back":{en:"Back to Games",zh:"\u8FD4\u56DE\u6E38\u620F"},"roadmap.title":{en:"Your 12-Week Journey",zh:"\u4F60\u768412\u5468\u65C5\u7A0B"},"roadmap.locked":{en:"Locked",zh:"\u672A\u89E3\u9501"},"roadmap.active":{en:"Active",zh:"\u8FDB\u884C\u4E2D"},"roadmap.complete":{en:"Complete",zh:"\u5DF2\u5B8C\u6210"},"profile.skills":{en:"Skills Radar",zh:"\u6280\u80FD\u96F7\u8FBE"},"profile.badges":{en:"Badges",zh:"\u5FBD\u7AE0"},"profile.stats":{en:"Stats",zh:"\u7EDF\u8BA1"},"profile.export":{en:"Export for Resume",zh:"\u5BFC\u51FA\u7B80\u5386"},"profile.total-xp":{en:"Total XP",zh:"\u603B\u7ECF\u9A8C\u503C"},"profile.projects-done":{en:"Projects Done",zh:"\u5B8C\u6210\u9879\u76EE"},"profile.days-active":{en:"Days Active",zh:"\u6D3B\u8DC3\u5929\u6570"},"profile.longest-streak":{en:"Longest Streak",zh:"\u6700\u957F\u8FDE\u7EED"},"profile.next-steps":{en:"Next Steps \u2014 Keep Growing",zh:"\u4E0B\u4E00\u6B65\u2014\u2014\u7EE7\u7EED\u6210\u957F"},"games.match-instruction":{en:"Tap a term, then tap its matching definition.",zh:"\u70B9\u51FB\u672F\u8BED\uFF0C\u7136\u540E\u70B9\u51FB\u5339\u914D\u7684\u5B9A\u4E49\u3002"},"games.correct":{en:"Correct!",zh:"\u6B63\u786E\uFF01"},"games.wrong-answer":{en:"Wrong \u2014 the answer is",zh:"\u9519\u8BEF\u2014\u2014\u7B54\u6848\u662F"},"games.next":{en:"Next",zh:"\u4E0B\u4E00\u9898"},"games.complete":{en:"Complete!",zh:"\u5B8C\u6210\uFF01"},"games.time":{en:"Time",zh:"\u7528\u65F6"},"games.attempts":{en:"Attempts",zh:"\u5C1D\u8BD5\u6B21\u6570"},"games.correct-count":{en:"correct",zh:"\u6B63\u786E"},"games.match-desc":{en:"Match terms to definitions",zh:"\u5C06\u672F\u8BED\u4E0E\u5B9A\u4E49\u5339\u914D"},"games.quiz-desc":{en:"Test your knowledge",zh:"\u6D4B\u8BD5\u4F60\u7684\u77E5\u8BC6"},"games.builder-desc":{en:"Assemble API calls",zh:"\u7EC4\u88C5API\u8C03\u7528"},"games.check":{en:"Check",zh:"\u68C0\u67E5"},"games.not-quite":{en:"Not quite \u2014 try rearranging the parts.",zh:"\u4E0D\u592A\u5BF9\u2014\u2014\u8BD5\u8BD5\u91CD\u65B0\u6392\u5217\u3002"},"games.expected":{en:"Expected:",zh:"\u9884\u671F\uFF1A"},"games.available-parts":{en:"Available parts:",zh:"\u53EF\u7528\u90E8\u5206\uFF1A"},"games.tap-to-build":{en:"Tap code parts below to build the call...",zh:"\u70B9\u51FB\u4E0B\u65B9\u4EE3\u7801\u7247\u6BB5\u6765\u6784\u5EFA\u8C03\u7528..."},"roadmap.weeks":{en:"Weeks",zh:"\u5468"},"roadmap.bonus-title":{en:"Bonus Projects",zh:"\u989D\u5916\u9879\u76EE"},"roadmap.start":{en:"Start",zh:"\u5F00\u59CB"},"roadmap.mark-complete":{en:"Complete",zh:"\u5B8C\u6210"},"roadmap.done":{en:"Done",zh:"\u5DF2\u5B8C\u6210"},"roadmap.view-sprint":{en:"View Sprint",zh:"\u67E5\u770B\u51B2\u523A"},"dash.xp-to-next":{en:"XP to next",zh:"\u7ECF\u9A8C\u503C\u5230\u4E0B\u4E00\u7EA7"},"sprint.current":{en:"current",zh:"\u5F53\u524D"}},D="en"});async function _(t){let s=`content/${x()}/${t}`;if(j.has(s))return j.get(s);let n=await fetch(s);if(!n.ok){let i=`content/en/${t}`;if(j.has(i))return j.get(i);let c=await fetch(i);if(!c.ok)throw new Error(`Content not found: ${t}`);let o=await c.json();return j.set(i,o),o}let a=await n.json();return j.set(s,a),a}async function L(t){let e=`content/shared/${t}`;if(j.has(e))return j.get(e);let s=await fetch(e);if(!s.ok)throw new Error(`Shared content not found: ${t}`);let n=await s.json();return j.set(e,n),n}function nt(){j.clear()}var j,S=$(()=>{"use strict";y();j=new Map});function Zt(t,e=20){let s=Math.round(t/100*e),n=e-s;return'<span class="text-ap-green">'+"\u2593".repeat(s)+'</span><span class="text-ap-text-muted">'+"\u2591".repeat(n)+"</span>"}function Q(t,e){return`
+    <div class="flex items-center gap-3" role="progressbar" aria-valuenow="${Math.round(t)}" aria-valuemin="0" aria-valuemax="100" aria-label="${e||`${Math.round(t)}% complete`}">
+      <div class="progress-terminal text-sm whitespace-nowrap" aria-hidden="true">${Zt(t,15)}</div>
       <span class="text-ap-text-dim text-xs">${Math.round(t)}%</span>
       ${e?`<span class="text-ap-text-muted text-xs">${e}</span>`:""}
     </div>
-  `}var et=$(()=>{"use strict"});var st={};j(st,{renderDashboard:()=>At});async function At(){let t=d(),s=(await L("sprints.json"))[t.currentSprint-1],n=x(),a=R(t),i=n==="zh"?s.titleZh:s.title,c=n==="zh"?s.projectZh:s.project,o=n==="zh"?a.current.title.split(" ")[0]:a.current.titleEn,l=s.days.filter(v=>v.type==="lesson").length,u=s.days.filter(v=>v.type==="lesson").filter(v=>t.lessons[`s${s.id}-${v.ref}`]).length,p=t.projects[`s${s.id}`]||!1,g=Math.round((u+(p?1:0))/(l+1)*100),h=s.days[t.currentDay-1],b="",m="",f="";if(h)if(h.type==="lesson"){let v=h.ref.replace("lesson-","");b=`${r("sprint.lesson")} ${v}`,m="~20 "+r("lesson.min"),f=`#/sprint/${s.id}/lesson/${v}`}else h.type==="project"?(b=c,m="~60 "+r("lesson.min"),f=`#/sprint/${s.id}/project`):(b=r("sprint.review"),m="~30 "+r("lesson.min"),f=`#/sprint/${s.id}/games`);return`
+  `}var it=$(()=>{"use strict"});var ot={};z(ot,{renderDashboard:()=>Ht});async function Ht(){let t=d(),s=(await L("sprints.json"))[t.currentSprint-1],n=x(),a=N(t),i=n==="zh"?s.titleZh:s.title,c=n==="zh"?s.projectZh:s.project,o=n==="zh"?a.current.title.split(" ")[0]:a.current.titleEn,l=s.days.filter(v=>v.type==="lesson").length,u=s.days.filter(v=>v.type==="lesson").filter(v=>t.lessons[`s${s.id}-${v.ref}`]).length,p=t.projects[`s${s.id}`]||!1,g=Math.round((u+(p?1:0))/(l+1)*100),h=s.days[t.currentDay-1],b="",m="",f="";if(h)if(h.type==="lesson"){let v=h.ref.replace("lesson-","");b=`${r("sprint.lesson")} ${v}`,m="~20 "+r("lesson.min"),f=`#/sprint/${s.id}/lesson/${v}`}else h.type==="project"?(b=c,m="~60 "+r("lesson.min"),f=`#/sprint/${s.id}/project`):(b=r("sprint.review"),m="~30 "+r("lesson.min"),f=`#/sprint/${s.id}/games`);return`
     <!-- Status bar -->
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-4">
@@ -29,7 +29,7 @@
         </div>
         <div class="text-ap-text text-lg font-bold mb-1">${i}</div>
         <div class="text-ap-text-dim text-sm mb-3">${c}</div>
-        ${G(g)}
+        ${Q(g)}
       </div>
     </div>
 
@@ -51,10 +51,10 @@
     <div class="terminal-card">
       <div class="p-4">
         <div class="text-ap-text-dim text-xs mb-2">${r("dash.level")} ${t.level} \u2192 ${a.next?a.next.level:"MAX"}</div>
-        ${G(a.progress,a.next?`${a.next.xp-t.xp} XP to next`:"MAX LEVEL")}
+        ${Q(a.progress,a.next?`${a.next.xp-t.xp} ${r("dash.xp-to-next")}`:"MAX LEVEL")}
       </div>
     </div>
-  `}var nt=$(()=>{"use strict";w();y();S();et()});var at={};j(at,{renderSprint:()=>qt});async function qt(t){let e=d(),n=(await L("sprints.json"))[t-1];if(!n)return'<div class="text-ap-red">Sprint not found</div>';let a=x(),i=a==="zh"?n.titleZh:n.title,c=a==="zh"?n.projectZh:n.project,o=n.days.map(l=>{let u="\u{1F4D6}",p=r("sprint.lesson"),g=`#/sprint/${t}/lesson/${l.ref.replace("lesson-","")}`,h=!1;l.type==="lesson"?h=!!e.lessons[`s${t}-${l.ref}`]:l.type==="project"?(u="\u{1F528}",p=r("sprint.project"),g=`#/sprint/${t}/project`,h=!!e.projects[`s${t}`]):(u="\u25C6",p=r("sprint.review"),g=`#/sprint/${t}/games`);let b=l.day===e.currentDay&&t===e.currentSprint,m=t>e.currentSprint;return`
+  `}var lt=$(()=>{"use strict";w();y();S();it()});var ct={};z(ct,{renderSprint:()=>Nt});async function Nt(t){let e=d(),n=(await L("sprints.json"))[t-1];if(!n)return'<div class="text-ap-red">Sprint not found</div>';let a=x(),i=a==="zh"?n.titleZh:n.title,c=a==="zh"?n.projectZh:n.project,o=n.days.map(l=>{let u="\u{1F4D6}",p=r("sprint.lesson"),g=`#/sprint/${t}/lesson/${l.ref.replace("lesson-","")}`,h=!1;l.type==="lesson"?h=!!e.lessons[`s${t}-${l.ref}`]:l.type==="project"?(u="\u{1F528}",p=r("sprint.project"),g=`#/sprint/${t}/project`,h=!!e.projects[`s${t}`]):(u="\u25C6",p=r("sprint.review"),g=`#/sprint/${t}/games`);let b=l.day===e.currentDay&&t===e.currentSprint,m=t>e.currentSprint;return`
         <a href="${m?"#":g}"
            class="terminal-card p-3 flex items-center gap-3 ${b?"ring-1 ring-ap-green":""} ${m?"opacity-40 cursor-not-allowed":"hover:bg-ap-surface-hover cursor-pointer"} transition-colors">
           <div class="text-lg w-8 text-center">${h?'<span class="text-ap-green">\u2713</span>':u}</div>
@@ -62,7 +62,7 @@
             <div class="text-ap-text text-sm font-bold">${r("dash.day-of",{n:l.day}).split("/")[0].trim()}</div>
             <div class="text-ap-text-muted text-xs">${p}</div>
           </div>
-          ${b?'<span class="text-ap-green text-xs">\u2190 current</span>':""}
+          ${b?`<span class="text-ap-green text-xs">\u2190 ${r("sprint.current")}</span>`:""}
         </a>
       `}).join("");return`
     <div class="text-ap-green text-sm mb-1">$ agentpath sprint ${t}</div>
@@ -76,14 +76,14 @@
     <div class="flex flex-col gap-2">
       ${o}
     </div>
-  `}var rt=$(()=>{"use strict";w();y();S()});var it={};j(it,{renderLesson:()=>Rt});function Zt(t){let e=x();switch(t.type){case"text":return`<div class="text-ap-text text-sm leading-relaxed mb-4">${t.content}</div>`;case"code":return`
+  `}var dt=$(()=>{"use strict";w();y();S()});function M(t){return t.replace(/[&<>"']/g,e=>Gt[e])}var Gt,pt=$(()=>{"use strict";Gt={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}});var mt={};z(mt,{renderLesson:()=>Ot});function Ft(t){let e=x();switch(t.type){case"text":return`<div class="text-ap-text text-sm leading-relaxed mb-4">${M(t.content||"")}</div>`;case"code":return`
         <div class="code-block mb-4">
-          <div class="text-ap-text-muted text-xs mb-2">${t.language||"code"}</div>
-          <pre><code>${t.content}</code></pre>
+          <div class="text-ap-text-muted text-xs mb-2">${M(t.language||"code")}</div>
+          <pre><code>${M(t.content||"")}</code></pre>
         </div>
       `;case"callout":{let s={tip:"border-ap-green bg-ap-green-dim",warning:"border-ap-amber bg-ap-amber-dim",info:"border-ap-indigo bg-ap-indigo-dim"},n={tip:"\u{1F4A1}",warning:"\u26A0\uFE0F",info:"\u2139\uFE0F"},a=t.variant||"info";return`
         <div class="border-l-2 ${s[a]} p-3 rounded-r mb-4">
-          <div class="text-sm">${n[a]} ${t.content}</div>
+          <div class="text-sm">${n[a]} ${M(t.content||"")}</div>
         </div>
       `}case"try-it":return`
         <div class="terminal-card mb-4">
@@ -95,7 +95,7 @@
           </div>
           <div class="p-3">
             <div class="text-ap-green text-xs mb-2">$ ${r("lesson.try-it")}</div>
-            <div class="text-ap-text text-sm font-mono">${t.prompt}</div>
+            <div class="text-ap-text text-sm font-mono">${M(t.prompt||"")}</div>
           </div>
         </div>
       `;case"key-terms":return`
@@ -104,13 +104,13 @@
           <div class="flex flex-col gap-2">
             ${(t.terms||[]).map(s=>`
               <div class="terminal-card p-2">
-                <span class="text-ap-green font-bold text-sm">${e==="zh"?s.termZh:s.term}</span>
-                <span class="text-ap-text-muted text-xs ml-2">\u2014 ${e==="zh"?s.definitionZh:s.definition}</span>
+                <span class="text-ap-green font-bold text-sm">${M(e==="zh"?s.termZh:s.term)}</span>
+                <span class="text-ap-text-muted text-xs ml-2">\u2014 ${M(e==="zh"?s.definitionZh:s.definition)}</span>
               </div>
             `).join("")}
           </div>
         </div>
-      `;default:return""}}async function Rt(t,e){let s=d(),n=await _(`sprint-${t}/lesson-${e.padStart(2,"0")}.json`),i=x()==="zh"?n.titleZh:n.title,c=`s${t}-lesson-${e.padStart(2,"0")}`,o=!!s.lessons[c],l=n.steps.map(Zt).join("");return`
+      `;default:return""}}async function Ot(t,e){let s=d(),n=await _(`sprint-${t}/lesson-${e.padStart(2,"0")}.json`),i=x()==="zh"?n.titleZh:n.title,c=`s${t}-lesson-${e.padStart(2,"0")}`,o=!!s.lessons[c],l=n.steps.map(Ft).join("");return`
     <a href="#/sprint/${t}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 Sprint ${t}</a>
     <div class="flex items-center gap-3 mt-3 mb-1">
       <span class="text-ap-green text-xs">${r("sprint.lesson")} ${e}</span>
@@ -126,7 +126,7 @@
                ${r("lesson.complete")}
              </button>`}
     </div>
-  `}var ot=$(()=>{"use strict";w();y();S();window.__completeLesson=(t,e)=>{let s=d();if(J(s,t),e===s.currentSprint){let n=Object.keys(s.lessons).filter(a=>a.startsWith(`s${e}-`)).length;s.currentDay=Math.min(n+1,10),M(s)}window.dispatchEvent(new HashChangeEvent("hashchange"))}});var lt={};j(lt,{renderProject:()=>Bt});async function Bt(t){let e=d(),s=await _(`sprint-${t}/project.json`),n=x(),a=n==="zh"?s.titleZh:s.title,i=n==="zh"?s.descriptionZh:s.description,c=`s${t}`,o=!!e.projects[c],l=s.milestones.every(h=>!!e.milestones[`${c}-${h.id}`]),u=s.milestones.map(h=>{let b=`${c}-${h.id}`,m=!!e.milestones[b],f=n==="zh"?h.labelZh:h.label,v=s.hints[h.id]||[];return`
+  `}var gt=$(()=>{"use strict";w();y();S();pt();window.__completeLesson=(t,e)=>{let s=d();if(Y(s,t),e===s.currentSprint){let n=Object.keys(s.lessons).filter(a=>a.startsWith(`s${e}-`)).length;s.currentDay=Math.min(n+1,10),T(s)}window.dispatchEvent(new HashChangeEvent("hashchange"))}});var xt={};z(xt,{renderProject:()=>Qt});async function Qt(t){let e=d(),s=await _(`sprint-${t}/project.json`),n=x(),a=n==="zh"?s.titleZh:s.title,i=n==="zh"?s.descriptionZh:s.description,c=`s${t}`,o=!!e.projects[c],l=s.milestones.every(h=>!!e.milestones[`${c}-${h.id}`]),u=s.milestones.map(h=>{let b=`${c}-${h.id}`,m=!!e.milestones[b],f=n==="zh"?h.labelZh:h.label,v=s.hints[h.id]||[];return`
         <div class="terminal-card p-3 mb-2">
           <div class="flex items-center gap-3">
             <button onclick="window.__toggleMilestone('${b}', ${t})"
@@ -161,7 +161,7 @@
       <div class="text-ap-amber text-xs font-bold uppercase mb-2">${r("project.stretch")}</div>
       <ul class="list-disc list-inside flex flex-col gap-1">${g}</ul>
     </div>
-  `}var ct=$(()=>{"use strict";w();y();S();window.__toggleMilestone=(t,e)=>{let s=d();s.milestones[t]||K(s,t),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__completeProject=(t,e)=>{let s=d();W(s,t),window.dispatchEvent(new HashChangeEvent("hashchange"))}});var dt={};j(dt,{renderGames:()=>Dt});function Dt(t){let e=d(),n=[{id:"flash-match",icon:"\u26A1",name:r("games.flash-match"),desc:"Match terms to definitions",route:`#/sprint/${t}/games/flash-match`,best:e.games[`s${t}-flash-match`]?.bestScore},{id:"concept-quiz",icon:"\u{1F9E0}",name:r("games.concept-quiz"),desc:"Test your knowledge",route:`#/sprint/${t}/games/concept-quiz`,best:e.games[`s${t}-concept-quiz`]?.bestScore},{id:"prompt-builder",icon:"\u{1F527}",name:r("games.prompt-builder"),desc:"Assemble API calls",route:`#/sprint/${t}/games/prompt-builder`,best:e.games[`s${t}-prompt-builder`]?.bestScore}].map(a=>`
+  `}var ut=$(()=>{"use strict";w();y();S();window.__toggleMilestone=(t,e)=>{let s=d();s.milestones[t]||I(s,t),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__completeProject=(t,e)=>{let s=d();tt(s,t),window.dispatchEvent(new HashChangeEvent("hashchange"))}});var ht={};z(ht,{renderGames:()=>Xt});function Xt(t){let e=d(),n=[{id:"flash-match",icon:"\u26A1",name:r("games.flash-match"),desc:"Match terms to definitions",route:`#/sprint/${t}/games/flash-match`,best:e.games[`s${t}-flash-match`]?.bestScore},{id:"concept-quiz",icon:"\u{1F9E0}",name:r("games.concept-quiz"),desc:"Test your knowledge",route:`#/sprint/${t}/games/concept-quiz`,best:e.games[`s${t}-concept-quiz`]?.bestScore},{id:"prompt-builder",icon:"\u{1F527}",name:r("games.prompt-builder"),desc:"Assemble API calls",route:`#/sprint/${t}/games/prompt-builder`,best:e.games[`s${t}-prompt-builder`]?.bestScore}].map(a=>`
     <a href="${a.route}" class="terminal-card p-4 hover:bg-ap-surface-hover transition-colors block">
       <div class="flex items-center gap-3">
         <div class="text-2xl">${a.icon}</div>
@@ -177,7 +177,7 @@
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath games --sprint ${t}</div>
     <h1 class="text-ap-text text-xl font-bold mb-6">${r("games.select")}</h1>
     <div class="flex flex-col gap-3">${n}</div>
-  `}var pt=$(()=>{"use strict";w();y()});var mt={};j(mt,{renderFlashMatch:()=>Ht});async function Ht(t){let e=await _(`sprint-${t}/games.json`),s=x(),i=[...e["flash-match"].pairs].sort(()=>Math.random()-.5).slice(0,6),c=i.map((p,g)=>({id:g,text:s==="zh"?p.termZh:p.term})),o=[...i].sort(()=>Math.random()-.5).map(p=>({id:i.indexOf(p),text:s==="zh"?p.definitionZh:p.definition}));window.__flashMatchState={sprintId:t,selectedTerm:null,matched:new Set,attempts:0,startTime:Date.now(),total:i.length};let l=c.map(p=>`
+  `}var vt=$(()=>{"use strict";w();y()});var ft={};z(ft,{renderFlashMatch:()=>Wt});async function Wt(t){let e=await _(`sprint-${t}/games.json`),s=x(),i=[...e["flash-match"].pairs].sort(()=>Math.random()-.5).slice(0,6),c=i.map((p,g)=>({id:g,text:s==="zh"?p.termZh:p.term})),o=[...i].sort(()=>Math.random()-.5).map(p=>({id:i.indexOf(p),text:s==="zh"?p.definitionZh:p.definition}));window.__flashMatchState={sprintId:t,selectedTerm:null,matched:new Set,attempts:0,startTime:Date.now(),total:i.length};let l=c.map(p=>`
     <button id="term-${p.id}" onclick="window.__selectTerm(${p.id})"
             class="terminal-card p-2 text-left text-sm text-ap-green hover:bg-ap-green-dim transition-colors">
       ${p.text}
@@ -198,7 +198,7 @@
       <div class="flex flex-col gap-2">${u}</div>
     </div>
     <div id="flash-match-result" class="mt-6 hidden"></div>
-  `}var gt=$(()=>{"use strict";w();y();S();window.__selectTerm=t=>{let e=window.__flashMatchState;e.matched.has(t)||(document.querySelectorAll("[id^='term-']").forEach(s=>s.classList.remove("ring-1","ring-ap-green")),document.getElementById(`term-${t}`)?.classList.add("ring-1","ring-ap-green"),e.selectedTerm=t)};window.__selectDef=t=>{let e=window.__flashMatchState;if(e.selectedTerm===null||e.matched.has(t))return;e.attempts++;let s=document.getElementById(`term-${e.selectedTerm}`),n=document.getElementById(`def-${t}`);if(e.selectedTerm===t){if(e.matched.add(t),s?.classList.add("opacity-30"),n?.classList.add("opacity-30"),s?.classList.remove("ring-1","ring-ap-green"),e.selectedTerm=null,e.matched.size===e.total){let a=Math.round((Date.now()-e.startTime)/1e3),i=Math.round(e.total/e.attempts*100),c=Math.min(100,i),o=d();A(o,`s${e.sprintId}-flash-match`,c);let l=document.getElementById("flash-match-result");l&&(l.classList.remove("hidden"),l.innerHTML=`
+  `}var bt=$(()=>{"use strict";w();y();S();window.__selectTerm=t=>{let e=window.__flashMatchState;e.matched.has(t)||(document.querySelectorAll("[id^='term-']").forEach(s=>s.classList.remove("ring-1","ring-ap-green")),document.getElementById(`term-${t}`)?.classList.add("ring-1","ring-ap-green"),e.selectedTerm=t)};window.__selectDef=t=>{let e=window.__flashMatchState;if(e.selectedTerm===null||e.matched.has(t))return;e.attempts++;let s=document.getElementById(`term-${e.selectedTerm}`),n=document.getElementById(`def-${t}`);if(e.selectedTerm===t){if(e.matched.add(t),s?.classList.add("opacity-30"),n?.classList.add("opacity-30"),s?.classList.remove("ring-1","ring-ap-green"),e.selectedTerm=null,e.matched.size===e.total){let a=Math.round((Date.now()-e.startTime)/1e3),i=Math.round(e.total/e.attempts*100),c=Math.min(100,i),o=d();B(o,`s${e.sprintId}-flash-match`,c);let l=document.getElementById("flash-match-result");l&&(l.classList.remove("hidden"),l.innerHTML=`
           <div class="terminal-card p-4 text-center">
             <div class="text-ap-green text-2xl font-bold glow-green mb-2">\u2713 Complete!</div>
             <div class="text-ap-text text-sm">${r("games.score")}: ${c}% | Time: ${a}s | Attempts: ${e.attempts}</div>
@@ -212,7 +212,7 @@
               </a>
             </div>
           </div>
-        `)}}else n?.classList.add("border-ap-red"),setTimeout(()=>n?.classList.remove("border-ap-red"),500),s?.classList.remove("ring-1","ring-ap-green"),e.selectedTerm=null}});var ut={};j(ut,{renderConceptQuiz:()=>Nt});async function Nt(t){let e=await _(`sprint-${t}/games.json`),s=x(),n=e["concept-quiz"].questions;return window.__quizState={sprintId:t,questions:n,current:0,correct:0,answered:!1},xt(0,n,s,t)}function xt(t,e,s,n){let a=e[t],i=s==="zh"?a.qZh:a.q,c=a.options.map((o,l)=>`
+        `)}}else n?.classList.add("border-ap-red"),setTimeout(()=>n?.classList.remove("border-ap-red"),500),s?.classList.remove("ring-1","ring-ap-green"),e.selectedTerm=null}});var yt={};z(yt,{renderConceptQuiz:()=>Kt});async function Kt(t){let e=await _(`sprint-${t}/games.json`),s=x(),n=e["concept-quiz"].questions;return window.__quizState={sprintId:t,questions:n,current:0,correct:0,answered:!1},$t(0,n,s,t)}function $t(t,e,s,n){let a=e[t],i=s==="zh"?a.qZh:a.q,c=a.options.map((o,l)=>`
     <button id="opt-${l}" onclick="window.__answerQuiz(${l})"
             class="terminal-card p-3 text-left text-sm text-ap-text hover:bg-ap-surface-hover transition-colors w-full">
       <span class="text-ap-green mr-2">${String.fromCharCode(65+l)}.</span> ${o}
@@ -229,12 +229,12 @@
     </div>
     <div id="quiz-feedback" class="mt-4"></div>
     <div id="quiz-next" class="mt-4 hidden"></div>
-  `}var ht=$(()=>{"use strict";w();y();S();window.__answerQuiz=t=>{let e=window.__quizState;if(e.answered)return;e.answered=!0;let s=e.questions[e.current],n=t===s.answer;n&&e.correct++;let a=document.getElementById(`opt-${t}`),i=document.getElementById(`opt-${s.answer}`);n?a?.classList.add("border-ap-green","bg-ap-green-dim"):(a?.classList.add("border-ap-red","bg-ap-red-dim"),i?.classList.add("border-ap-green","bg-ap-green-dim"));for(let l=0;l<s.options.length;l++)document.getElementById(`opt-${l}`)?.classList.add("pointer-events-none");let c=document.getElementById("quiz-feedback");c&&(c.innerHTML=n?'<div class="text-ap-green text-sm">\u2713 Correct!</div>':`<div class="text-ap-red text-sm">\u2717 Wrong \u2014 the answer is ${String.fromCharCode(65+s.answer)}</div>`);let o=document.getElementById("quiz-next");if(o)if(o.classList.remove("hidden"),e.current<e.questions.length-1)o.innerHTML=`
+  `}var wt=$(()=>{"use strict";w();y();S();window.__answerQuiz=t=>{let e=window.__quizState;if(e.answered)return;e.answered=!0;let s=e.questions[e.current],n=t===s.answer;n&&e.correct++;let a=document.getElementById(`opt-${t}`),i=document.getElementById(`opt-${s.answer}`);n?a?.classList.add("border-ap-green","bg-ap-green-dim"):(a?.classList.add("border-ap-red","bg-ap-red-dim"),i?.classList.add("border-ap-green","bg-ap-green-dim"));for(let l=0;l<s.options.length;l++)document.getElementById(`opt-${l}`)?.classList.add("pointer-events-none");let c=document.getElementById("quiz-feedback");c&&(c.innerHTML=n?'<div class="text-ap-green text-sm">\u2713 Correct!</div>':`<div class="text-ap-red text-sm">\u2717 Wrong \u2014 the answer is ${String.fromCharCode(65+s.answer)}</div>`);let o=document.getElementById("quiz-next");if(o)if(o.classList.remove("hidden"),e.current<e.questions.length-1)o.innerHTML=`
         <button onclick="window.__nextQuestion()"
                 class="text-ap-green text-sm border border-ap-green rounded px-4 py-2 hover:bg-ap-green-dim">
           Next \u2192
         </button>
-      `;else{let l=Math.round(e.correct/e.questions.length*100),u=d();A(u,`s${e.sprintId}-concept-quiz`,l),o.innerHTML=`
+      `;else{let l=Math.round(e.correct/e.questions.length*100),u=d();B(u,`s${e.sprintId}-concept-quiz`,l),o.innerHTML=`
         <div class="terminal-card p-4 text-center">
           <div class="text-ap-green text-2xl font-bold glow-green mb-2">${l}%</div>
           <div class="text-ap-text text-sm">${e.correct}/${e.questions.length} correct</div>
@@ -248,7 +248,7 @@
             </a>
           </div>
         </div>
-      `}};window.__nextQuestion=()=>{let t=window.__quizState;t.current++,t.answered=!1;let e=x(),s=document.querySelector("main");s&&(s.innerHTML=xt(t.current,t.questions,e,t.sprintId))}});var vt={};j(vt,{renderPromptBuilder:()=>Gt});async function Gt(t){let e=await _(`sprint-${t}/games.json`),s=x(),n=e["prompt-builder"].challenges,a=n[0];return window.__pbState={sprintId:t,challenges:n,currentChallenge:0,placed:[],available:[...a.parts].sort(()=>Math.random()-.5)},Ot(a,s,t)}function Ot(t,e,s){let n=window.__pbState,a=e==="zh"?t.instructionZh:t.instruction,i=n.available.map((o,l)=>`
+      `}};window.__nextQuestion=()=>{let t=window.__quizState;t.current++,t.answered=!1;let e=x(),s=document.querySelector("main");s&&(s.innerHTML=$t(t.current,t.questions,e,t.sprintId))}});var kt={};z(kt,{renderPromptBuilder:()=>Jt});async function Jt(t){let e=await _(`sprint-${t}/games.json`),s=x(),n=e["prompt-builder"].challenges,a=n[0];return window.__pbState={sprintId:t,challenges:n,currentChallenge:0,placed:[],available:[...a.parts].sort(()=>Math.random()-.5)},Vt(a,s,t)}function Vt(t,e,s){let n=window.__pbState,a=e==="zh"?t.instructionZh:t.instruction,i=n.available.map((o,l)=>`
     <button onclick="window.__placePart(${l})"
             class="code-block px-2 py-1 text-xs cursor-pointer hover:ring-1 hover:ring-ap-green transition-all inline-block m-1">
       ${o}
@@ -282,7 +282,7 @@
       Check
     </button>
     <div id="pb-result" class="mt-4"></div>
-  `}var ft=$(()=>{"use strict";w();y();S();window.__placePart=t=>{let e=window.__pbState,s=e.available.splice(t,1)[0];e.placed.push(s),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__removePart=t=>{let e=window.__pbState,s=e.placed.splice(t,1)[0];e.available.push(s),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__checkPromptBuilder=()=>{let t=window.__pbState,e=t.challenges[t.currentChallenge],s=JSON.stringify(t.placed)===JSON.stringify(e.correct),n=s?100:0,a=d();A(a,`s${t.sprintId}-prompt-builder`,n);let i=document.getElementById("pb-result");i&&(i.innerHTML=s?`
+  `}var St=$(()=>{"use strict";w();y();S();window.__placePart=t=>{let e=window.__pbState,s=e.available.splice(t,1)[0];e.placed.push(s),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__removePart=t=>{let e=window.__pbState,s=e.placed.splice(t,1)[0];e.available.push(s),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__checkPromptBuilder=()=>{let t=window.__pbState,e=t.challenges[t.currentChallenge],s=JSON.stringify(t.placed)===JSON.stringify(e.correct),n=s?100:0,a=d();B(a,`s${t.sprintId}-prompt-builder`,n);let i=document.getElementById("pb-result");i&&(i.innerHTML=s?`
         <div class="terminal-card p-4 text-center">
           <div class="text-ap-green text-2xl font-bold glow-green mb-2">\u2713 Correct!</div>
           <div class="flex gap-3 justify-center mt-4">
@@ -300,7 +300,7 @@
         <div class="text-ap-text-muted text-xs">Expected:</div>
         <div class="code-block text-xs mt-1">${e.correct.join(`
 `)}</div>
-      `)}});var bt={};j(bt,{renderRoadmap:()=>Qt});async function Qt(){let t=d(),e=await L("sprints.json"),s=x(),n=e.map(i=>{let c=s==="zh"?i.titleZh:i.title,o=s==="zh"?i.projectZh:i.project,l=!!t.projects[`s${i.id}`],u=i.id===t.currentSprint,p=i.id>t.currentSprint,g=r("roadmap.locked"),h="text-ap-text-muted",b="border-ap-border",m="border-ap-border";return l?(g=r("roadmap.complete"),h="text-ap-green",b="border-ap-green bg-ap-green-dim",m="border-ap-green"):u&&(g=r("roadmap.active"),h="text-ap-amber",b="border-ap-amber bg-ap-amber-dim"),`
+      `)}});var zt={};z(zt,{renderRoadmap:()=>Ut});async function Ut(){let t=d(),e=await L("sprints.json"),s=x(),n=e.map(i=>{let c=s==="zh"?i.titleZh:i.title,o=s==="zh"?i.projectZh:i.project,l=!!t.projects[`s${i.id}`],u=i.id===t.currentSprint,p=i.id>t.currentSprint,g=r("roadmap.locked"),h="text-ap-text-muted",b="border-ap-border",m="border-ap-border";return l?(g=r("roadmap.complete"),h="text-ap-green",b="border-ap-green bg-ap-green-dim",m="border-ap-green"):u&&(g=r("roadmap.active"),h="text-ap-amber",b="border-ap-amber bg-ap-amber-dim"),`
         <div class="flex gap-4 ${p?"opacity-40":""}">
           <div class="flex flex-col items-center">
             <div class="w-8 h-8 rounded-full border-2 ${b} flex items-center justify-center text-xs font-bold ${l?"text-ap-green":u?"text-ap-amber":"text-ap-text-muted"}">
@@ -341,21 +341,22 @@
       <div class="flex flex-col gap-3">${a}</div>
     </div>
     `:""}
-  `}var $t=$(()=>{"use strict";w();y();S();window.__startBonus=t=>{let e=d();H(e,t,"in-progress"),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__completeBonus=t=>{let e=d();H(e,t,"complete"),window.dispatchEvent(new HashChangeEvent("hashchange"))}});function yt(t,e=5){let s=[{key:"python",label:"Python"},{key:"llm-apis",label:"LLM APIs"},{key:"agent-frameworks",label:"Agents"},{key:"rag",label:"RAG"},{key:"mcp",label:"MCP"},{key:"multi-agent",label:"Multi-Agent"}],n=150,a=150,i=100,c=s.length;function o(m,f){let v=(m-90)*(Math.PI/180);return[n+f*Math.cos(v),a+f*Math.sin(v)]}let u=[.2,.4,.6,.8,1].map(m=>`<polygon points="${s.map((v,k)=>{let E=360/c*k;return o(E,i*m).join(",")}).join(" ")}" fill="none" stroke="#334155" stroke-width="0.5"/>`).join(""),p=s.map((m,f)=>{let v=360/c*f,[k,E]=o(v,i);return`<line x1="${n}" y1="${a}" x2="${k}" y2="${E}" stroke="#334155" stroke-width="0.5"/>`}).join(""),g=s.map((m,f)=>{let v=(t[m.key]||0)/e,k=360/c*f;return o(k,i*v).join(",")}).join(" "),h=s.map((m,f)=>{let v=360/c*f,[k,E]=o(v,i+20),D=k<n-10?"end":k>n+10?"start":"middle",_t=t[m.key]||0;return`<text x="${k}" y="${E}" text-anchor="${D}" fill="#94a3b8" font-size="10" font-family="monospace">${m.label} (${_t})</text>`}).join(""),b=s.map((m,f)=>{let v=(t[m.key]||0)/e,k=360/c*f,[E,D]=o(k,i*v);return`<circle cx="${E}" cy="${D}" r="3" fill="#00ff88"/>`}).join("");return`
-    <svg viewBox="0 0 300 300" width="300" height="300" class="mx-auto">
+  `}var jt=$(()=>{"use strict";w();y();S();window.__startBonus=t=>{let e=d();F(e,t,"in-progress"),window.dispatchEvent(new HashChangeEvent("hashchange"))};window.__completeBonus=t=>{let e=d();F(e,t,"complete"),window.dispatchEvent(new HashChangeEvent("hashchange"))}});function _t(t,e=5){let s=[{key:"python",label:"Python"},{key:"llm-apis",label:"LLM APIs"},{key:"agent-frameworks",label:"Agents"},{key:"rag",label:"RAG"},{key:"mcp",label:"MCP"},{key:"multi-agent",label:"Multi-Agent"}],n=150,a=150,i=100,c=s.length;function o(m,f){let v=(m-90)*(Math.PI/180);return[n+f*Math.cos(v),a+f*Math.sin(v)]}let u=[.2,.4,.6,.8,1].map(m=>`<polygon points="${s.map((v,k)=>{let E=360/c*k;return o(E,i*m).join(",")}).join(" ")}" fill="none" stroke="#334155" stroke-width="0.5"/>`).join(""),p=s.map((m,f)=>{let v=360/c*f,[k,E]=o(v,i);return`<line x1="${n}" y1="${a}" x2="${k}" y2="${E}" stroke="#334155" stroke-width="0.5"/>`}).join(""),g=s.map((m,f)=>{let v=(t[m.key]||0)/e,k=360/c*f;return o(k,i*v).join(",")}).join(" "),h=s.map((m,f)=>{let v=360/c*f,[k,E]=o(v,i+20),G=k<n-10?"end":k>n+10?"start":"middle",Tt=t[m.key]||0;return`<text x="${k}" y="${E}" text-anchor="${G}" fill="#94a3b8" font-size="10" font-family="monospace">${m.label} (${Tt})</text>`}).join(""),b=s.map((m,f)=>{let v=(t[m.key]||0)/e,k=360/c*f,[E,G]=o(k,i*v);return`<circle cx="${E}" cy="${G}" r="3" fill="#00ff88"/>`}).join("");return`
+    <svg viewBox="0 0 300 300" width="300" height="300" class="mx-auto" role="img" aria-label="Skills radar chart">
+      <title>Skills Radar</title>
       ${u}
       ${p}
       <polygon points="${g}" fill="rgba(0,255,136,0.15)" stroke="#00ff88" stroke-width="1.5"/>
       ${b}
       ${h}
     </svg>
-  `}var wt=$(()=>{"use strict"});function kt(t,e){let s=x(),n=s==="zh"?t.nameZh:t.name,a=s==="zh"?t.descZh:t.desc,i=t.type==="project"?"\u{1F3C6}":"\u2B50";return`
+  `}var Lt=$(()=>{"use strict"});function Pt(t,e){let s=x(),n=s==="zh"?t.nameZh:t.name,a=s==="zh"?t.descZh:t.desc,i=t.type==="project"?"\u{1F3C6}":"\u2B50";return`
     <div class="${e?"badge-earned":"badge-locked"} rounded-lg p-3 text-center">
       <div class="text-lg mb-1">${e?i:"\u{1F512}"}</div>
       <div class="text-xs font-bold">${n}</div>
       <div class="text-xs opacity-70 mt-1">${a}</div>
     </div>
-  `}var St=$(()=>{"use strict";y()});var jt={};j(jt,{renderProfile:()=>Xt});async function Xt(){let t=d(),e=await L("badges.json"),s=x(),n=R(t),a=s==="zh"?n.current.title.split(" ")[0]:n.current.titleEn,i=e.map(u=>kt(u,t.badges.includes(u.id))).join(""),c=Object.values(t.projects).filter(Boolean).length,o=Object.keys(t.lessons).length+Object.keys(t.milestones).length,l="";try{let u=await L("next-steps.json"),p={Certification:"text-ap-green bg-ap-green-dim",Community:"text-ap-indigo bg-ap-indigo-dim",Portfolio:"text-ap-amber bg-ap-amber-dim","Personal Brand":"text-ap-amber bg-ap-amber-dim",Networking:"text-ap-indigo bg-ap-indigo-dim","Skill Depth":"text-ap-green bg-ap-green-dim","Emerging Tech":"text-ap-red bg-ap-red-dim",Research:"text-ap-indigo bg-ap-indigo-dim",Career:"text-ap-amber bg-ap-amber-dim",Mastery:"text-ap-green bg-ap-green-dim","Deep Understanding":"text-ap-red bg-ap-red-dim"};l=u.map((g,h)=>{let b=s==="zh"?g.titleZh:g.title,m=s==="zh"?g.descriptionZh:g.description,f=s==="zh"?g.categoryZh:g.category,v=p[g.category]||"text-ap-text-muted bg-ap-surface";return`
+  `}var Et=$(()=>{"use strict";y()});var Ct={};z(Ct,{renderProfile:()=>Yt});async function Yt(){let t=d(),e=await L("badges.json"),s=x(),n=N(t),a=s==="zh"?n.current.title.split(" ")[0]:n.current.titleEn,i=e.map(u=>Pt(u,t.badges.includes(u.id))).join(""),c=Object.values(t.projects).filter(Boolean).length,o=Object.keys(t.lessons).length+Object.keys(t.milestones).length,l="";try{let u=await L("next-steps.json"),p={Certification:"text-ap-green bg-ap-green-dim",Community:"text-ap-indigo bg-ap-indigo-dim",Portfolio:"text-ap-amber bg-ap-amber-dim","Personal Brand":"text-ap-amber bg-ap-amber-dim",Networking:"text-ap-indigo bg-ap-indigo-dim","Skill Depth":"text-ap-green bg-ap-green-dim","Emerging Tech":"text-ap-red bg-ap-red-dim",Research:"text-ap-indigo bg-ap-indigo-dim",Career:"text-ap-amber bg-ap-amber-dim",Mastery:"text-ap-green bg-ap-green-dim","Deep Understanding":"text-ap-red bg-ap-red-dim"};l=u.map((g,h)=>{let b=s==="zh"?g.titleZh:g.title,m=s==="zh"?g.descriptionZh:g.description,f=s==="zh"?g.categoryZh:g.category,v=p[g.category]||"text-ap-text-muted bg-ap-surface";return`
         <div class="terminal-card p-3">
           <div class="flex items-center gap-2 mb-1">
             <span class="text-ap-green text-xs font-bold">${String(h+1).padStart(2,"0")}.</span>
@@ -385,7 +386,7 @@
         <div class="terminal-dot terminal-dot-green"></div>
         <span class="text-ap-text-muted text-xs ml-2">${r("profile.skills")}</span>
       </div>
-      <div class="p-4">${yt(t.skills)}</div>
+      <div class="p-4">${_t(t.skills)}</div>
     </div>
 
     <!-- Badges -->
@@ -432,30 +433,33 @@
             class="w-full border border-ap-green text-ap-green py-3 rounded text-sm hover:bg-ap-green-dim transition-colors">
       ${r("profile.export")}
     </button>
-  `}var zt=$(()=>{"use strict";w();y();S();wt();St();window.__exportResume=()=>{let t=d(),e=R(t),s=`AgentPath \u667A\u8DEF \u2014 Skills Summary
+  `}var Mt=$(()=>{"use strict";w();y();S();Lt();Et();window.__exportResume=()=>{let t=d(),e=N(t),s=`AgentPath \u667A\u8DEF \u2014 Skills Summary
 Level: ${t.level} (${e.current.titleEn})
 XP: ${t.xp}
-Skills: Python ${t.skills.python}/5, LLM APIs ${t.skills["llm-apis"]}/5, Agent Frameworks ${t.skills["agent-frameworks"]}/5, RAG ${t.skills.rag}/5, MCP ${t.skills.mcp}/5, Multi-Agent ${t.skills["multi-agent"]}/5`;navigator.clipboard.writeText(s).then(()=>{alert("Copied to clipboard!")})}});var O=[];function C(t,e){let s=[],n=new RegExp("^"+t.replace(/:(\w+)/g,(a,i)=>(s.push(i),"([^/]+)")).replace(/\//g,"\\/")+"$");O.push({pattern:n,keys:s,handler:e})}function Pt(t){window.location.hash=t}function Q(){let t=()=>{let e=window.location.hash.slice(1)||"/";for(let s of O){let n=e.match(s.pattern);if(n){let a={};s.keys.forEach((i,c)=>{a[i]=n[c+1]}),s.handler(a);return}}Pt("/")};window.addEventListener("hashchange",t),t()}w();y();S();y();w();var N=[{id:"dashboard",path:"/",icon:"\u2302",key:"nav.dashboard"},{id:"sprint",path:"/sprint/1",icon:"\u25B6",key:"nav.sprint"},{id:"games",path:"/sprint/1/games",icon:"\u25C6",key:"nav.games"},{id:"roadmap",path:"/roadmap",icon:"\u25C7",key:"nav.roadmap"},{id:"profile",path:"/profile",icon:"\u25CB",key:"nav.profile"}];function Mt(){let t=window.location.hash.slice(1)||"/";return t==="/"?"dashboard":t.includes("/games")?"games":t.includes("/sprint")?"sprint":t.includes("/roadmap")?"roadmap":t.includes("/profile")?"profile":"dashboard"}function I(){let t=d(),e=Mt(),s=t.currentSprint;return N[1].path=`/sprint/${s}`,N[2].path=`/sprint/${s}/games`,`
-    <nav class="fixed bottom-0 left-0 right-0 bg-ap-surface border-t border-ap-border nav-bottom z-50
+Skills: Python ${t.skills.python}/5, LLM APIs ${t.skills["llm-apis"]}/5, Agent Frameworks ${t.skills["agent-frameworks"]}/5, RAG ${t.skills.rag}/5, MCP ${t.skills.mcp}/5, Multi-Agent ${t.skills["multi-agent"]}/5`;navigator.clipboard.writeText(s).then(()=>{alert("Copied to clipboard!")})}});var K=[];function C(t,e){let s=[],n=new RegExp("^"+t.replace(/:(\w+)/g,(a,i)=>(s.push(i),"([^/]+)")).replace(/\//g,"\\/")+"$");K.push({pattern:n,keys:s,handler:e})}function qt(t){window.location.hash=t}function J(){let t=()=>{let e=window.location.hash.slice(1)||"/";for(let s of K){let n=e.match(s.pattern);if(n){let a={};s.keys.forEach((i,c)=>{a[i]=n[c+1]}),s.handler(a);return}}qt("/")};window.addEventListener("hashchange",t),t()}w();y();S();y();w();var O=[{id:"dashboard",path:"/",icon:"\u2302",key:"nav.dashboard"},{id:"sprint",path:"/sprint/1",icon:"\u25B6",key:"nav.sprint"},{id:"games",path:"/sprint/1/games",icon:"\u25C6",key:"nav.games"},{id:"roadmap",path:"/roadmap",icon:"\u25C7",key:"nav.roadmap"},{id:"profile",path:"/profile",icon:"\u25CB",key:"nav.profile"}];function Dt(){let t=window.location.hash.slice(1)||"/";return t==="/"?"dashboard":t.includes("/games")?"games":t.includes("/sprint")?"sprint":t.includes("/roadmap")?"roadmap":t.includes("/profile")?"profile":"dashboard"}function at(){let t=d(),e=Dt(),s=t.currentSprint;return O[1].path=`/sprint/${s}`,O[2].path=`/sprint/${s}/games`,`
+    <nav aria-label="Main navigation" class="fixed bottom-0 left-0 right-0 bg-ap-surface border-t border-ap-border nav-bottom z-50
                 md:fixed md:top-0 md:left-0 md:bottom-0 md:w-48 md:border-t-0 md:border-r md:flex-col">
       <div class="flex justify-around md:flex-col md:justify-start md:pt-6 md:gap-1">
-        ${N.map(a=>`
+        ${O.map(a=>`
       <button
         onclick="window.location.hash='${a.path}'"
+        aria-label="${r(a.key)}"
+        ${e===a.id?'aria-current="page"':""}
         class="flex flex-col items-center gap-1 py-2 px-3 text-xs transition-colors
           ${e===a.id?"text-ap-green":"text-ap-text-muted hover:text-ap-text-dim"}"
       >
-        <span class="text-lg">${a.icon}</span>
+        <span class="text-lg" aria-hidden="true">${a.icon}</span>
         <span>${r(a.key)}</span>
       </button>
     `).join("")}
       </div>
     </nav>
-  `}function tt(){return"pb-20 md:pb-0 md:pl-48"}var Ft=document.getElementById("app");function P(t){Ft.innerHTML=`
-    <div class="${tt()} min-h-screen">
+  `}function rt(){return"pb-20 md:pb-0 md:pl-48"}var X=document.getElementById("app");function W(t){return`
+    <div class="${rt()} min-h-screen">
       <header class="flex items-center justify-between px-4 py-3 border-b border-ap-border md:ml-0">
         <div class="flex items-center gap-2">
-          <svg viewBox="0 0 70 20" width="56" height="16" class="inline-block">
+          <svg viewBox="0 0 70 20" width="56" height="16" class="inline-block" role="img" aria-label="AgentPath logo">
+            <title>AgentPath</title>
             <circle cx="8" cy="10" r="6" fill="#00ff88" opacity="0.3" stroke="#00ff88" stroke-width="1"/>
             <circle cx="8" cy="10" r="2" fill="#00ff88"/>
             <line x1="14" y1="10" x2="26" y2="10" stroke="#00ff88" stroke-width="1" stroke-dasharray="2,2"/>
@@ -466,7 +470,7 @@ Skills: Python ${t.skills.python}/5, LLM APIs ${t.skills["llm-apis"]}/5, Agent F
           <span class="text-ap-text font-bold text-sm">AgentPath</span>
           <span class="text-ap-green text-xs opacity-70">\u667A\u8DEF</span>
         </div>
-        <button onclick="window.__toggleLang()" class="text-ap-text-muted text-xs border border-ap-border rounded px-2 py-1 hover:text-ap-green hover:border-ap-green transition-colors">
+        <button onclick="window.__toggleLang()" aria-label="Toggle language" class="text-ap-text-muted text-xs border border-ap-border rounded px-2 py-1 hover:text-ap-green hover:border-ap-green transition-colors">
           ${x()==="en"?"\u4E2D\u6587":"EN"}
         </button>
       </header>
@@ -474,5 +478,15 @@ Skills: Python ${t.skills.python}/5, LLM APIs ${t.skills["llm-apis"]}/5, Agent F
         ${t}
       </main>
     </div>
-    ${I()}
-  `}window.__toggleLang=()=>{V(),Y(),window.dispatchEvent(new HashChangeEvent("hashchange"))};U();var Jt=d();T(Jt);C("/",async()=>{let{renderDashboard:t}=await Promise.resolve().then(()=>(nt(),st));P(await t())});C("/sprint/:id",async t=>{let{renderSprint:e}=await Promise.resolve().then(()=>(rt(),at));P(await e(Number(t.id)))});C("/sprint/:id/lesson/:num",async t=>{let{renderLesson:e}=await Promise.resolve().then(()=>(ot(),it));P(await e(Number(t.id),t.num))});C("/sprint/:id/project",async t=>{let{renderProject:e}=await Promise.resolve().then(()=>(ct(),lt));P(await e(Number(t.id)))});C("/sprint/:id/games",t=>{Promise.resolve().then(()=>(pt(),dt)).then(({renderGames:e})=>{P(e(Number(t.id)))})});C("/sprint/:id/games/:game",async t=>{let e=Number(t.id),s=t.game;if(s==="flash-match"){let{renderFlashMatch:n}=await Promise.resolve().then(()=>(gt(),mt));P(await n(e))}else if(s==="concept-quiz"){let{renderConceptQuiz:n}=await Promise.resolve().then(()=>(ht(),ut));P(await n(e))}else if(s==="prompt-builder"){let{renderPromptBuilder:n}=await Promise.resolve().then(()=>(ft(),vt));P(await n(e))}});C("/roadmap",async()=>{let{renderRoadmap:t}=await Promise.resolve().then(()=>($t(),bt));P(await t())});C("/profile",async()=>{let{renderProfile:t}=await Promise.resolve().then(()=>(zt(),jt));P(await t())});Q();})();
+    ${at()}
+  `}function P(t){X.innerHTML=W(t)}function q(){X.innerHTML=W(`
+    <div class="flex items-center justify-center py-20">
+      <div class="text-ap-green text-sm glow-green">Loading...</div>
+    </div>
+  `)}function R(t){X.innerHTML=W(`
+    <div class="terminal-card p-6 text-center">
+      <div class="text-ap-red text-lg font-bold mb-2">Error</div>
+      <div class="text-ap-text-dim text-sm">${t}</div>
+      <a href="#/" class="text-ap-green text-sm hover:underline mt-4 inline-block">\u2190 Back to Dashboard</a>
+    </div>
+  `)}window.__toggleLang=()=>{st(),nt(),window.dispatchEvent(new HashChangeEvent("hashchange"))};et();var It=d();A(It);C("/",async()=>{q();try{let{renderDashboard:t}=await Promise.resolve().then(()=>(lt(),ot));P(await t())}catch{R("Failed to load dashboard")}});C("/sprint/:id",async t=>{q();try{let{renderSprint:e}=await Promise.resolve().then(()=>(dt(),ct));P(await e(Number(t.id)))}catch{R("Failed to load sprint")}});C("/sprint/:id/lesson/:num",async t=>{q();try{let{renderLesson:e}=await Promise.resolve().then(()=>(gt(),mt));P(await e(Number(t.id),t.num))}catch{R("Failed to load lesson")}});C("/sprint/:id/project",async t=>{q();try{let{renderProject:e}=await Promise.resolve().then(()=>(ut(),xt));P(await e(Number(t.id)))}catch{R("Failed to load project")}});C("/sprint/:id/games",t=>{Promise.resolve().then(()=>(vt(),ht)).then(({renderGames:e})=>{P(e(Number(t.id)))})});C("/sprint/:id/games/:game",async t=>{q();try{let e=Number(t.id),s=t.game;if(s==="flash-match"){let{renderFlashMatch:n}=await Promise.resolve().then(()=>(bt(),ft));P(await n(e))}else if(s==="concept-quiz"){let{renderConceptQuiz:n}=await Promise.resolve().then(()=>(wt(),yt));P(await n(e))}else if(s==="prompt-builder"){let{renderPromptBuilder:n}=await Promise.resolve().then(()=>(St(),kt));P(await n(e))}}catch{R("Failed to load game")}});C("/roadmap",async()=>{q();try{let{renderRoadmap:t}=await Promise.resolve().then(()=>(jt(),zt));P(await t())}catch{R("Failed to load roadmap")}});C("/profile",async()=>{q();try{let{renderProfile:t}=await Promise.resolve().then(()=>(Mt(),Ct));P(await t())}catch{R("Failed to load profile")}});J();})();

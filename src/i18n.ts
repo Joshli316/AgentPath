@@ -62,6 +62,39 @@ const strings: Record<string, Record<string, string>> = {
   "profile.projects-done": { en: "Projects Done", zh: "完成项目" },
   "profile.days-active": { en: "Days Active", zh: "活跃天数" },
   "profile.longest-streak": { en: "Longest Streak", zh: "最长连续" },
+  "profile.next-steps": { en: "Next Steps — Keep Growing", zh: "下一步——继续成长" },
+
+  // Games (in-game strings)
+  "games.match-instruction": { en: "Tap a term, then tap its matching definition.", zh: "点击术语，然后点击匹配的定义。" },
+  "games.correct": { en: "Correct!", zh: "正确！" },
+  "games.wrong-answer": { en: "Wrong — the answer is", zh: "错误——答案是" },
+  "games.next": { en: "Next", zh: "下一题" },
+  "games.complete": { en: "Complete!", zh: "完成！" },
+  "games.time": { en: "Time", zh: "用时" },
+  "games.attempts": { en: "Attempts", zh: "尝试次数" },
+  "games.correct-count": { en: "correct", zh: "正确" },
+  "games.match-desc": { en: "Match terms to definitions", zh: "将术语与定义匹配" },
+  "games.quiz-desc": { en: "Test your knowledge", zh: "测试你的知识" },
+  "games.builder-desc": { en: "Assemble API calls", zh: "组装API调用" },
+  "games.check": { en: "Check", zh: "检查" },
+  "games.not-quite": { en: "Not quite — try rearranging the parts.", zh: "不太对——试试重新排列。" },
+  "games.expected": { en: "Expected:", zh: "预期：" },
+  "games.available-parts": { en: "Available parts:", zh: "可用部分：" },
+  "games.tap-to-build": { en: "Tap code parts below to build the call...", zh: "点击下方代码片段来构建调用..." },
+
+  // Roadmap extras
+  "roadmap.weeks": { en: "Weeks", zh: "周" },
+  "roadmap.bonus-title": { en: "Bonus Projects", zh: "额外项目" },
+  "roadmap.start": { en: "Start", zh: "开始" },
+  "roadmap.mark-complete": { en: "Complete", zh: "完成" },
+  "roadmap.done": { en: "Done", zh: "已完成" },
+  "roadmap.view-sprint": { en: "View Sprint", zh: "查看冲刺" },
+
+  // Dashboard extras
+  "dash.xp-to-next": { en: "XP to next", zh: "经验值到下一级" },
+
+  // Sprint extras
+  "sprint.current": { en: "current", zh: "当前" },
 };
 
 let currentLang: "en" | "zh" = "en";
@@ -69,6 +102,7 @@ let currentLang: "en" | "zh" = "en";
 export function initI18n(): void {
   const state = loadState();
   currentLang = state.lang;
+  document.documentElement.lang = currentLang;
 }
 
 export function t(key: string, replacements?: Record<string, string | number>): string {
@@ -89,6 +123,7 @@ export function getLang(): "en" | "zh" {
 
 export function setLang(lang: "en" | "zh"): void {
   currentLang = lang;
+  document.documentElement.lang = lang;
   const state = loadState();
   state.lang = lang;
   saveState(state);

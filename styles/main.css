@@ -9,7 +9,7 @@
   --color-ap-border: #334155;
   --color-ap-text: #e2e8f0;
   --color-ap-text-dim: #94a3b8;
-  --color-ap-text-muted: #64748b;
+  --color-ap-text-muted: #7c8ba0;
   --color-ap-green: #00ff88;
   --color-ap-green-dim: rgba(0, 255, 136, 0.15);
   --color-ap-amber: #ffbb00;
@@ -106,7 +106,13 @@ body {
   background: var(--color-ap-surface);
   border: 1px solid var(--color-ap-border);
   color: var(--color-ap-text-muted);
-  opacity: 0.5;
+  opacity: 0.6;
+}
+
+/* Focus indicators */
+:focus-visible {
+  outline: 2px solid var(--color-ap-green);
+  outline-offset: 2px;
 }
 
 /* Mobile safe areas */

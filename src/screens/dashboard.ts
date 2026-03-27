@@ -102,7 +102,7 @@ export async function renderDashboard(): Promise<string> {
     <div class="terminal-card">
       <div class="p-4">
         <div class="text-ap-text-dim text-xs mb-2">${t("dash.level")} ${state.level} → ${levelInfo.next ? levelInfo.next.level : "MAX"}</div>
-        ${progressBarHtml(levelInfo.progress, levelInfo.next ? `${levelInfo.next.xp - state.xp} XP to next` : "MAX LEVEL")}
+        ${progressBarHtml(levelInfo.progress, levelInfo.next ? `${levelInfo.next.xp - state.xp} ${t("dash.xp-to-next")}` : "MAX LEVEL")}
       </div>
     </div>
   `;

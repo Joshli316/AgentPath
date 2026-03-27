@@ -32,10 +32,12 @@ export function renderNav(): string {
       (tab) => `
       <button
         onclick="window.location.hash='${tab.path}'"
+        aria-label="${t(tab.key)}"
+        ${active === tab.id ? 'aria-current="page"' : ""}
         class="flex flex-col items-center gap-1 py-2 px-3 text-xs transition-colors
           ${active === tab.id ? "text-ap-green" : "text-ap-text-muted hover:text-ap-text-dim"}"
       >
-        <span class="text-lg">${tab.icon}</span>
+        <span class="text-lg" aria-hidden="true">${tab.icon}</span>
         <span>${t(tab.key)}</span>
       </button>
     `
@@ -43,7 +45,7 @@ export function renderNav(): string {
     .join("");
 
   return `
-    <nav class="fixed bottom-0 left-0 right-0 bg-ap-surface border-t border-ap-border nav-bottom z-50
+    <nav aria-label="Main navigation" class="fixed bottom-0 left-0 right-0 bg-ap-surface border-t border-ap-border nav-bottom z-50
                 md:fixed md:top-0 md:left-0 md:bottom-0 md:w-48 md:border-t-0 md:border-r md:flex-col">
       <div class="flex justify-around md:flex-col md:justify-start md:pt-6 md:gap-1">
         ${tabsHtml}

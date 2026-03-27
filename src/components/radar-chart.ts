@@ -65,7 +65,8 @@ export function renderRadarChart(skills: Record<string, number>, maxValue: numbe
     .join("");
 
   return `
-    <svg viewBox="0 0 300 300" width="300" height="300" class="mx-auto">
+    <svg viewBox="0 0 300 300" width="300" height="300" class="mx-auto" role="img" aria-label="Skills radar chart">
+      <title>Skills Radar</title>
       ${gridLines}
       ${axes}
       <polygon points="${dataPoints}" fill="rgba(0,255,136,0.15)" stroke="#00ff88" stroke-width="1.5"/>
