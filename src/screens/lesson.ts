@@ -100,7 +100,7 @@ export async function renderLesson(sprintId: number, lessonNum: string): Promise
       <span class="text-ap-green text-xs">${t("sprint.lesson")} ${lessonNum}</span>
       <span class="text-ap-text-muted text-xs">~${lesson.duration} ${t("lesson.min")}</span>
     </div>
-    <h1 class="text-ap-text text-2xl font-bold mb-6">${title}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-6">${title}</h1>
 
     ${stepsHtml}
 

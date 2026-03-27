@@ -44,7 +44,7 @@ function renderChallenge(
   return `
     <a href="#/sprint/${sprintId}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← ${t("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath prompt-builder</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-2">${t("games.prompt-builder")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-2">${t("games.prompt-builder")}</h1>
     <p class="text-ap-text text-sm mb-6">${escapeHtml(instruction)}</p>
 
     <div class="terminal-card mb-4">

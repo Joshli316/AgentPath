@@ -28,7 +28,7 @@ function renderShell(content: string): string {
           ${getLang() === "en" ? "中文" : "EN"}
         </button>
       </header>
-      <main id="main-content" class="p-4 max-w-3xl mx-auto" role="main">
+      <main id="main-content" class="p-4 md:p-6 max-w-4xl mx-auto" role="main">
         ${content}
       </main>
     </div>

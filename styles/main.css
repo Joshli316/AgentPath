@@ -31,6 +31,13 @@ body {
   min-height: 100dvh;
 }
 
+/* Larger base font on desktop */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
 /* Terminal card */
 .terminal-card {
   background: var(--color-ap-surface);

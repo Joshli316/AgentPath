@@ -12,46 +12,46 @@
       <span class="text-ap-text-muted text-xs ml-2">${l(e)}</span>
     </div>`}var Je,P=k(()=>{"use strict";z();Je={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}});var me={};_(me,{renderDashboard:()=>Ke});async function Ke(){let e=p(),t=await M("sprints.json"),s=Math.max(0,Math.min(t.length-1,e.currentSprint-1)),n=t[s],r=$(),o=O(e),c=u(n,"title"),i=u(n,"project"),d=r==="zh"?o.current.title.split(" ")[0]:o.current.titleEn,x=n.days.filter(f=>f.type==="lesson").length,m=n.days.filter(f=>f.type==="lesson").filter(f=>e.lessons[`s${n.id}-${f.ref}`]).length,h=e.projects[`s${n.id}`]||!1,v=Math.round((m+(h?1:0))/(x+1)*100),S=Math.max(0,Math.min(n.days.length-1,e.currentDay-1)),w=n.days[S],g="",b="",y="";if(w)if(w.type==="lesson"){let f=w.ref.replace("lesson-","");g=`${a("sprint.lesson")} ${f}`,b="~20 "+a("lesson.min"),y=`#/sprint/${n.id}/lesson/${f}`}else w.type==="project"?(g=i,b="~60 "+a("lesson.min"),y=`#/sprint/${n.id}/project`):(g=a("sprint.review"),b="~30 "+a("lesson.min"),y=`#/sprint/${n.id}/games`);return`
     <!-- Status bar -->
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-4">
-        <div class="text-ap-green font-bold text-xl glow-green">${e.xp.toLocaleString()} <span class="text-xs font-normal">${a("dash.xp")}</span></div>
-        <div class="text-ap-amber font-bold glow-amber">\u{1F525} ${e.streak} <span class="text-xs font-normal">${a("dash.streak")}</span></div>
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-6">
+        <div class="text-ap-green font-bold text-3xl glow-green">${e.xp.toLocaleString()} <span class="text-sm font-normal">${a("dash.xp")}</span></div>
+        <div class="text-ap-amber font-bold text-2xl glow-amber">\u{1F525} ${e.streak} <span class="text-sm font-normal">${a("dash.streak")}</span></div>
       </div>
-      <div class="text-ap-text-dim text-sm">${a("dash.level")} ${e.level}: ${d}</div>
+      <div class="text-ap-text-dim text-base">${a("dash.level")} ${e.level}: ${d}</div>
     </div>
 
     <!-- Current Sprint Card -->
     <div class="terminal-card mb-6">
       ${B(a("dash.current-sprint"))}
-      <div class="p-4">
-        <div class="flex items-center gap-2 mb-1">
-          <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${n.id}</span>
-          <span class="text-ap-text-muted text-xs">${a("dash.day-of",{n:e.currentDay})}</span>
+      <div class="p-5">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-ap-green-dim text-ap-green text-sm font-bold px-2.5 py-1 rounded">Sprint ${n.id}</span>
+          <span class="text-ap-text-muted text-sm">${a("dash.day-of",{n:e.currentDay})}</span>
         </div>
-        <div class="text-ap-text text-lg font-bold mb-1">${c}</div>
-        <div class="text-ap-text-dim text-sm mb-3">${i}</div>
+        <div class="text-ap-text text-2xl font-bold mb-1">${c}</div>
+        <div class="text-ap-text-dim text-base mb-4">${i}</div>
         ${ee(v)}
       </div>
     </div>
 
     <!-- Today's Task -->
     <div class="terminal-card mb-6">
-      <div class="p-4">
-        <div class="text-ap-green text-xs mb-2">$ agentpath --today</div>
+      <div class="p-5">
+        <div class="text-ap-green text-sm mb-3">$ agentpath --today</div>
         <a href="${y}" class="flex items-center justify-between group">
           <div>
-            <div class="text-ap-text font-bold group-hover:text-ap-green transition-colors">${g}</div>
-            <div class="text-ap-text-muted text-xs mt-1">${b}</div>
+            <div class="text-ap-text text-xl font-bold group-hover:text-ap-green transition-colors">${g}</div>
+            <div class="text-ap-text-muted text-sm mt-1">${b}</div>
           </div>
-          <span class="text-ap-green text-2xl group-hover:translate-x-1 transition-transform">\u2192</span>
+          <span class="text-ap-green text-3xl group-hover:translate-x-1 transition-transform">\u2192</span>
         </a>
       </div>
     </div>
 
     <!-- Level Progress -->
     <div class="terminal-card">
-      <div class="p-4">
-        <div class="text-ap-text-dim text-xs mb-2">${a("dash.level")} ${e.level} \u2192 ${o.next?o.next.level:"MAX"}</div>
+      <div class="p-5">
+        <div class="text-ap-text-dim text-sm mb-2">${a("dash.level")} ${e.level} \u2192 ${o.next?o.next.level:"MAX"}</div>
         ${ee(o.progress,o.next?`${o.next.xp-e.xp} ${a("dash.xp-to-next")}`:"MAX LEVEL")}
       </div>
     </div>
@@ -73,7 +73,7 @@
       <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${e}</span>
       <span class="text-ap-text-muted text-xs">${a("roadmap.weeks")} ${n.weeks}</span>
     </div>
-    <h1 class="text-ap-text text-2xl font-bold mb-1">${r}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-1">${r}</h1>
     <p class="text-ap-text-dim text-sm mb-6">${a("sprint.project")}: ${o}</p>
 
     <div class="flex flex-col gap-2">
@@ -114,7 +114,7 @@
       <span class="text-ap-green text-xs">${a("sprint.lesson")} ${t}</span>
       <span class="text-ap-text-muted text-xs">~${n.duration} ${a("lesson.min")}</span>
     </div>
-    <h1 class="text-ap-text text-2xl font-bold mb-6">${r}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-6">${r}</h1>
 
     ${i}
 
@@ -144,7 +144,7 @@
       `}).join(""),h=(n==="zh"?s.stretchZh:s.stretch).map(v=>`<li class="text-ap-text-dim text-sm">${l(v)}</li>`).join("");return`
     <a href="#/sprint/${e}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 Sprint ${e}</a>
     <div class="text-ap-green text-xs mt-3 mb-1">$ agentpath project --sprint ${e}</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-2">${l(r)}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-2">${l(r)}</h1>
     <p class="text-ap-text-dim text-base mb-6">${l(o)}</p>
 
     <div class="text-ap-green text-xs font-bold uppercase mb-3">${a("project.milestones")}</div>
@@ -174,7 +174,7 @@
   `).join("");return`
     <a href="#/sprint/${e}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 Sprint ${e}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath games --sprint ${e}</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-6">${a("games.select")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-6">${a("games.select")}</h1>
     <div class="flex flex-col gap-3">${n}</div>
   `}var ye=k(()=>{"use strict";j();z()});var we={};_(we,{renderFlashMatch:()=>et});async function et(e){let t=await C(`sprint-${e}/games.json`),s=$(),n=t["flash-match"]?.pairs||[];if(n.length===0)return`<div class="text-ap-text-muted text-sm">$ error: no flash-match pairs found for sprint ${e}</div>`;let r=[...n].sort(()=>Math.random()-.5),o=r.slice(0,Math.min(6,r.length)),c=o.map((m,h)=>({id:h,text:s==="zh"?m.termZh:m.term})),i=[...o].sort(()=>Math.random()-.5).map(m=>({id:o.indexOf(m),text:s==="zh"?m.definitionZh:m.definition}));window.__flashMatchState={sprintId:e,selectedTerm:null,matched:new Set,attempts:0,startTime:Date.now(),total:o.length};let d=c.map(m=>`
     <button id="term-${m.id}" onclick="window.__selectTerm(${m.id})"
@@ -189,7 +189,7 @@
   `).join("");return`
     <a href="#/sprint/${e}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 ${a("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath flash-match</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-2">${a("games.flash-match")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-2">${a("games.flash-match")}</h1>
     <p class="text-ap-text-muted text-xs mb-6">${a("games.match-instruction")}</p>
 
     <div id="flash-match-area" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -219,7 +219,7 @@
   `).join("");return`
     <a href="#/sprint/${n}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 ${a("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath quiz --question ${e+1}/${t.length}</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-2">${a("games.concept-quiz")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-2">${a("games.concept-quiz")}</h1>
     <div class="text-ap-text-muted text-xs mb-6">${e+1} / ${t.length}</div>
 
     <div id="quiz-area">
@@ -250,7 +250,7 @@
       `}};window.__nextQuestion=()=>{let e=window.__quizState;if(e.current>=e.questions.length-1)return;e.current++,e.answered=!1;let t=$(),s=document.querySelector("main");s&&(s.innerHTML=Se(e.current,e.questions,t,e.sprintId))}});var Pe={};_(Pe,{renderPromptBuilder:()=>st});async function st(e){let s=(await C(`sprint-${e}/games.json`))["prompt-builder"]?.challenges||[];if(s.length===0)return`<div class="text-ap-text-muted text-sm">$ error: no prompt-builder challenges found for sprint ${e}</div>`;let n=s[0];return window.__pbState={sprintId:e,challenges:s,currentChallenge:0,placed:[],available:[...n.parts].sort(()=>Math.random()-.5),recorded:!1},nt(n,e)}function nt(e,t){let s=window.__pbState,n=u(e,"instruction");return`
     <a href="#/sprint/${t}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">\u2190 ${a("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath prompt-builder</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-2">${a("games.prompt-builder")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-2">${a("games.prompt-builder")}</h1>
     <p class="text-ap-text text-sm mb-6">${l(n)}</p>
 
     <div class="terminal-card mb-4">
@@ -325,7 +325,7 @@
         </div>
       `}).join(""),r=o.length}catch(o){console.warn("Failed to load bonus-projects.json",o)}return`
     <div class="text-ap-green text-sm mb-1">$ agentpath roadmap</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-6">${a("roadmap.title")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-6">${a("roadmap.title")}</h1>
     <div class="ml-2">${s}</div>
 
     ${n?`
@@ -471,7 +471,7 @@ Skills: Python ${e.skills.python}/5, LLM APIs ${e.skills["llm-apis"]}/5, Agent F
           ${$()==="en"?"\u4E2D\u6587":"EN"}
         </button>
       </header>
-      <main id="main-content" class="p-4 max-w-3xl mx-auto" role="main">
+      <main id="main-content" class="p-4 md:p-6 max-w-4xl mx-auto" role="main">
         ${e}
       </main>
     </div>

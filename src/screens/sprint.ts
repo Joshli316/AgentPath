@@ -58,7 +58,7 @@ export async function renderSprint(sprintId: number): Promise<string> {
       <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${sprintId}</span>
       <span class="text-ap-text-muted text-xs">${t("roadmap.weeks")} ${sprint.weeks}</span>
     </div>
-    <h1 class="text-ap-text text-2xl font-bold mb-1">${title}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-1">${title}</h1>
     <p class="text-ap-text-dim text-sm mb-6">${t("sprint.project")}: ${project}</p>
 
     <div class="flex flex-col gap-2">

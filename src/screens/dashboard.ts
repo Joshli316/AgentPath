@@ -51,46 +51,46 @@ export async function renderDashboard(): Promise<string> {
 
   return `
     <!-- Status bar -->
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-4">
-        <div class="text-ap-green font-bold text-xl glow-green">${state.xp.toLocaleString()} <span class="text-xs font-normal">${t("dash.xp")}</span></div>
-        <div class="text-ap-amber font-bold glow-amber">🔥 ${state.streak} <span class="text-xs font-normal">${t("dash.streak")}</span></div>
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-6">
+        <div class="text-ap-green font-bold text-3xl glow-green">${state.xp.toLocaleString()} <span class="text-sm font-normal">${t("dash.xp")}</span></div>
+        <div class="text-ap-amber font-bold text-2xl glow-amber">🔥 ${state.streak} <span class="text-sm font-normal">${t("dash.streak")}</span></div>
       </div>
-      <div class="text-ap-text-dim text-sm">${t("dash.level")} ${state.level}: ${levelTitle}</div>
+      <div class="text-ap-text-dim text-base">${t("dash.level")} ${state.level}: ${levelTitle}</div>
     </div>
 
     <!-- Current Sprint Card -->
     <div class="terminal-card mb-6">
       ${terminalCardHeader(t("dash.current-sprint"))}
-      <div class="p-4">
-        <div class="flex items-center gap-2 mb-1">
-          <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${sprint.id}</span>
-          <span class="text-ap-text-muted text-xs">${t("dash.day-of", { n: state.currentDay })}</span>
+      <div class="p-5">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-ap-green-dim text-ap-green text-sm font-bold px-2.5 py-1 rounded">Sprint ${sprint.id}</span>
+          <span class="text-ap-text-muted text-sm">${t("dash.day-of", { n: state.currentDay })}</span>
         </div>
-        <div class="text-ap-text text-lg font-bold mb-1">${sprintTitle}</div>
-        <div class="text-ap-text-dim text-sm mb-3">${projectTitle}</div>
+        <div class="text-ap-text text-2xl font-bold mb-1">${sprintTitle}</div>
+        <div class="text-ap-text-dim text-base mb-4">${projectTitle}</div>
         ${progressBarHtml(sprintProgress)}
       </div>
     </div>
 
     <!-- Today's Task -->
     <div class="terminal-card mb-6">
-      <div class="p-4">
-        <div class="text-ap-green text-xs mb-2">$ agentpath --today</div>
+      <div class="p-5">
+        <div class="text-ap-green text-sm mb-3">$ agentpath --today</div>
         <a href="${todayRoute}" class="flex items-center justify-between group">
           <div>
-            <div class="text-ap-text font-bold group-hover:text-ap-green transition-colors">${todayTask}</div>
-            <div class="text-ap-text-muted text-xs mt-1">${todayTime}</div>
+            <div class="text-ap-text text-xl font-bold group-hover:text-ap-green transition-colors">${todayTask}</div>
+            <div class="text-ap-text-muted text-sm mt-1">${todayTime}</div>
           </div>
-          <span class="text-ap-green text-2xl group-hover:translate-x-1 transition-transform">→</span>
+          <span class="text-ap-green text-3xl group-hover:translate-x-1 transition-transform">→</span>
         </a>
       </div>
     </div>
 
     <!-- Level Progress -->
     <div class="terminal-card">
-      <div class="p-4">
-        <div class="text-ap-text-dim text-xs mb-2">${t("dash.level")} ${state.level} → ${levelInfo.next ? levelInfo.next.level : "MAX"}</div>
+      <div class="p-5">
+        <div class="text-ap-text-dim text-sm mb-2">${t("dash.level")} ${state.level} → ${levelInfo.next ? levelInfo.next.level : "MAX"}</div>
         ${progressBarHtml(levelInfo.progress, levelInfo.next ? `${levelInfo.next.xp - state.xp} ${t("dash.xp-to-next")}` : "MAX LEVEL")}
       </div>
     </div>

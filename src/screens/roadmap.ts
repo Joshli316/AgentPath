@@ -92,7 +92,7 @@ export async function renderRoadmap(): Promise<string> {
 
   return `
     <div class="text-ap-green text-sm mb-1">$ agentpath roadmap</div>
-    <h1 class="text-ap-text text-2xl font-bold mb-6">${t("roadmap.title")}</h1>
+    <h1 class="text-ap-text text-3xl font-bold mb-6">${t("roadmap.title")}</h1>
     <div class="ml-2">${sprintsHtml}</div>
 
     ${bonusHtml ? `
