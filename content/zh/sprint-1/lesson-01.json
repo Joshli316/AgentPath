@@ -1,0 +1,95 @@
+{
+  "id": "lesson-01",
+  "title": "Python for AI Engineers",
+  "titleZh": "AI工程师的Python基础",
+  "duration": 20,
+  "steps": [
+    {
+      "type": "text",
+      "content": "Python 是 AI 工程领域的通用语言。几乎所有主流 AI 框架和 SDK（包括 Anthropic、OpenAI、LangChain）都以 Python 作为首选语言。掌握 Python 基础是成为 AI 工程师的第一步。"
+    },
+    {
+      "type": "callout",
+      "variant": "info",
+      "content": "本课程假设你有一定的编程基础。如果你完全没接触过编程，建议先学习 Python 入门教程，再回到这里。"
+    },
+    {
+      "type": "text",
+      "content": "在开始写代码之前，我们需要搭建一个干净的 Python 开发环境。虚拟环境（virtual environment）可以让每个项目拥有独立的依赖包，避免版本冲突。"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "content": "# Create a virtual environment\npython3 -m venv .venv\n\n# Activate it (macOS/Linux)\nsource .venv/bin/activate\n\n# Activate it (Windows)\n# .venv\\Scripts\\activate\n\n# Install a package\npip install anthropic\n\n# Save dependencies to a file\npip freeze > requirements.txt"
+    },
+    {
+      "type": "text",
+      "content": "接下来，让我们回顾几个在 AI 工程中频繁使用的 Python 语法。首先是 f-string（格式化字符串），它是构建提示词（prompt）的利器。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# f-strings: essential for building prompts\nuser_name = \"Alice\"\ntask = \"summarize this article\"\n\nprompt = f\"Hello {user_name}, please {task}.\"\nprint(prompt)  # Hello Alice, please summarize this article.\n\n# Multi-line f-strings for complex prompts\nsystem_prompt = f\"\"\"\nYou are a helpful assistant.\nThe user's name is {user_name}.\nYour task is to {task}.\n\"\"\""
+    },
+    {
+      "type": "text",
+      "content": "列表推导式（list comprehension）和字典（dict）在处理 API 返回数据时非常有用。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# List comprehension: filter and transform data\nscores = [85, 92, 67, 78, 95, 88]\nhigh_scores = [s for s in scores if s >= 80]\nprint(high_scores)  # [85, 92, 95, 88]\n\n# Dictionaries: structure API parameters\nmessage = {\n    \"role\": \"user\",\n    \"content\": \"What is machine learning?\"\n}\n\n# Nested dicts (common in API responses)\nresponse = {\n    \"id\": \"msg_123\",\n    \"content\": [{\"type\": \"text\", \"text\": \"Machine learning is...\"}],\n    \"usage\": {\"input_tokens\": 14, \"output_tokens\": 50}\n}\n\n# Access nested data safely\ntext = response[\"content\"][0][\"text\"]\ntokens = response[\"usage\"][\"input_tokens\"]"
+    },
+    {
+      "type": "text",
+      "content": "类型提示（type hints）能让你的代码更清晰，也能帮助编辑器提供更好的自动补全。在 AI 工程中，它们能让 API 参数一目了然。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "from typing import Optional\n\ndef build_prompt(\n    user_input: str,\n    system_message: str = \"You are a helpful assistant.\",\n    max_tokens: int = 1024,\n    temperature: Optional[float] = None\n) -> dict:\n    \"\"\"Build a message payload for the Claude API.\"\"\"\n    payload = {\n        \"model\": \"claude-sonnet-4-20250514\",\n        \"max_tokens\": max_tokens,\n        \"messages\": [{\"role\": \"user\", \"content\": user_input}],\n        \"system\": system_message\n    }\n    if temperature is not None:\n        payload[\"temperature\"] = temperature\n    return payload"
+    },
+    {
+      "type": "try-it",
+      "prompt": "创建一个函数 format_messages(messages: list[dict]) -> str，将消息列表格式化为可读字符串。每条消息格式为 'role: content'，用换行符分隔。"
+    },
+    {
+      "type": "text",
+      "content": "最后，让我们把这些知识串起来，看看如何用 Python 连接 Claude API。这只是一个预览，我们将在下一课深入学习。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\nclient = anthropic.Anthropic()  # Uses ANTHROPIC_API_KEY env var\n\nmessage = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"Explain AI in one sentence.\"}\n    ]\n)\n\nprint(message.content[0].text)"
+    },
+    {
+      "type": "key-terms",
+      "terms": [
+        {
+          "term": "Virtual Environment",
+          "termZh": "虚拟环境",
+          "definition": "An isolated Python environment that keeps project dependencies separate from the system Python installation.",
+          "definitionZh": "一个隔离的 Python 环境，使项目依赖与系统 Python 安装相互独立。"
+        },
+        {
+          "term": "f-string",
+          "termZh": "格式化字符串",
+          "definition": "A Python string literal prefixed with 'f' that allows embedding expressions inside curly braces.",
+          "definitionZh": "以 'f' 为前缀的 Python 字符串字面量，允许在花括号中嵌入表达式。"
+        },
+        {
+          "term": "Type Hint",
+          "termZh": "类型提示",
+          "definition": "Annotations in Python that indicate the expected data types of variables, function parameters, and return values.",
+          "definitionZh": "Python 中的注解，用于标明变量、函数参数和返回值的预期数据类型。"
+        },
+        {
+          "term": "pip",
+          "termZh": "pip 包管理器",
+          "definition": "Python's default package manager used to install and manage third-party libraries.",
+          "definitionZh": "Python 的默认包管理器，用于安装和管理第三方库。"
+        }
+      ]
+    }
+  ]
+}

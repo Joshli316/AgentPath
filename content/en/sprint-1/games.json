@@ -1,0 +1,98 @@
+{
+  "flash-match": {
+    "pairs": [
+      { "term": "virtual environment", "termZh": "虚拟环境", "definition": "Isolated Python install for your project", "definitionZh": "为项目隔离的Python安装环境" },
+      { "term": "pip", "termZh": "pip", "definition": "Python's package installer", "definitionZh": "Python的包管理器" },
+      { "term": "API key", "termZh": "API密钥", "definition": "Secret token to authenticate with Claude", "definitionZh": "用于Claude身份验证的秘密令牌" },
+      { "term": "system prompt", "termZh": "系统提示", "definition": "Instructions that shape the AI's behavior", "definitionZh": "塑造AI行为的指令" },
+      { "term": "streaming", "termZh": "流式输出", "definition": "Receiving response tokens one at a time", "definitionZh": "逐个接收响应token" },
+      { "term": "tool use", "termZh": "工具调用", "definition": "AI calling external functions to take actions", "definitionZh": "AI调用外部函数执行操作" },
+      { "term": "JSON Schema", "termZh": "JSON Schema", "definition": "Format for describing tool input parameters", "definitionZh": "描述工具输入参数的格式" },
+      { "term": "stop_reason", "termZh": "stop_reason", "definition": "Why the model stopped generating (end_turn or tool_use)", "definitionZh": "模型停止生成的原因（end_turn或tool_use）" },
+      { "term": "messages array", "termZh": "消息数组", "definition": "Conversation history sent to the API", "definitionZh": "发送给API的对话历史" },
+      { "term": "temperature", "termZh": "温度", "definition": "Controls randomness in AI responses (0-1)", "definitionZh": "控制AI响应的随机性（0-1）" },
+      { "term": "max_tokens", "termZh": "max_tokens", "definition": "Maximum length of the AI's response", "definitionZh": "AI响应的最大长度" },
+      { "term": "anthropic SDK", "termZh": "anthropic SDK", "definition": "Python library for calling the Claude API", "definitionZh": "用于调用Claude API的Python库" }
+    ]
+  },
+  "concept-quiz": {
+    "questions": [
+      {
+        "q": "What command creates a Python virtual environment?",
+        "qZh": "什么命令创建Python虚拟环境？",
+        "options": ["pip install venv", "python -m venv .venv", "conda create env", "virtualenv --new"],
+        "answer": 1
+      },
+      {
+        "q": "What does stop_reason: 'tool_use' mean?",
+        "qZh": "stop_reason: 'tool_use' 是什么意思？",
+        "options": ["The AI crashed", "The AI wants to call a function", "The tool failed", "The conversation ended"],
+        "answer": 1
+      },
+      {
+        "q": "What is the purpose of a system prompt?",
+        "qZh": "系统提示的作用是什么？",
+        "options": ["To authenticate the API", "To set the AI's behavior and personality", "To store conversation history", "To define tool schemas"],
+        "answer": 1
+      },
+      {
+        "q": "What format describes tool input parameters?",
+        "qZh": "什么格式描述工具输入参数？",
+        "options": ["YAML", "XML", "JSON Schema", "Protocol Buffers"],
+        "answer": 2
+      },
+      {
+        "q": "What does temperature=0 do?",
+        "qZh": "temperature=0 有什么效果？",
+        "options": ["Makes responses longer", "Makes responses more random", "Makes responses more deterministic", "Disables the model"],
+        "answer": 2
+      },
+      {
+        "q": "How do you send conversation history to Claude?",
+        "qZh": "如何将对话历史发送给Claude？",
+        "options": ["As a single string", "As a messages array with role/content pairs", "As a file upload", "You can't — Claude is stateless"],
+        "answer": 1
+      },
+      {
+        "q": "What is streaming useful for?",
+        "qZh": "流式输出有什么用？",
+        "options": ["Faster total response time", "Showing partial results as they generate", "Reducing API costs", "Bypassing rate limits"],
+        "answer": 1
+      },
+      {
+        "q": "What happens after Claude returns a tool_use response?",
+        "qZh": "Claude返回tool_use响应后会发生什么？",
+        "options": ["The conversation ends", "You execute the tool and send the result back", "The tool runs automatically", "You retry the request"],
+        "answer": 1
+      },
+      {
+        "q": "Which Python feature lets you write 'name is {name}'?",
+        "qZh": "哪个Python特性让你写'name is {name}'？",
+        "options": ["String concatenation", "f-strings", "Template literals", "printf"],
+        "answer": 1
+      },
+      {
+        "q": "What does 'pip install anthropic' do?",
+        "qZh": "'pip install anthropic' 做什么？",
+        "options": ["Installs Claude on your computer", "Downloads the Python SDK for calling Claude's API", "Creates a Claude account", "Starts a local AI model"],
+        "answer": 1
+      }
+    ]
+  },
+  "prompt-builder": {
+    "challenges": [
+      {
+        "instruction": "Build a basic Claude API call that sends a user message",
+        "instructionZh": "构建一个发送用户消息的基本Claude API调用",
+        "parts": ["client.messages.create(", "model=\"claude-sonnet-4-20250514\",", "max_tokens=1024,", "messages=[", "{\"role\": \"user\",", "\"content\": \"Hello!\"}]", ")"],
+        "correct": ["client.messages.create(", "model=\"claude-sonnet-4-20250514\",", "max_tokens=1024,", "messages=[", "{\"role\": \"user\",", "\"content\": \"Hello!\"}]", ")"]
+      },
+      {
+        "instruction": "Add a system prompt to tell Claude it's a helpful coding assistant",
+        "instructionZh": "添加系统提示，告诉Claude它是一个有用的编程助手",
+        "parts": ["client.messages.create(", "model=\"claude-sonnet-4-20250514\",", "max_tokens=1024,", "system=\"You are a helpful coding assistant.\",", "messages=[", "{\"role\": \"user\",", "\"content\": \"How do I read a file in Python?\"}]", ")"],
+        "correct": ["client.messages.create(", "model=\"claude-sonnet-4-20250514\",", "max_tokens=1024,", "system=\"You are a helpful coding assistant.\",", "messages=[", "{\"role\": \"user\",", "\"content\": \"How do I read a file in Python?\"}]", ")"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+[
+  {
+    "id": "bp-1",
+    "title": "Recipe Recommender Agent",
+    "titleZh": "食谱推荐Agent",
+    "description": "CLI agent that asks about ingredients you have, searches for recipes, and suggests meals with step-by-step instructions.",
+    "descriptionZh": "命令行Agent，询问你有哪些食材，搜索食谱，并提供分步烹饪指导。",
+    "skills": ["python", "llm-apis"],
+    "difficulty": "easy",
+    "milestones": [
+      { "id": "m1", "label": "Set up project and take ingredient input from user", "labelZh": "搭建项目并获取用户食材输入" },
+      { "id": "m2", "label": "Add recipe search tool via function calling", "labelZh": "通过函数调用添加食谱搜索工具" },
+      { "id": "m3", "label": "Generate meal suggestions with step-by-step instructions", "labelZh": "生成带分步指导的餐食建议" }
+    ]
+  },
+  {
+    "id": "bp-2",
+    "title": "Daily News Briefing Agent",
+    "titleZh": "每日新闻简报Agent",
+    "description": "Fetches top stories from multiple sources, summarizes them, and delivers a personalized morning briefing to your terminal.",
+    "descriptionZh": "从多个来源获取头条新闻，摘要总结，并在终端中提供个性化的晨报。",
+    "skills": ["python", "llm-apis"],
+    "difficulty": "easy",
+    "milestones": [
+      { "id": "m1", "label": "Fetch news from 2-3 sources via web scraping or API", "labelZh": "通过网页抓取或API从2-3个来源获取新闻" },
+      { "id": "m2", "label": "Summarize articles with Claude", "labelZh": "用Claude摘要文章" },
+      { "id": "m3", "label": "Format and display as a terminal briefing", "labelZh": "格式化并在终端中显示为简报" }
+    ]
+  },
+  {
+    "id": "bp-3",
+    "title": "Code Review Agent",
+    "titleZh": "代码审查Agent",
+    "description": "Reads a GitHub PR via API, analyzes the diff, and generates a structured review with suggestions.",
+    "descriptionZh": "通过GitHub API读取PR，分析代码差异，生成结构化的审查建议。",
+    "skills": ["python", "llm-apis", "agent-frameworks"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Fetch PR diff from GitHub API", "labelZh": "从GitHub API获取PR差异" },
+      { "id": "m2", "label": "Analyze code changes with Claude", "labelZh": "用Claude分析代码变更" },
+      { "id": "m3", "label": "Generate structured review (issues, suggestions, approval)", "labelZh": "生成结构化审查（问题、建议、批准）" },
+      { "id": "m4", "label": "Post review comments back to GitHub", "labelZh": "将审查评论发回GitHub" }
+    ]
+  },
+  {
+    "id": "bp-4",
+    "title": "Meeting Notes Agent",
+    "titleZh": "会议笔记Agent",
+    "description": "Takes raw meeting transcript text, extracts action items, decisions, and follow-ups, assigns owners, and outputs structured markdown.",
+    "descriptionZh": "处理原始会议记录文本，提取行动项、决策和跟进事项，分配负责人，输出结构化的markdown。",
+    "skills": ["python", "llm-apis", "rag"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Parse transcript input (text file or stdin)", "labelZh": "解析记录输入（文本文件或标准输入）" },
+      { "id": "m2", "label": "Extract action items, decisions, and owners with Claude", "labelZh": "用Claude提取行动项、决策和负责人" },
+      { "id": "m3", "label": "Output structured markdown with sections", "labelZh": "输出带章节的结构化markdown" },
+      { "id": "m4", "label": "Add follow-up date tracking", "labelZh": "添加跟进日期追踪" }
+    ]
+  },
+  {
+    "id": "bp-5",
+    "title": "Personal Finance Tracker",
+    "titleZh": "个人财务追踪器",
+    "description": "RAG-powered agent that ingests your bank statements (CSV), answers questions about spending patterns, and generates monthly reports.",
+    "descriptionZh": "基于RAG的Agent，导入银行对账单（CSV），回答关于消费模式的问题，生成月度报告。",
+    "skills": ["rag", "python", "llm-apis"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Parse CSV bank statements into structured data", "labelZh": "将CSV银行对账单解析为结构化数据" },
+      { "id": "m2", "label": "Embed transactions and store in vector DB", "labelZh": "嵌入交易记录并存储到向量数据库" },
+      { "id": "m3", "label": "Answer spending questions via RAG", "labelZh": "通过RAG回答消费问题" },
+      { "id": "m4", "label": "Generate monthly spending report", "labelZh": "生成月度消费报告" }
+    ]
+  },
+  {
+    "id": "bp-6",
+    "title": "Documentation Q&A Bot",
+    "titleZh": "文档问答机器人",
+    "description": "Ingest any project's docs into a vector DB, then answer questions grounded in the actual documentation (not hallucinated).",
+    "descriptionZh": "将任何项目的文档导入向量数据库，然后基于实际文档（非幻觉）回答问题。",
+    "skills": ["rag", "python", "llm-apis"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Ingest markdown/PDF docs with chunking strategy", "labelZh": "用分块策略导入markdown/PDF文档" },
+      { "id": "m2", "label": "Embed chunks and store in Chroma or pgvector", "labelZh": "嵌入块并存储到Chroma或pgvector" },
+      { "id": "m3", "label": "Build query interface with retrieval + generation", "labelZh": "构建检索+生成的查询界面" },
+      { "id": "m4", "label": "Add relevance scoring to evaluate answer quality", "labelZh": "添加相关性评分以评估回答质量" }
+    ]
+  },
+  {
+    "id": "bp-7",
+    "title": "Email Draft Agent",
+    "titleZh": "邮件草稿Agent",
+    "description": "Multi-agent system: one agent analyzes the incoming email tone/intent, another drafts a reply matching your writing style, a third reviews for tone.",
+    "descriptionZh": "多Agent系统：一个Agent分析来信语气/意图，另一个按你的写作风格起草回复，第三个审核语气。",
+    "skills": ["multi-agent", "llm-apis", "python"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Build analyzer agent (detect tone, intent, urgency)", "labelZh": "构建分析Agent（检测语气、意图、紧急程度）" },
+      { "id": "m2", "label": "Build drafter agent (write reply matching your style)", "labelZh": "构建起草Agent（按你的风格写回复）" },
+      { "id": "m3", "label": "Build reviewer agent (check tone and professionalism)", "labelZh": "构建审核Agent（检查语气和专业度）" },
+      { "id": "m4", "label": "Wire all 3 agents together with orchestration", "labelZh": "用编排将3个Agent连接在一起" }
+    ]
+  },
+  {
+    "id": "bp-8",
+    "title": "MCP Weather Server",
+    "titleZh": "MCP天气服务器",
+    "description": "Build an MCP server that exposes weather data tools (current conditions, forecast, alerts) that Claude Code can call directly.",
+    "descriptionZh": "构建一个MCP服务器，提供天气数据工具（当前天气、预报、预警），Claude Code可以直接调用。",
+    "skills": ["mcp", "python"],
+    "difficulty": "medium",
+    "milestones": [
+      { "id": "m1", "label": "Set up MCP server with Python SDK", "labelZh": "用Python SDK搭建MCP服务器" },
+      { "id": "m2", "label": "Register get_weather tool with city parameter", "labelZh": "注册带城市参数的get_weather工具" },
+      { "id": "m3", "label": "Register get_forecast tool with days parameter", "labelZh": "注册带天数参数的get_forecast工具" },
+      { "id": "m4", "label": "Test with Claude Code as client", "labelZh": "用Claude Code作为客户端测试" }
+    ]
+  },
+  {
+    "id": "bp-9",
+    "title": "MCP Database Explorer",
+    "titleZh": "MCP数据库探索器",
+    "description": "MCP server that connects to a SQLite/PostgreSQL database and exposes tools for querying, describing tables, and visualizing results.",
+    "descriptionZh": "MCP服务器，连接SQLite/PostgreSQL数据库，提供查询、描述表和可视化结果的工具。",
+    "skills": ["mcp", "python"],
+    "difficulty": "hard",
+    "milestones": [
+      { "id": "m1", "label": "Set up MCP server with database connection", "labelZh": "搭建带数据库连接的MCP服务器" },
+      { "id": "m2", "label": "Register list_tables and describe_table tools", "labelZh": "注册list_tables和describe_table工具" },
+      { "id": "m3", "label": "Register safe query_database tool (read-only)", "labelZh": "注册安全的query_database工具（只读）" },
+      { "id": "m4", "label": "Add result formatting (table output, row counts)", "labelZh": "添加结果格式化（表格输出、行数统计）" },
+      { "id": "m5", "label": "Test with Claude Code querying a sample database", "labelZh": "用Claude Code查询示例数据库进行测试" }
+    ]
+  },
+  {
+    "id": "bp-10",
+    "title": "Research Team Agent",
+    "titleZh": "研究团队Agent",
+    "description": "3 specialized agents (searcher, analyst, writer) collaborate to research a topic and produce a structured report with citations.",
+    "descriptionZh": "3个专业Agent（搜索者、分析师、撰写者）协作研究一个主题，生成带引用的结构化报告。",
+    "skills": ["multi-agent", "agent-frameworks", "python"],
+    "difficulty": "hard",
+    "milestones": [
+      { "id": "m1", "label": "Build searcher agent (web search, URL reading)", "labelZh": "构建搜索Agent（网页搜索、URL读取）" },
+      { "id": "m2", "label": "Build analyst agent (extract key findings, identify themes)", "labelZh": "构建分析Agent（提取关键发现、识别主题）" },
+      { "id": "m3", "label": "Build writer agent (produce structured report)", "labelZh": "构建撰写Agent（生成结构化报告）" },
+      { "id": "m4", "label": "Wire together with LangGraph or CrewAI orchestration", "labelZh": "用LangGraph或CrewAI编排连接在一起" },
+      { "id": "m5", "label": "Add citation tracking across all agents", "labelZh": "在所有Agent之间添加引用追踪" }
+    ]
+  },
+  {
+    "id": "bp-11",
+    "title": "AI Tutor Agent",
+    "titleZh": "AI辅导Agent",
+    "description": "Adaptive learning agent that quizzes you on a topic, tracks what you get wrong, adjusts difficulty, and uses spaced repetition to optimize review.",
+    "descriptionZh": "自适应学习Agent，就某个主题测验你，追踪你的错误，调整难度，使用间隔重复优化复习。",
+    "skills": ["agent-frameworks", "python", "llm-apis"],
+    "difficulty": "hard",
+    "milestones": [
+      { "id": "m1", "label": "Build question generator that creates topic-specific questions", "labelZh": "构建为特定主题生成问题的问题生成器" },
+      { "id": "m2", "label": "Track correct/incorrect answers with spaced repetition scheduling", "labelZh": "用间隔重复调度追踪正确/错误答案" },
+      { "id": "m3", "label": "Adjust difficulty based on performance", "labelZh": "根据表现调整难度" },
+      { "id": "m4", "label": "Generate review sessions for weak areas", "labelZh": "为薄弱领域生成复习会话" },
+      { "id": "m5", "label": "Add progress report with mastery scores", "labelZh": "添加带掌握度分数的进度报告" }
+    ]
+  },
+  {
+    "id": "bp-12",
+    "title": "Full-Stack Agent Dashboard",
+    "titleZh": "全栈Agent仪表盘",
+    "description": "Web dashboard that monitors your deployed agents: uptime, cost per query, error rates, response quality scores. Includes alerts.",
+    "descriptionZh": "监控已部署Agent的Web仪表盘：运行时间、每次查询成本、错误率、响应质量评分。包含告警。",
+    "skills": ["multi-agent", "python", "agent-frameworks", "rag"],
+    "difficulty": "hard",
+    "milestones": [
+      { "id": "m1", "label": "Build agent logging system (structured JSON logs)", "labelZh": "构建Agent日志系统（结构化JSON日志）" },
+      { "id": "m2", "label": "Create web dashboard with cost and latency charts", "labelZh": "创建带成本和延迟图表的Web仪表盘" },
+      { "id": "m3", "label": "Add error rate tracking and alerting", "labelZh": "添加错误率追踪和告警" },
+      { "id": "m4", "label": "Add response quality scoring (automated eval)", "labelZh": "添加响应质量评分（自动评估）" },
+      { "id": "m5", "label": "Display agent fleet overview with health status", "labelZh": "显示带健康状态的Agent舰队概览" }
+    ]
+  }
+]

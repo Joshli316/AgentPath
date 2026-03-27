@@ -1,0 +1,86 @@
+{
+  "id": "lesson-01",
+  "title": "Python for AI Engineers",
+  "titleZh": "AI工程师的Python基础",
+  "duration": 20,
+  "steps": [
+    {
+      "type": "text",
+      "content": "This lesson is not a generic Python tutorial. If you have never written a line of code before, that is completely fine -- but we are going to focus specifically on the Python you need to call AI APIs, process their responses, and build agentic workflows. Everything here is chosen because you will use it in the next lesson when you make your first Claude API call.\n\nWhy Python? Three reasons. First, every major AI company ships a Python SDK as their primary integration path. Anthropic, OpenAI, Google, Mistral -- they all publish well-maintained Python libraries. Second, the data science and machine learning ecosystem (NumPy, pandas, scikit-learn, PyTorch) lives in Python, so when your agent needs to process data, you are already in the right language. Third, Python reads almost like English, which makes it the fastest language to prototype in. When you are iterating on prompts and tool schemas, speed of iteration matters more than raw performance."
+    },
+    {
+      "type": "key-terms",
+      "terms": [
+        {
+          "term": "SDK",
+          "termZh": "软件开发工具包",
+          "definition": "Software Development Kit -- a library that wraps an API so you can call it with simple function calls instead of writing raw HTTP requests.",
+          "definitionZh": "软件开发工具包——一个封装了API的库，让你可以用简单的函数调用代替编写原始HTTP请求。"
+        },
+        {
+          "term": "Virtual Environment",
+          "termZh": "虚拟环境",
+          "definition": "An isolated Python installation where you can install packages without affecting your system Python or other projects.",
+          "definitionZh": "一个隔离的Python安装环境，你可以在其中安装包而不影响系统Python或其他项目。"
+        },
+        {
+          "term": "pip",
+          "termZh": "pip包管理器",
+          "definition": "Python's package installer. You use it to install libraries like the Anthropic SDK from the Python Package Index (PyPI).",
+          "definitionZh": "Python的包安装工具。你用它从Python包索引(PyPI)安装像Anthropic SDK这样的库。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "content": "Before you write any AI code, you need a clean environment. A virtual environment (venv) gives you an isolated space where you can install packages without polluting your system Python. This is not optional -- it is how every professional Python project works, and it prevents version conflicts between projects. Here is how you set one up. Open your terminal and run these commands. The first creates the environment, the second activates it, and the third upgrades pip to the latest version."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "content": "# Create a new project directory and virtual environment\nmkdir my-agent-project\ncd my-agent-project\npython3 -m venv venv\n\n# Activate the virtual environment\n# On macOS/Linux:\nsource venv/bin/activate\n# On Windows:\n# venv\\Scripts\\activate\n\n# Upgrade pip and install the Anthropic SDK\npip install --upgrade pip\npip install anthropic"
+    },
+    {
+      "type": "callout",
+      "variant": "tip",
+      "content": "You know your virtual environment is active when you see (venv) at the beginning of your terminal prompt. If you close your terminal, you need to run the activate command again. Every time you work on your project, activate the venv first."
+    },
+    {
+      "type": "text",
+      "content": "Now let us cover the Python syntax you will use constantly when working with AI APIs. We are skipping loops-over-integers and class inheritance -- instead, here are four patterns that show up in almost every AI engineering script.\n\nFirst: f-strings. When you build prompts dynamically, you need to inject variables into strings. F-strings are Python's cleanest way to do this. Second: dictionaries. The Claude API communicates using JSON, and in Python, JSON maps directly to dictionaries. Every API request you send and every response you receive is a dictionary or a list of dictionaries. Third: list comprehensions. When you process API responses -- say, extracting all tool calls from a list of content blocks -- list comprehensions let you filter and transform data in a single line. Fourth: type hints. Modern Python lets you annotate your variables and function signatures with types. This is not enforced at runtime, but it makes your code dramatically easier to read and debug."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# F-strings: your main tool for building dynamic prompts\nuser_name = \"Alice\"\ntask = \"summarize this document\"\n\nprompt = f\"Hello {user_name}, please {task} in 3 bullet points.\"\nprint(prompt)\n# Output: Hello Alice, please summarize this document in 3 bullet points.\n\n# Multi-line f-strings for complex prompts\nsystem_prompt = f\"\"\"You are a helpful assistant.\nThe user's name is {user_name}.\nAlways respond in a professional tone.\nToday's date is 2026-03-27.\"\"\""
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Dictionaries: the shape of every API message\nmessage = {\n    \"role\": \"user\",\n    \"content\": \"What is agentic AI?\"\n}\n\n# Accessing nested data from an API response\nresponse = {\n    \"id\": \"msg_abc123\",\n    \"content\": [\n        {\"type\": \"text\", \"text\": \"Agentic AI refers to...\"}\n    ],\n    \"model\": \"claude-sonnet-4-20250514\",\n    \"usage\": {\"input_tokens\": 12, \"output_tokens\": 85}\n}\n\n# Get the text from the first content block\nanswer = response[\"content\"][0][\"text\"]\nprint(f\"Used {response['usage']['input_tokens']} input tokens\")\n\n# List comprehension: filter content blocks by type\ntext_blocks = [block[\"text\"] for block in response[\"content\"] if block[\"type\"] == \"text\"]\n\n# Another common pattern: building a conversation history\nconversation = [\n    {\"role\": \"user\", \"content\": \"Hi\"},\n    {\"role\": \"assistant\", \"content\": \"Hello! How can I help?\"},\n    {\"role\": \"user\", \"content\": \"Tell me about agents.\"},\n]"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "from typing import Optional\n\n# Type hints make your agent code self-documenting\ndef call_claude(\n    prompt: str,\n    system: Optional[str] = None,\n    max_tokens: int = 1024,\n    temperature: float = 1.0\n) -> str:\n    \"\"\"Send a message to Claude and return the response text.\"\"\"\n    # We will fill this in during the next lesson\n    pass\n\n# Type hints for data structures you will use constantly\nfrom typing import TypedDict\n\nclass ToolResult(TypedDict):\n    tool_use_id: str\n    content: str\n\n# Using it\nresult: ToolResult = {\n    \"tool_use_id\": \"toolu_abc123\",\n    \"content\": \"The weather in SF is 65F and sunny.\"\n}"
+    },
+    {
+      "type": "callout",
+      "variant": "info",
+      "content": "You do not need to master every Python feature to build AI agents. The four patterns above -- f-strings, dictionaries, list comprehensions, and type hints -- cover roughly 80% of the Python you will write in this course. The remaining 20% (async/await, error handling, file I/O) we will introduce as needed."
+    },
+    {
+      "type": "try-it",
+      "prompt": "Create a Python list called 'conversation' that contains three dictionaries, each with 'role' and 'content' keys. The first message should be from the user asking about agentic AI, the second from the assistant giving a brief answer, and the third from the user asking a follow-up question. Then write a list comprehension that extracts only the user messages."
+    },
+    {
+      "type": "text",
+      "content": "Let us tie it all together. Here is a realistic script skeleton that shows how these Python features combine when calling an AI API. This is the structure you will use in every project going forward. Notice how the dictionary structures mirror the JSON that the API expects, how f-strings build dynamic prompts, and how list comprehensions process the response. In the next lesson, you will replace the placeholder comments with real Anthropic SDK calls and get your first response from Claude."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import os\nfrom typing import Optional\n\ndef chat_with_claude(\n    user_message: str,\n    system_prompt: Optional[str] = None,\n    conversation_history: Optional[list[dict]] = None\n) -> str:\n    \"\"\"Complete AI chat function skeleton.\"\"\"\n    # API key from environment variable (never hardcode secrets)\n    api_key = os.environ.get(\"ANTHROPIC_API_KEY\")\n    if not api_key:\n        raise ValueError(\"Set ANTHROPIC_API_KEY environment variable\")\n\n    # Build the messages list\n    messages = conversation_history or []\n    messages.append({\"role\": \"user\", \"content\": user_message})\n\n    # API call will go here in Lesson 2\n    # response = client.messages.create(...)\n\n    # Extract text from response content blocks\n    # text_parts = [block.text for block in response.content if block.type == \"text\"]\n    # return \"\".join(text_parts)\n    return \"placeholder\"\n\n# Usage\nresult = chat_with_claude(\n    user_message=\"Explain agentic AI in one paragraph.\",\n    system_prompt=\"You are a concise technical writer.\"\n)\nprint(result)"
+    }
+  ]
+}

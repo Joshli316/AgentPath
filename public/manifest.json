@@ -1,0 +1,9 @@
+{
+  "name": "AgentPath 智路",
+  "short_name": "AgentPath",
+  "description": "Your 12-week path to becoming an agentic AI professional",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#00ff88"
+}

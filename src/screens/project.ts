@@ -1,0 +1,104 @@
+import { loadState, completeMilestone, completeProject } from "../state";
+import { t, getLang } from "../i18n";
+import { loadContent } from "../content";
+
+interface ProjectData {
+  id: string;
+  title: string;
+  titleZh: string;
+  description: string;
+  descriptionZh: string;
+  milestones: { id: string; label: string; labelZh: string }[];
+  hints: Record<string, string[]>;
+  stretch: string[];
+  stretchZh: string[];
+}
+
+export async function renderProject(sprintId: number): Promise<string> {
+  const state = loadState();
+  const project = await loadContent<ProjectData>(`sprint-${sprintId}/project.json`);
+  const lang = getLang();
+  const title = lang === "zh" ? project.titleZh : project.title;
+  const desc = lang === "zh" ? project.descriptionZh : project.description;
+  const projectKey = `s${sprintId}`;
+  const isComplete = !!state.projects[projectKey];
+
+  const allMilestonesDone = project.milestones.every(
+    (m) => !!state.milestones[`${projectKey}-${m.id}`]
+  );
+
+  const milestonesHtml = project.milestones
+    .map((m) => {
+      const key = `${projectKey}-${m.id}`;
+      const done = !!state.milestones[key];
+      const label = lang === "zh" ? m.labelZh : m.label;
+      const hints = project.hints[m.id] || [];
+
+      return `
+        <div class="terminal-card p-3 mb-2">
+          <div class="flex items-center gap-3">
+            <button onclick="window.__toggleMilestone('${key}', ${sprintId})"
+                    class="w-5 h-5 border ${done ? "bg-ap-green border-ap-green text-ap-bg" : "border-ap-text-muted"} rounded text-xs flex items-center justify-center flex-shrink-0">
+              ${done ? "✓" : ""}
+            </button>
+            <span class="text-sm ${done ? "text-ap-text-dim line-through" : "text-ap-text"}">${label}</span>
+          </div>
+          ${
+            !done && hints.length > 0
+              ? `<details class="mt-2 ml-8">
+                  <summary class="text-ap-amber text-xs cursor-pointer hover:underline">${t("project.stuck")}</summary>
+                  <div class="mt-2 flex flex-col gap-1">
+                    ${hints.map((h, i) => `<div class="text-ap-text-dim text-xs">💡 ${t("project.hint")} ${i + 1}: ${h}</div>`).join("")}
+                  </div>
+                </details>`
+              : ""
+          }
+        </div>
+      `;
+    })
+    .join("");
+
+  const stretchList = lang === "zh" ? project.stretchZh : project.stretch;
+  const stretchHtml = stretchList
+    .map((s) => `<li class="text-ap-text-dim text-sm">${s}</li>`)
+    .join("");
+
+  return `
+    <a href="#/sprint/${sprintId}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← Sprint ${sprintId}</a>
+    <div class="text-ap-green text-xs mt-3 mb-1">$ agentpath project --sprint ${sprintId}</div>
+    <h1 class="text-ap-text text-xl font-bold mb-2">${title}</h1>
+    <p class="text-ap-text-dim text-sm mb-6">${desc}</p>
+
+    <div class="text-ap-green text-xs font-bold uppercase mb-3">${t("project.milestones")}</div>
+    ${milestonesHtml}
+
+    ${
+      allMilestonesDone && !isComplete
+        ? `<button onclick="window.__completeProject('${projectKey}', ${sprintId})"
+             class="w-full bg-ap-green text-ap-bg font-bold py-3 rounded text-sm mt-4 hover:opacity-90 transition-opacity">
+             ${t("project.mark-complete")}
+           </button>`
+        : ""
+    }
+    ${isComplete ? `<div class="text-ap-green font-bold text-sm mt-4">✓ ${t("project.complete")} (+300 XP)</div>` : ""}
+
+    <div class="mt-8">
+      <div class="text-ap-amber text-xs font-bold uppercase mb-2">${t("project.stretch")}</div>
+      <ul class="list-disc list-inside flex flex-col gap-1">${stretchHtml}</ul>
+    </div>
+  `;
+}
+
+(window as any).__toggleMilestone = (key: string, _sprintId: number) => {
+  const state = loadState();
+  if (!state.milestones[key]) {
+    completeMilestone(state, key);
+  }
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+};
+
+(window as any).__completeProject = (projectKey: string, _sprintId: number) => {
+  const state = loadState();
+  completeProject(state, projectKey);
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+};

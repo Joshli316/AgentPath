@@ -1,0 +1,119 @@
+{
+  "id": "lesson-02",
+  "title": "Claude API Deep Dive",
+  "titleZh": "Claude API 深入探索",
+  "duration": 25,
+  "steps": [
+    {
+      "type": "text",
+      "content": "Claude API 是 Anthropic 提供的核心接口，让你可以在自己的应用中集成 Claude 的能力。本课将深入学习 Messages API 的各项功能，从基础调用到高级参数配置。"
+    },
+    {
+      "type": "text",
+      "content": "首先，安装 Anthropic 官方 Python SDK 并配置 API 密钥。"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "content": "# Install the Anthropic SDK\npip install anthropic\n\n# Set your API key as an environment variable\nexport ANTHROPIC_API_KEY=\"your-api-key-here\""
+    },
+    {
+      "type": "callout",
+      "variant": "warning",
+      "content": "永远不要把 API 密钥硬编码在源代码中。请使用环境变量或 .env 文件，并确保 .env 已添加到 .gitignore 中。"
+    },
+    {
+      "type": "text",
+      "content": "Messages API 是 Claude 的核心 API。它接收一组消息作为输入，返回 Claude 的回复。让我们从最基本的调用开始。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\nclient = anthropic.Anthropic()\n\n# Basic message creation\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"What is an LLM?\"}\n    ]\n)\n\n# Access the response\nprint(response.content[0].text)\nprint(f\"Tokens used: {response.usage.input_tokens} in, {response.usage.output_tokens} out\")\nprint(f\"Stop reason: {response.stop_reason}\")"
+    },
+    {
+      "type": "text",
+      "content": "系统提示词（system prompt）用于设定 Claude 的角色和行为准则。它与用户消息分开传递，对模型输出有重大影响。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "response = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    system=\"You are a senior Python engineer. Answer concisely with code examples. Always include error handling in your code.\",\n    messages=[\n        {\"role\": \"user\", \"content\": \"How do I read a JSON file?\"}\n    ]\n)"
+    },
+    {
+      "type": "text",
+      "content": "多轮对话需要将完整的消息历史传递给 API。Claude 本身不保存上下文，每次调用都是独立的。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Multi-turn conversation\nconversation = [\n    {\"role\": \"user\", \"content\": \"What is recursion?\"},\n    {\"role\": \"assistant\", \"content\": \"Recursion is when a function calls itself to solve a problem by breaking it into smaller subproblems.\"},\n    {\"role\": \"user\", \"content\": \"Can you show me a Python example?\"}\n]\n\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=conversation\n)\n\n# Append the response to continue the conversation\nconversation.append({\"role\": \"assistant\", \"content\": response.content[0].text})"
+    },
+    {
+      "type": "text",
+      "content": "流式输出（streaming）让用户可以逐步看到 Claude 的回复，而不用等整个回复生成完毕。这对提升用户体验至关重要。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Streaming response\nwith client.messages.stream(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": \"Write a haiku about coding.\"}]\n) as stream:\n    for text in stream.text_stream:\n        print(text, end=\"\", flush=True)\n\nprint()  # Newline after streaming completes\n\n# Get the final message object after streaming\nfinal_message = stream.get_final_message()\nprint(f\"Total tokens: {final_message.usage.input_tokens + final_message.usage.output_tokens}\")"
+    },
+    {
+      "type": "text",
+      "content": "temperature 和 max_tokens 是两个关键参数。temperature 控制输出的随机性（0 表示确定性最强，1 表示最具创意），max_tokens 限制输出长度。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Deterministic output (good for code generation, data extraction)\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=2048,\n    temperature=0,\n    messages=[{\"role\": \"user\", \"content\": \"Extract the email from: Contact us at info@example.com\"}]\n)\n\n# Creative output (good for brainstorming, creative writing)\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=2048,\n    temperature=0.8,\n    messages=[{\"role\": \"user\", \"content\": \"Suggest 5 creative app names for a todo list app.\"}]\n)"
+    },
+    {
+      "type": "text",
+      "content": "在生产环境中，API 调用可能因网络问题、速率限制等原因失败。完善的错误处理是构建可靠 AI 应用的关键。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\nclient = anthropic.Anthropic()\n\ntry:\n    response = client.messages.create(\n        model=\"claude-sonnet-4-20250514\",\n        max_tokens=1024,\n        messages=[{\"role\": \"user\", \"content\": \"Hello!\"}]\n    )\n    print(response.content[0].text)\nexcept anthropic.AuthenticationError:\n    print(\"Invalid API key. Check your ANTHROPIC_API_KEY.\")\nexcept anthropic.RateLimitError:\n    print(\"Rate limit exceeded. Wait and retry.\")\nexcept anthropic.APIStatusError as e:\n    print(f\"API error: {e.status_code} - {e.message}\")\nexcept anthropic.APIConnectionError:\n    print(\"Network error. Check your internet connection.\")"
+    },
+    {
+      "type": "try-it",
+      "prompt": "编写一个函数 chat(history: list[dict], user_input: str) -> str，它接收对话历史和新用户输入，调用 Claude API，返回回复文本，并将新的用户消息和助手回复追加到 history 列表中。记得加上错误处理。"
+    },
+    {
+      "type": "key-terms",
+      "terms": [
+        {
+          "term": "Messages API",
+          "termZh": "消息 API",
+          "definition": "The primary API endpoint for interacting with Claude, accepting a list of messages and returning a model response.",
+          "definitionZh": "与 Claude 交互的主要 API 端点，接收消息列表并返回模型回复。"
+        },
+        {
+          "term": "System Prompt",
+          "termZh": "系统提示词",
+          "definition": "Instructions provided separately from the conversation that define the assistant's behavior, role, and constraints.",
+          "definitionZh": "独立于对话提供的指令，用于定义助手的行为、角色和限制条件。"
+        },
+        {
+          "term": "Streaming",
+          "termZh": "流式输出",
+          "definition": "A method of receiving API responses incrementally as they are generated, rather than waiting for the complete response.",
+          "definitionZh": "一种逐步接收 API 回复的方式，无需等待完整回复生成完毕。"
+        },
+        {
+          "term": "Temperature",
+          "termZh": "温度参数",
+          "definition": "A parameter that controls the randomness of model output. Lower values produce more deterministic results, higher values produce more creative results.",
+          "definitionZh": "控制模型输出随机性的参数。值越低结果越确定，值越高结果越有创意。"
+        },
+        {
+          "term": "Rate Limit",
+          "termZh": "速率限制",
+          "definition": "A restriction on how many API requests can be made within a given time period to prevent abuse and ensure fair usage.",
+          "definitionZh": "对给定时间段内 API 请求次数的限制，以防止滥用并确保公平使用。"
+        }
+      ]
+    }
+  ]
+}

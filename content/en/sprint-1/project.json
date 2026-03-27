@@ -1,0 +1,53 @@
+{
+  "id": "s1-project",
+  "title": "Build a CLI Chatbot Agent",
+  "titleZh": "构建一个命令行聊天机器人Agent",
+  "description": "Build a Python CLI tool that chats with Claude, uses tools to search the web, and remembers your conversation. This is your first AI agent — it perceives (reads your input), reasons (calls Claude), and acts (executes tools).",
+  "descriptionZh": "构建一个Python命令行工具，可以与Claude对话、使用工具搜索网页，并记住你的对话。这是你的第一个AI Agent——它感知（读取你的输入）、推理（调用Claude）、行动（执行工具）。",
+  "milestones": [
+    { "id": "m1", "label": "Set up Python virtual environment and install anthropic SDK", "labelZh": "搭建Python虚拟环境并安装anthropic SDK" },
+    { "id": "m2", "label": "Basic chat loop: user types, Claude responds, loop continues", "labelZh": "基础聊天循环：用户输入，Claude回复，循环继续" },
+    { "id": "m3", "label": "Add a web search tool using function calling", "labelZh": "通过函数调用添加网页搜索工具" },
+    { "id": "m4", "label": "Add conversation memory (store messages in a list)", "labelZh": "添加对话记忆（将消息存储在列表中）" },
+    { "id": "m5", "label": "Handle errors gracefully (API failures, invalid input)", "labelZh": "优雅地处理错误（API失败、无效输入）" }
+  ],
+  "hints": {
+    "m1": [
+      "Run: python -m venv .venv && source .venv/bin/activate",
+      "Then: pip install anthropic",
+      "Set your API key: export ANTHROPIC_API_KEY=sk-ant-..."
+    ],
+    "m2": [
+      "Use a while True loop with input() to read user messages",
+      "Call client.messages.create() with the user message",
+      "Print response.content[0].text"
+    ],
+    "m3": [
+      "Define a tool schema with name, description, and input_schema (JSON Schema)",
+      "Pass tools=[your_tool] to messages.create()",
+      "Check if response.stop_reason == 'tool_use', then execute the tool and send back the result"
+    ],
+    "m4": [
+      "Keep a messages list: messages = []",
+      "Append each user message and assistant response to the list",
+      "Pass the full list to messages.create() each time"
+    ],
+    "m5": [
+      "Wrap API calls in try/except anthropic.APIError",
+      "Add a 'quit' or 'exit' command to break the loop",
+      "Handle KeyboardInterrupt for Ctrl+C gracefully"
+    ]
+  },
+  "stretch": [
+    "Add streaming responses (print tokens as they arrive)",
+    "Add multiple tools (calculator, file reader, weather)",
+    "Add a system prompt that gives the agent a personality",
+    "Save conversation history to a JSON file"
+  ],
+  "stretchZh": [
+    "添加流式响应（逐个打印token）",
+    "添加多个工具（计算器、文件读取、天气）",
+    "添加系统提示，赋予Agent个性",
+    "将对话历史保存到JSON文件"
+  ]
+}

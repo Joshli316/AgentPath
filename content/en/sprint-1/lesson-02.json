@@ -1,0 +1,100 @@
+{
+  "id": "lesson-02",
+  "title": "Claude API Deep Dive",
+  "titleZh": "Claude API 深入探索",
+  "duration": 25,
+  "steps": [
+    {
+      "type": "text",
+      "content": "In this lesson you will make your first real API call to Claude. By the end, you will understand how the Messages API works, how to control Claude's behavior with system prompts and parameters, how to stream responses in real time, and how to handle errors gracefully. Everything here uses the official Anthropic Python SDK, which is the recommended way to interact with Claude in production.\n\nLet us start by installing the SDK and setting up your API key. You should already have a virtual environment from Lesson 1. If not, go back and create one first."
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "content": "# Install the Anthropic Python SDK\npip install anthropic\n\n# Set your API key as an environment variable\n# On macOS/Linux:\nexport ANTHROPIC_API_KEY=\"sk-ant-your-key-here\"\n\n# On Windows (PowerShell):\n# $env:ANTHROPIC_API_KEY = \"sk-ant-your-key-here\"\n\n# Verify the installation\npython -c \"import anthropic; print(anthropic.__version__)\""
+    },
+    {
+      "type": "callout",
+      "variant": "warning",
+      "content": "Never hardcode your API key in source code. Always use environment variables or a .env file (with python-dotenv). If you accidentally commit a key to Git, revoke it immediately in the Anthropic Console and generate a new one. Leaked keys can be used by anyone to make API calls on your account."
+    },
+    {
+      "type": "text",
+      "content": "Now let us make your first API call. The Anthropic SDK uses a client object that handles authentication, retries, and connection pooling. You create it once and reuse it. The core method is client.messages.create(), which sends a conversation to Claude and returns a structured response with content blocks, token usage, and a stop reason."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\n# Create the client -- it reads ANTHROPIC_API_KEY from the environment\nclient = anthropic.Anthropic()\n\n# Your first API call\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"What is agentic AI? Explain in 2 sentences.\"}\n    ]\n)\n\n# The response is a Message object with structured fields\nprint(response.content[0].text)\nprint(f\"Model: {response.model}\")\nprint(f\"Input tokens: {response.usage.input_tokens}\")\nprint(f\"Output tokens: {response.usage.output_tokens}\")\nprint(f\"Stop reason: {response.stop_reason}\")"
+    },
+    {
+      "type": "key-terms",
+      "terms": [
+        {
+          "term": "Messages API",
+          "termZh": "消息API",
+          "definition": "The core Anthropic API endpoint for conversational interactions. You send a list of messages (user and assistant turns) and receive Claude's next response.",
+          "definitionZh": "Anthropic的核心对话交互API端点。你发送一系列消息（用户和助手的对话轮次），然后接收Claude的下一个回复。"
+        },
+        {
+          "term": "System Prompt",
+          "termZh": "系统提示",
+          "definition": "Instructions given to Claude that set its behavior, personality, and constraints for the entire conversation. Passed as a separate 'system' parameter, not as a message.",
+          "definitionZh": "给Claude的指令，用于设定整个对话中的行为、个性和约束。作为单独的'system'参数传递，而不是作为消息。"
+        },
+        {
+          "term": "Temperature",
+          "termZh": "温度参数",
+          "definition": "Controls randomness in Claude's responses. 0.0 gives deterministic output (good for coding and factual tasks). 1.0 is the default. Higher values increase creativity and variation.",
+          "definitionZh": "控制Claude回复的随机性。0.0给出确定性输出（适合编程和事实性任务）。1.0是默认值。更高的值增加创造性和变化。"
+        },
+        {
+          "term": "Streaming",
+          "termZh": "流式传输",
+          "definition": "Receiving Claude's response token by token as it is generated, instead of waiting for the complete response. Essential for real-time user experiences.",
+          "definitionZh": "逐个token接收Claude生成的回复，而不是等待完整回复。对于实时用户体验至关重要。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "content": "The system prompt is one of the most powerful tools in your toolkit. It sets the ground rules for how Claude behaves throughout the conversation. Unlike user messages, the system prompt is passed as a top-level parameter. Use it to define Claude's role, set output format requirements, specify constraints, and provide context.\n\nFor multi-turn conversations, you pass the full message history. Claude has no memory between API calls -- every call must include the entire conversation so far. This gives you full control over what Claude sees."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# System prompts shape Claude's entire behavior\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    system=\"You are a senior Python engineer. Always include code examples in your explanations. Keep responses under 200 words. If asked about non-Python topics, politely redirect to Python.\",\n    messages=[\n        {\"role\": \"user\", \"content\": \"How do I handle errors in API calls?\"}\n    ]\n)\nprint(response.content[0].text)\n\n# Multi-turn conversation: pass the full history\nconversation = [\n    {\"role\": \"user\", \"content\": \"What is a decorator in Python?\"},\n    {\"role\": \"assistant\", \"content\": \"A decorator is a function that wraps another function to extend its behavior without modifying it directly.\"},\n    {\"role\": \"user\", \"content\": \"Show me a simple example.\"}\n]\n\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    system=\"You are a patient Python tutor.\",\n    messages=conversation\n)\nprint(response.content[0].text)"
+    },
+    {
+      "type": "text",
+      "content": "Model parameters give you fine-grained control over Claude's output. max_tokens is required and sets the maximum response length -- if Claude hits this limit, the response is cut off and stop_reason will be 'max_tokens'. For most tasks, 1024 is a good starting point. temperature controls randomness: 0.0 for deterministic output (code, factual Q&A), 1.0 (default) for natural variation.\n\nStreaming is essential for user-facing applications. Without it, users stare at a blank screen for seconds. With streaming, text appears token by token as Claude generates it. The SDK provides messages.stream() as a clean context manager."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Deterministic output for code generation (temperature=0)\ncode_response = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=2048,\n    temperature=0.0,\n    system=\"Write clean, production-ready Python code. No explanations, just code.\",\n    messages=[{\"role\": \"user\", \"content\": \"Write a retry decorator with exponential backoff.\"}]\n)\n\n# Streaming: see tokens arrive in real time\nwith client.messages.stream(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": \"Explain how AI agents work, step by step.\"}]\n) as stream:\n    for text in stream.text_stream:\n        print(text, end=\"\", flush=True)\n    # Get the complete response after streaming finishes\n    final_message = stream.get_final_message()\n    print(f\"\\nTotal tokens: {final_message.usage.input_tokens + final_message.usage.output_tokens}\")"
+    },
+    {
+      "type": "text",
+      "content": "Error handling is not optional in production AI code. API calls fail for many reasons: rate limits, network issues, invalid requests, server errors. The Anthropic SDK raises specific exception types for each case. The most common are RateLimitError (too many requests -- back off and retry), APIConnectionError (network issue -- retry), and BadRequestError (something wrong with your request -- do not retry, fix the request)."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\nimport time\n\ndef robust_claude_call(messages: list[dict], max_retries: int = 3) -> str:\n    \"\"\"Call Claude with automatic retry on transient errors.\"\"\"\n    client = anthropic.Anthropic()\n\n    for attempt in range(max_retries):\n        try:\n            response = client.messages.create(\n                model=\"claude-sonnet-4-20250514\",\n                max_tokens=1024,\n                messages=messages\n            )\n            return response.content[0].text\n\n        except anthropic.RateLimitError:\n            wait_time = 2 ** attempt  # 1s, 2s, 4s\n            print(f\"Rate limited. Waiting {wait_time}s...\")\n            time.sleep(wait_time)\n\n        except anthropic.APIConnectionError:\n            print(f\"Connection error. Retrying ({attempt + 1}/{max_retries})...\")\n            time.sleep(1)\n\n        except anthropic.BadRequestError as e:\n            print(f\"Bad request: {e.message}\")\n            raise\n\n    raise RuntimeError(\"Max retries exceeded\")"
+    },
+    {
+      "type": "callout",
+      "variant": "info",
+      "content": "Claude model names follow a consistent pattern. claude-sonnet-4-20250514 is a strong general-purpose model balancing speed and capability. For the most capable model, use claude-opus-4-20250514. For the fastest and cheapest option, use claude-haiku-3-5-20241022. In this course we use Sonnet for all examples -- it is the best balance of cost, speed, and quality for agentic workflows."
+    },
+    {
+      "type": "try-it",
+      "prompt": "Write a complete Python script that: (1) creates an Anthropic client, (2) defines a system prompt that makes Claude act as a helpful coding tutor, (3) sends a question asking Claude to explain list comprehensions, (4) uses streaming to print the response in real time, and (5) prints the total token usage after the stream completes."
+    },
+    {
+      "type": "text",
+      "content": "You now have all the fundamentals of the Claude API. You can create a client, send messages with system prompts, control output with parameters, stream responses for real-time UX, and handle errors gracefully. These patterns are the foundation of everything we build in this course.\n\nIn the next lesson, we take a major step toward agentic AI: tool use. Instead of Claude just generating text, you will teach it to call functions -- search the web, query databases, perform calculations -- and use the results to give better answers. That is where the 'agent' in 'agentic AI' truly begins."
+    }
+  ]
+}

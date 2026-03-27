@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ns-1",
+    "title": "Get NVIDIA Agentic AI Certified",
+    "titleZh": "获取NVIDIA Agentic AI认证",
+    "category": "Certification",
+    "categoryZh": "认证",
+    "description": "The most industry-recognized agentic AI cert. Validates architecture, development, deployment, and governance skills. ~$300, intermediate level.",
+    "descriptionZh": "最受行业认可的Agentic AI认证。验证架构、开发、部署和治理技能。约$300，中级水平。",
+    "url": "https://www.nvidia.com/en-us/learn/certification/agentic-ai-professional/"
+  },
+  {
+    "id": "ns-2",
+    "title": "Contribute to an Open Source Agent Framework",
+    "titleZh": "为开源Agent框架做贡献",
+    "category": "Community",
+    "categoryZh": "社区",
+    "description": "Submit a PR to LangChain, CrewAI, or AutoGen. Even a docs fix or bug report counts. Shows you can work in production codebases.",
+    "descriptionZh": "向LangChain、CrewAI或AutoGen提交PR。即使是文档修复或bug报告也算。证明你能在生产代码库中工作。",
+    "url": "https://github.com/langchain-ai/langchain"
+  },
+  {
+    "id": "ns-3",
+    "title": "Build a Public MCP Server and List It",
+    "titleZh": "构建并发布公开的MCP服务器",
+    "category": "Portfolio",
+    "categoryZh": "作品集",
+    "description": "Build an MCP server that solves a real problem, publish it to npm/PyPI, and submit it to the MCP server directory. Instant credibility.",
+    "descriptionZh": "构建一个解决实际问题的MCP服务器，发布到npm/PyPI，并提交到MCP服务器目录。即刻获得信誉。",
+    "url": ""
+  },
+  {
+    "id": "ns-4",
+    "title": "Start a Technical Blog",
+    "titleZh": "开始写技术博客",
+    "category": "Personal Brand",
+    "categoryZh": "个人品牌",
+    "description": "Write 4-6 posts about what you built during AgentPath. 'How I built a RAG pipeline from scratch' gets you noticed by hiring managers.",
+    "descriptionZh": "写4-6篇关于你在AgentPath中构建内容的文章。'我如何从零构建RAG管道'会让招聘经理注意到你。",
+    "url": ""
+  },
+  {
+    "id": "ns-5",
+    "title": "Join the Agentic AI Summit Community",
+    "titleZh": "加入Agentic AI峰会社区",
+    "category": "Networking",
+    "categoryZh": "社交",
+    "description": "Berkeley RDI's Agentic AI Summit (Aug 2026) has 40K+ virtual attendees and an active Discord. Great for networking and staying current.",
+    "descriptionZh": "伯克利RDI的Agentic AI峰会（2026年8月）有4万+虚拟参与者和活跃的Discord。适合社交和了解最新动态。",
+    "url": "https://rdi.berkeley.edu/events/agentic-ai-summit-2026"
+  },
+  {
+    "id": "ns-6",
+    "title": "Learn Agent Evaluation Deeply",
+    "titleZh": "深入学习Agent评估",
+    "category": "Skill Depth",
+    "categoryZh": "技能深化",
+    "description": "Go beyond basic eval — learn RAGAS, DeepEval, custom benchmarks. The biggest gap in the market is people who can measure agent quality.",
+    "descriptionZh": "超越基础评估——学习RAGAS、DeepEval、自定义基准测试。市场上最大的缺口是能衡量Agent质量的人。",
+    "url": ""
+  },
+  {
+    "id": "ns-7",
+    "title": "Build a Production Agent with Monitoring",
+    "titleZh": "构建带监控的生产Agent",
+    "category": "Portfolio",
+    "categoryZh": "作品集",
+    "description": "Deploy an agent that real users interact with. Add LangSmith or custom observability. 'I ran this in production for 30 days' beats any tutorial.",
+    "descriptionZh": "部署一个真实用户交互的Agent。添加LangSmith或自定义可观测性。'我在生产环境运行了30天'胜过任何教程。",
+    "url": ""
+  },
+  {
+    "id": "ns-8",
+    "title": "Study Multi-Modal Agents",
+    "titleZh": "研究多模态Agent",
+    "category": "Emerging Tech",
+    "categoryZh": "新兴技术",
+    "description": "Learn to build agents that work with images, audio, and video — not just text. Computer use, screen reading, voice interfaces.",
+    "descriptionZh": "学习构建处理图像、音频和视频的Agent——不仅仅是文本。计算机使用、屏幕阅读、语音界面。",
+    "url": ""
+  },
+  {
+    "id": "ns-9",
+    "title": "Read 3 Key Papers",
+    "titleZh": "阅读3篇关键论文",
+    "category": "Research",
+    "categoryZh": "研究",
+    "description": "ReAct: Synergizing Reasoning and Acting (Yao et al.), Toolformer (Schick et al.), Generative Agents (Park et al.). Understand the theory behind the tools.",
+    "descriptionZh": "ReAct：推理与行动的协同（Yao等），Toolformer（Schick等），生成式Agent（Park等）。理解工具背后的理论。",
+    "url": ""
+  },
+  {
+    "id": "ns-10",
+    "title": "Apply to 10 Jobs and Track Results",
+    "titleZh": "申请10份工作并追踪结果",
+    "category": "Career",
+    "categoryZh": "职业",
+    "description": "Don't wait until you feel 'ready.' Apply to 10 agentic AI roles, track responses, iterate on your resume and portfolio based on what gets callbacks.",
+    "descriptionZh": "不要等到觉得'准备好了'。申请10个Agentic AI职位，追踪回复，根据回电情况迭代你的简历和作品集。",
+    "url": ""
+  },
+  {
+    "id": "ns-11",
+    "title": "Teach Someone Else",
+    "titleZh": "教别人",
+    "category": "Mastery",
+    "categoryZh": "精通",
+    "description": "Run a workshop, mentor a friend, or create a tutorial. Teaching forces you to fill gaps in your own understanding. You learn what you teach.",
+    "descriptionZh": "举办工作坊、指导朋友或创建教程。教学迫使你填补自己理解中的空白。教即学。",
+    "url": ""
+  },
+  {
+    "id": "ns-12",
+    "title": "Build Your Own Agent Framework",
+    "titleZh": "构建你自己的Agent框架",
+    "category": "Deep Understanding",
+    "categoryZh": "深度理解",
+    "description": "Even a simple one. Parse tool schemas, implement the agent loop, handle tool calls. Understanding the internals makes you 10x better at using frameworks.",
+    "descriptionZh": "即使是简单的也好。解析工具schema、实现Agent循环、处理工具调用。理解内部原理让你使用框架的能力提升10倍。",
+    "url": ""
+  }
+]

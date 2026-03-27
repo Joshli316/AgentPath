@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "title": "Python + Claude API",
+    "titleZh": "Python + Claude API",
+    "project": "CLI Chatbot Agent",
+    "projectZh": "命令行聊天机器人",
+    "weeks": "1-2",
+    "skills": { "python": 2, "llm-apis": 3 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Agent Frameworks",
+    "titleZh": "Agent框架",
+    "project": "Multi-Tool Research Agent",
+    "projectZh": "多工具研究Agent",
+    "weeks": "3-4",
+    "skills": { "agent-frameworks": 3, "python": 1 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "RAG + Embeddings",
+    "titleZh": "RAG + 嵌入",
+    "project": "Document Q&A System",
+    "projectZh": "文档问答系统",
+    "weeks": "5-6",
+    "skills": { "rag": 3, "llm-apis": 1 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "MCP Protocol",
+    "titleZh": "MCP协议",
+    "project": "Custom MCP Server",
+    "projectZh": "自定义MCP服务器",
+    "weeks": "7-8",
+    "skills": { "mcp": 3, "python": 1 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Multi-Agent + Evaluation",
+    "titleZh": "多Agent + 评估",
+    "project": "Agent Team with Monitoring",
+    "projectZh": "带监控的Agent团队",
+    "weeks": "9-10",
+    "skills": { "multi-agent": 3, "agent-frameworks": 1 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Portfolio + Career",
+    "titleZh": "作品集 + 职业",
+    "project": "Polish All 5 Projects",
+    "projectZh": "完善所有5个项目",
+    "weeks": "11-12",
+    "skills": { "python": 1, "llm-apis": 1, "agent-frameworks": 1, "rag": 1, "mcp": 1, "multi-agent": 1 },
+    "days": [
+      { "day": 1, "type": "lesson", "ref": "lesson-01" },
+      { "day": 2, "type": "lesson", "ref": "lesson-02" },
+      { "day": 3, "type": "lesson", "ref": "lesson-03" },
+      { "day": 4, "type": "project", "ref": "project" },
+      { "day": 5, "type": "project", "ref": "project" },
+      { "day": 6, "type": "project", "ref": "project" },
+      { "day": 7, "type": "project", "ref": "project" },
+      { "day": 8, "type": "project", "ref": "project" },
+      { "day": 9, "type": "project", "ref": "project" },
+      { "day": 10, "type": "review", "ref": "games" }
+    ]
+  }
+]

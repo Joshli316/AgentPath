@@ -1,0 +1,101 @@
+{
+  "id": "lesson-03",
+  "title": "Tool Use & Function Calling",
+  "titleZh": "工具调用与函数调用",
+  "duration": 25,
+  "steps": [
+    {
+      "type": "text",
+      "content": "工具调用（Tool Use）是让 AI 模型与外部世界交互的关键能力。通过定义工具，Claude 可以查询数据库、调用外部 API、执行计算等。这是构建 AI Agent 的核心技术之一。"
+    },
+    {
+      "type": "callout",
+      "variant": "info",
+      "content": "工具调用的工作原理：你告诉 Claude 有哪些工具可用以及它们的参数格式，Claude 决定何时使用哪个工具并生成参数，你的代码执行工具并把结果返回给 Claude，Claude 根据结果生成最终回复。"
+    },
+    {
+      "type": "text",
+      "content": "每个工具由一个 JSON Schema 定义，包含名称、描述和参数结构。清晰的描述能帮助 Claude 正确选择和使用工具。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "# Define a tool schema\ntools = [\n    {\n        \"name\": \"get_weather\",\n        \"description\": \"Get the current weather for a given city. Use this when the user asks about weather conditions.\",\n        \"input_schema\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"city\": {\n                    \"type\": \"string\",\n                    \"description\": \"The city name, e.g. 'San Francisco'\"\n                },\n                \"unit\": {\n                    \"type\": \"string\",\n                    \"enum\": [\"celsius\", \"fahrenheit\"],\n                    \"description\": \"Temperature unit\"\n                }\n            },\n            \"required\": [\"city\"]\n        }\n    }\n]"
+    },
+    {
+      "type": "text",
+      "content": "定义好工具后，将它传递给 API。当 Claude 认为需要使用工具时，它的回复中会包含 tool_use 类型的内容块，而不是普通文本。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    tools=tools,\n    messages=[\n        {\"role\": \"user\", \"content\": \"What is the weather in Tokyo?\"}\n    ]\n)\n\n# Check if Claude wants to use a tool\nprint(f\"Stop reason: {response.stop_reason}\")  # \"tool_use\"\n\nfor block in response.content:\n    if block.type == \"tool_use\":\n        print(f\"Tool: {block.name}\")       # \"get_weather\"\n        print(f\"Input: {block.input}\")     # {\"city\": \"Tokyo\"}\n        print(f\"Tool ID: {block.id}\")      # \"toolu_...\""
+    },
+    {
+      "type": "text",
+      "content": "当 Claude 请求使用工具时，你需要执行实际的工具逻辑，然后把结果以 tool_result 消息的形式返回给 Claude。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "def execute_tool(name: str, inputs: dict) -> str:\n    \"\"\"Execute a tool and return the result as a string.\"\"\"\n    if name == \"get_weather\":\n        # In production, call a real weather API\n        city = inputs[\"city\"]\n        return f\"The weather in {city} is 22C and sunny.\"\n    return \"Unknown tool.\"\n\n# Process tool calls from the response\ntool_results = []\nfor block in response.content:\n    if block.type == \"tool_use\":\n        result = execute_tool(block.name, block.input)\n        tool_results.append({\n            \"type\": \"tool_result\",\n            \"tool_use_id\": block.id,\n            \"content\": result\n        })\n\n# Send tool results back to Claude\nfinal_response = client.messages.create(\n    model=\"claude-sonnet-4-20250514\",\n    max_tokens=1024,\n    tools=tools,\n    messages=[\n        {\"role\": \"user\", \"content\": \"What is the weather in Tokyo?\"},\n        {\"role\": \"assistant\", \"content\": response.content},\n        {\"role\": \"user\", \"content\": tool_results}\n    ]\n)\n\nprint(final_response.content[0].text)"
+    },
+    {
+      "type": "callout",
+      "variant": "tip",
+      "content": "工具描述写得越清晰，Claude 就越能准确地判断何时使用工具。好的描述应该说明工具的功能、使用场景和参数含义。"
+    },
+    {
+      "type": "text",
+      "content": "在实际应用中，你通常需要定义多个工具，并用一个循环来处理 Claude 可能发起的多次工具调用。下面是一个完整的工具调用循环模式。"
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "content": "import anthropic\n\nclient = anthropic.Anthropic()\n\ntools = [\n    {\n        \"name\": \"get_weather\",\n        \"description\": \"Get current weather for a city.\",\n        \"input_schema\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"city\": {\"type\": \"string\", \"description\": \"City name\"}\n            },\n            \"required\": [\"city\"]\n        }\n    },\n    {\n        \"name\": \"search_restaurants\",\n        \"description\": \"Search for restaurants in a city, optionally filtered by cuisine.\",\n        \"input_schema\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"city\": {\"type\": \"string\", \"description\": \"City name\"},\n                \"cuisine\": {\"type\": \"string\", \"description\": \"Cuisine type, e.g. 'Italian'\"}\n            },\n            \"required\": [\"city\"]\n        }\n    }\n]\n\ndef run_tool(name: str, inputs: dict) -> str:\n    if name == \"get_weather\":\n        return f\"Weather in {inputs['city']}: 18C, cloudy.\"\n    elif name == \"search_restaurants\":\n        cuisine = inputs.get('cuisine', 'any')\n        return f\"Top restaurants in {inputs['city']} ({cuisine}): Sakura, Mondo, Chez Paul.\"\n    return \"Unknown tool.\"\n\ndef chat_with_tools(user_message: str) -> str:\n    messages = [{\"role\": \"user\", \"content\": user_message}]\n\n    while True:\n        response = client.messages.create(\n            model=\"claude-sonnet-4-20250514\",\n            max_tokens=1024,\n            tools=tools,\n            messages=messages\n        )\n\n        # If Claude is done (no more tool calls), return the text\n        if response.stop_reason == \"end_turn\":\n            return response.content[0].text\n\n        # Process tool calls\n        messages.append({\"role\": \"assistant\", \"content\": response.content})\n        tool_results = []\n        for block in response.content:\n            if block.type == \"tool_use\":\n                result = run_tool(block.name, block.input)\n                tool_results.append({\n                    \"type\": \"tool_result\",\n                    \"tool_use_id\": block.id,\n                    \"content\": result\n                })\n        messages.append({\"role\": \"user\", \"content\": tool_results})\n\nprint(chat_with_tools(\"What is the weather in Paris and find me Italian restaurants there?\"))"
+    },
+    {
+      "type": "try-it",
+      "prompt": "定义一个 calculate 工具，支持两个数字的加减乘除运算。工具 schema 需要三个参数：operation（枚举值 add/subtract/multiply/divide）、a（数字）、b（数字）。然后编写 execute 函数实现计算逻辑，注意处理除零错误。"
+    },
+    {
+      "type": "text",
+      "content": "工具调用是从简单聊天机器人到强大 AI Agent 的关键跨越。掌握了工具调用，你就可以让 Claude 读写数据库、调用第三方 API、操作文件系统，甚至控制浏览器。在后续课程中，我们将用这项技术构建真正的 AI Agent。"
+    },
+    {
+      "type": "key-terms",
+      "terms": [
+        {
+          "term": "Tool Use",
+          "termZh": "工具调用",
+          "definition": "A capability that allows the AI model to request execution of external functions, enabling it to interact with the outside world.",
+          "definitionZh": "一种让 AI 模型请求执行外部函数的能力，使其能够与外部世界交互。"
+        },
+        {
+          "term": "Tool Schema",
+          "termZh": "工具定义",
+          "definition": "A JSON Schema description of a tool that defines its name, purpose, and the parameters it accepts.",
+          "definitionZh": "用 JSON Schema 描述一个工具的名称、用途以及它接受的参数结构。"
+        },
+        {
+          "term": "tool_use Block",
+          "termZh": "tool_use 内容块",
+          "definition": "A content block in the API response indicating that Claude wants to call a specific tool with specific arguments.",
+          "definitionZh": "API 回复中的一个内容块，表明 Claude 想要以特定参数调用特定工具。"
+        },
+        {
+          "term": "tool_result Message",
+          "termZh": "tool_result 消息",
+          "definition": "A message sent back to Claude containing the output from executing a tool, allowing Claude to incorporate the result into its response.",
+          "definitionZh": "发送回 Claude 的消息，包含工具执行的输出结果，使 Claude 能将结果纳入其回复中。"
+        },
+        {
+          "term": "Agentic Loop",
+          "termZh": "智能体循环",
+          "definition": "A pattern where the program repeatedly calls the model and executes tools until the model indicates it has finished, enabling complex multi-step tasks.",
+          "definitionZh": "一种程序模式：反复调用模型并执行工具，直到模型表示完成为止，从而实现复杂的多步骤任务。"
+        }
+      ]
+    }
+  ]
+}

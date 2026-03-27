@@ -1,0 +1,14 @@
+[
+  { "id": "first-agent", "name": "初号机 First Agent", "nameZh": "初号机", "sprint": 1, "type": "project", "desc": "Complete Sprint 1 project", "descZh": "完成第1冲刺项目" },
+  { "id": "api-master", "name": "API通 API Master", "nameZh": "API通", "sprint": 1, "type": "quiz", "desc": "Perfect score on Sprint 1 quiz", "descZh": "第1冲刺测验满分" },
+  { "id": "orchestrator", "name": "编排者 Orchestrator", "nameZh": "编排者", "sprint": 2, "type": "project", "desc": "Complete Sprint 2 project", "descZh": "完成第2冲刺项目" },
+  { "id": "framework-king", "name": "框架王 Framework King", "nameZh": "框架王", "sprint": 2, "type": "quiz", "desc": "Perfect score on Sprint 2 quiz", "descZh": "第2冲刺测验满分" },
+  { "id": "rag-master", "name": "检索王 RAG Master", "nameZh": "检索王", "sprint": 3, "type": "project", "desc": "Complete Sprint 3 project", "descZh": "完成第3冲刺项目" },
+  { "id": "vector-hero", "name": "向量侠 Vector Hero", "nameZh": "向量侠", "sprint": 3, "type": "quiz", "desc": "Perfect score on Sprint 3 quiz", "descZh": "第3冲刺测验满分" },
+  { "id": "protocol-builder", "name": "协议者 Protocol Builder", "nameZh": "协议者", "sprint": 4, "type": "project", "desc": "Complete Sprint 4 project", "descZh": "完成第4冲刺项目" },
+  { "id": "mcp-pro", "name": "MCP达人 MCP Pro", "nameZh": "MCP达人", "sprint": 4, "type": "quiz", "desc": "Perfect score on Sprint 4 quiz", "descZh": "第4冲刺测验满分" },
+  { "id": "commander", "name": "指挥官 Commander", "nameZh": "指挥官", "sprint": 5, "type": "project", "desc": "Complete Sprint 5 project", "descZh": "完成第5冲刺项目" },
+  { "id": "monitor-king", "name": "监控王 Monitor King", "nameZh": "监控王", "sprint": 5, "type": "quiz", "desc": "Perfect score on Sprint 5 quiz", "descZh": "第5冲刺测验满分" },
+  { "id": "graduate", "name": "智路毕业 Graduate", "nameZh": "智路毕业", "sprint": 6, "type": "project", "desc": "Complete all projects", "descZh": "完成所有项目" },
+  { "id": "interview-pro", "name": "面试达人 Interview Pro", "nameZh": "面试达人", "sprint": 6, "type": "quiz", "desc": "Perfect score on Sprint 6 quiz", "descZh": "第6冲刺测验满分" }
+]
