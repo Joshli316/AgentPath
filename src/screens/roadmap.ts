@@ -1,26 +1,17 @@
 import { loadState, updateBonusProject } from "../state";
-import { t, getLang } from "../i18n";
+import { t } from "../i18n";
 import { loadShared } from "../content";
-import { escapeHtml } from "../utils";
-
-interface SprintMeta {
-  id: number;
-  title: string;
-  titleZh: string;
-  project: string;
-  projectZh: string;
-  weeks: string;
-}
+import { escapeHtml, localize } from "../utils";
+import type { SprintMeta, BonusProject } from "../types";
 
 export async function renderRoadmap(): Promise<string> {
   const state = loadState();
   const sprints = await loadShared<SprintMeta[]>("sprints.json");
-  const lang = getLang();
 
   const sprintsHtml = sprints
     .map((sprint) => {
-      const title = lang === "zh" ? sprint.titleZh : sprint.title;
-      const project = lang === "zh" ? sprint.projectZh : sprint.project;
+      const title = localize(sprint, "title");
+      const project = localize(sprint, "project");
       const isComplete = !!state.projects[`s${sprint.id}`];
       const isActive = sprint.id === state.currentSprint;
       const isLocked = sprint.id > state.currentSprint;
@@ -65,7 +56,7 @@ export async function renderRoadmap(): Promise<string> {
   // Bonus projects
   let bonusHtml = "";
   try {
-    const bonusProjects = await loadShared<any[]>("bonus-projects.json");
+    const bonusProjects = await loadShared<BonusProject[]>("bonus-projects.json");
     const difficultyColors: Record<string, string> = {
       easy: "text-ap-green bg-ap-green-dim",
       medium: "text-ap-amber bg-ap-amber-dim",
@@ -73,8 +64,8 @@ export async function renderRoadmap(): Promise<string> {
     };
 
     bonusHtml = bonusProjects.map((bp) => {
-      const title = lang === "zh" ? bp.titleZh : bp.title;
-      const desc = lang === "zh" ? bp.descriptionZh : bp.description;
+      const title = localize(bp, "title");
+      const desc = localize(bp, "description");
       const bpStatus = state.bonusProjects[bp.id];
 
       return `

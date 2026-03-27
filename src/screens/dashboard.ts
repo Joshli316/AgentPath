@@ -2,16 +2,8 @@ import { loadState, getLevelInfo } from "../state";
 import { t, getLang } from "../i18n";
 import { loadShared } from "../content";
 import { progressBarHtml } from "../components/progress-bar";
-
-interface SprintMeta {
-  id: number;
-  title: string;
-  titleZh: string;
-  project: string;
-  projectZh: string;
-  weeks: string;
-  days: { day: number; type: string; ref: string }[];
-}
+import { localize, terminalCardHeader } from "../utils";
+import type { SprintMeta } from "../types";
 
 export async function renderDashboard(): Promise<string> {
   const state = loadState();
@@ -20,8 +12,8 @@ export async function renderDashboard(): Promise<string> {
   const lang = getLang();
   const levelInfo = getLevelInfo(state);
 
-  const sprintTitle = lang === "zh" ? sprint.titleZh : sprint.title;
-  const projectTitle = lang === "zh" ? sprint.projectZh : sprint.project;
+  const sprintTitle = localize(sprint, "title");
+  const projectTitle = localize(sprint, "project");
   const levelTitle = lang === "zh" ? levelInfo.current.title.split(" ")[0] : levelInfo.current.titleEn;
 
   const totalLessons = sprint.days.filter((d) => d.type === "lesson").length;
@@ -67,12 +59,7 @@ export async function renderDashboard(): Promise<string> {
 
     <!-- Current Sprint Card -->
     <div class="terminal-card mb-6">
-      <div class="terminal-card-header">
-        <div class="terminal-dot terminal-dot-red"></div>
-        <div class="terminal-dot terminal-dot-yellow"></div>
-        <div class="terminal-dot terminal-dot-green"></div>
-        <span class="text-ap-text-muted text-xs ml-2">${t("dash.current-sprint")}</span>
-      </div>
+      ${terminalCardHeader(t("dash.current-sprint"))}
       <div class="p-4">
         <div class="flex items-center gap-2 mb-1">
           <span class="bg-ap-green-dim text-ap-green text-xs font-bold px-2 py-0.5 rounded">Sprint ${sprint.id}</span>

@@ -1,19 +1,10 @@
 import { loadState, getLevelInfo } from "../state";
 import { t, getLang } from "../i18n";
 import { loadShared } from "../content";
-import { escapeHtml } from "../utils";
+import { escapeHtml, localize, terminalCardHeader } from "../utils";
 import { renderRadarChart } from "../components/radar-chart";
 import { renderBadge } from "../components/badge";
-
-interface BadgeDef {
-  id: string;
-  name: string;
-  nameZh: string;
-  sprint: number;
-  type: string;
-  desc: string;
-  descZh: string;
-}
+import type { BadgeDef, NextStep } from "../types";
 
 export async function renderProfile(): Promise<string> {
   const state = loadState();
@@ -32,7 +23,7 @@ export async function renderProfile(): Promise<string> {
   // Next steps section
   let nextStepsHtml = "";
   try {
-    const nextSteps = await loadShared<any[]>("next-steps.json");
+    const nextSteps = await loadShared<NextStep[]>("next-steps.json");
     const categoryColors: Record<string, string> = {
       "Certification": "text-ap-green bg-ap-green-dim",
       "Community": "text-ap-indigo bg-ap-indigo-dim",
@@ -48,9 +39,9 @@ export async function renderProfile(): Promise<string> {
     };
 
     nextStepsHtml = nextSteps.map((ns, i) => {
-      const title = lang === "zh" ? ns.titleZh : ns.title;
-      const desc = lang === "zh" ? ns.descriptionZh : ns.description;
-      const cat = lang === "zh" ? ns.categoryZh : ns.category;
+      const title = localize(ns, "title");
+      const desc = localize(ns, "description");
+      const cat = localize(ns, "category");
       const colorClass = categoryColors[ns.category] || "text-ap-text-muted bg-ap-surface";
 
       return `
@@ -81,12 +72,7 @@ export async function renderProfile(): Promise<string> {
 
     <!-- Skills Radar -->
     <div class="terminal-card mb-6">
-      <div class="terminal-card-header">
-        <div class="terminal-dot terminal-dot-red"></div>
-        <div class="terminal-dot terminal-dot-yellow"></div>
-        <div class="terminal-dot terminal-dot-green"></div>
-        <span class="text-ap-text-muted text-xs ml-2">${t("profile.skills")}</span>
-      </div>
+      ${terminalCardHeader(t("profile.skills"))}
       <div class="p-4">${renderRadarChart(state.skills)}</div>
     </div>
 

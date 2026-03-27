@@ -1,7 +1,7 @@
 import { loadState, completeMilestone, completeProject } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
-import { escapeHtml } from "../utils";
+import { escapeHtml, localize } from "../utils";
 
 interface ProjectData {
   id: string;
@@ -19,8 +19,8 @@ export async function renderProject(sprintId: number): Promise<string> {
   const state = loadState();
   const project = await loadContent<ProjectData>(`sprint-${sprintId}/project.json`);
   const lang = getLang();
-  const title = lang === "zh" ? project.titleZh : project.title;
-  const desc = lang === "zh" ? project.descriptionZh : project.description;
+  const title = localize(project, "title");
+  const desc = localize(project, "description");
   const projectKey = `s${sprintId}`;
   const isComplete = !!state.projects[projectKey];
 
@@ -32,7 +32,7 @@ export async function renderProject(sprintId: number): Promise<string> {
     .map((m) => {
       const key = `${projectKey}-${m.id}`;
       const done = !!state.milestones[key];
-      const label = lang === "zh" ? m.labelZh : m.label;
+      const label = localize(m, "label");
       const hints = project.hints[m.id] || [];
 
       return `

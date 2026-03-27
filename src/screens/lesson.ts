@@ -1,7 +1,7 @@
 import { loadState, saveState, completeLesson } from "../state";
 import { t, getLang } from "../i18n";
 import { loadContent } from "../content";
-import { escapeHtml } from "../utils";
+import { escapeHtml, localize, terminalCardHeader } from "../utils";
 
 interface LessonStep {
   type: "text" | "code" | "callout" | "try-it" | "key-terms";
@@ -53,12 +53,7 @@ function renderStep(step: LessonStep): string {
     case "try-it":
       return `
         <div class="terminal-card mb-4">
-          <div class="terminal-card-header">
-            <div class="terminal-dot terminal-dot-red"></div>
-            <div class="terminal-dot terminal-dot-yellow"></div>
-            <div class="terminal-dot terminal-dot-green"></div>
-            <span class="text-ap-text-muted text-xs ml-2">iTerm</span>
-          </div>
+          ${terminalCardHeader("iTerm")}
           <div class="p-3">
             <div class="text-ap-green text-xs mb-2">$ ${t("lesson.try-it")}</div>
             <div class="text-ap-text text-sm font-mono">${escapeHtml(step.prompt || "")}</div>
@@ -94,7 +89,7 @@ export async function renderLesson(sprintId: number, lessonNum: string): Promise
   const state = loadState();
   const lesson = await loadContent<Lesson>(`sprint-${sprintId}/lesson-${lessonNum.padStart(2, "0")}.json`);
   const lang = getLang();
-  const title = lang === "zh" ? lesson.titleZh : lesson.title;
+  const title = localize(lesson, "title");
   const lessonKey = `s${sprintId}-lesson-${lessonNum.padStart(2, "0")}`;
   const isCompleted = !!state.lessons[lessonKey];
 

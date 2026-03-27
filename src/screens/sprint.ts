@@ -1,16 +1,8 @@
 import { loadState } from "../state";
-import { t, getLang } from "../i18n";
+import { t } from "../i18n";
 import { loadShared } from "../content";
-
-interface SprintMeta {
-  id: number;
-  title: string;
-  titleZh: string;
-  project: string;
-  projectZh: string;
-  weeks: string;
-  days: { day: number; type: string; ref: string }[];
-}
+import { localize } from "../utils";
+import type { SprintMeta } from "../types";
 
 export async function renderSprint(sprintId: number): Promise<string> {
   const state = loadState();
@@ -18,9 +10,8 @@ export async function renderSprint(sprintId: number): Promise<string> {
   const sprint = sprints[sprintId - 1];
   if (!sprint) return `<div class="text-ap-red">Sprint not found</div>`;
 
-  const lang = getLang();
-  const title = lang === "zh" ? sprint.titleZh : sprint.title;
-  const project = lang === "zh" ? sprint.projectZh : sprint.project;
+  const title = localize(sprint, "title");
+  const project = localize(sprint, "project");
 
   const daysHtml = sprint.days
     .map((day) => {

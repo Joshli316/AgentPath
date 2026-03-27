@@ -49,7 +49,9 @@ export function loadState(): AppState {
     if (raw) {
       return { ...DEFAULT_STATE, ...JSON.parse(raw) };
     }
-  } catch {}
+  } catch {
+    // Corrupted localStorage — reset to defaults
+  }
   return { ...DEFAULT_STATE };
 }
 
@@ -152,8 +154,10 @@ export function updateBonusProject(state: AppState, projectId: string, status: "
   if (status === "complete") {
     addXP(state, 200);
     updateStreak(state);
+    // addXP and updateStreak already call saveState
+  } else {
+    saveState(state);
   }
-  saveState(state);
   return state;
 }
 
