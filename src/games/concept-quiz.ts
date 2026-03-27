@@ -51,7 +51,7 @@ function renderQuestion(
   return `
     <a href="#/sprint/${sprintId}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← ${t("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath quiz --question ${index + 1}/${questions.length}</div>
-    <h1 class="text-ap-text text-xl font-bold mb-2">${t("games.concept-quiz")}</h1>
+    <h1 class="text-ap-text text-2xl font-bold mb-2">${t("games.concept-quiz")}</h1>
     <div class="text-ap-text-muted text-xs mb-6">${index + 1} / ${questions.length}</div>
 
     <div id="quiz-area">

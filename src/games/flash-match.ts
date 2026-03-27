@@ -65,7 +65,7 @@ export async function renderFlashMatch(sprintId: number): Promise<string> {
   return `
     <a href="#/sprint/${sprintId}/games" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← ${t("games.back")}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath flash-match</div>
-    <h1 class="text-ap-text text-xl font-bold mb-2">${t("games.flash-match")}</h1>
+    <h1 class="text-ap-text text-2xl font-bold mb-2">${t("games.flash-match")}</h1>
     <p class="text-ap-text-muted text-xs mb-6">${t("games.match-instruction")}</p>
 
     <div id="flash-match-area" class="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -25,7 +25,7 @@ function renderStep(step: LessonStep): string {
 
   switch (step.type) {
     case "text":
-      return `<div class="text-ap-text text-sm leading-relaxed mb-4">${escapeHtml(step.content || "")}</div>`;
+      return `<div class="text-ap-text text-base leading-relaxed mb-4">${escapeHtml(step.content || "")}</div>`;
 
     case "code":
       return `
@@ -45,7 +45,7 @@ function renderStep(step: LessonStep): string {
       const variant = step.variant || "info";
       return `
         <div class="border-l-2 ${colors[variant]} p-3 rounded-r mb-4">
-          <div class="text-sm">${icons[variant]} ${escapeHtml(step.content || "")}</div>
+          <div class="text-base">${icons[variant]} ${escapeHtml(step.content || "")}</div>
         </div>
       `;
     }
@@ -100,7 +100,7 @@ export async function renderLesson(sprintId: number, lessonNum: string): Promise
       <span class="text-ap-green text-xs">${t("sprint.lesson")} ${lessonNum}</span>
       <span class="text-ap-text-muted text-xs">~${lesson.duration} ${t("lesson.min")}</span>
     </div>
-    <h1 class="text-ap-text text-xl font-bold mb-6">${title}</h1>
+    <h1 class="text-ap-text text-2xl font-bold mb-6">${title}</h1>
 
     ${stepsHtml}
 

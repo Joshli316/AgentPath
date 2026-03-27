@@ -51,7 +51,7 @@ export function renderGames(sprintId: number): string {
   return `
     <a href="#/sprint/${sprintId}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← Sprint ${sprintId}</a>
     <div class="text-ap-green text-sm mt-3 mb-1">$ agentpath games --sprint ${sprintId}</div>
-    <h1 class="text-ap-text text-xl font-bold mb-6">${t("games.select")}</h1>
+    <h1 class="text-ap-text text-2xl font-bold mb-6">${t("games.select")}</h1>
     <div class="flex flex-col gap-3">${cardsHtml}</div>
   `;
 }

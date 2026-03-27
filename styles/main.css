@@ -25,6 +25,8 @@
 /* Base */
 body {
   font-family: var(--font-family-mono);
+  font-size: 16px;
+  line-height: 1.6;
   background: linear-gradient(135deg, var(--color-ap-bg) 0%, var(--color-ap-bg-alt) 100%);
   min-height: 100dvh;
 }

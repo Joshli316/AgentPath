@@ -69,8 +69,8 @@ export async function renderProject(sprintId: number): Promise<string> {
   return `
     <a href="#/sprint/${sprintId}" class="text-ap-text-muted text-xs hover:text-ap-green transition-colors">← Sprint ${sprintId}</a>
     <div class="text-ap-green text-xs mt-3 mb-1">$ agentpath project --sprint ${sprintId}</div>
-    <h1 class="text-ap-text text-xl font-bold mb-2">${escapeHtml(title)}</h1>
-    <p class="text-ap-text-dim text-sm mb-6">${escapeHtml(desc)}</p>
+    <h1 class="text-ap-text text-2xl font-bold mb-2">${escapeHtml(title)}</h1>
+    <p class="text-ap-text-dim text-base mb-6">${escapeHtml(desc)}</p>
 
     <div class="text-ap-green text-xs font-bold uppercase mb-3">${t("project.milestones")}</div>
     ${milestonesHtml}
